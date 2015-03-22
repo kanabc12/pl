@@ -1,0 +1,19 @@
+<script type="text/javascript">
+    if('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/static/comp/ace/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="${ctx}/static/comp/ace/js/bootstrap.min.js?1" type="text/javascript"></script>
+<!--[if lte IE 8]>
+<script src="${ctx}/static/comp/ace/js/excanvas.min.js"></script>
+<![endif]-->
+<script src="${ctx}/static/comp/ace/js/jquery-ui.custom.min.js?1" type="text/javascript"></script>
+<script src="${ctx}/static/comp/ace/js/jquery.ui.touch-punch.min.js?1" type="text/javascript"></script>
+<script src="${ctx}/static/comp/ace/js/jquery.easypiechart.min.js?1" type="text/javascript"></script>
+<script src="${ctx}/static/comp/ace/js/jquery.sparkline.min.js?1" type="text/javascript"></script>
+<script src="${ctx}/static/comp/ace/js/jquery.flot.min.js?1" type="text/javascript"></script>
+
+<script src="${ctx}/static/comp/ace/js/flot/jquery.flot.pie.min.js"></script>
+<script src="${ctx}/static/comp/ace/js/flot/jquery.flot.resize.min.js"></script>
+<!-- ace scripts -->
+<script src="${ctx}/static/comp/ace/js/ace-elements.min.js"></script>
+<script src="${ctx}/static/comp/ace/js/ace.min.js"></script>
+
