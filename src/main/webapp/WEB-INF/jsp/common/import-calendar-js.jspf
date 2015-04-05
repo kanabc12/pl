@@ -1,0 +1,7 @@
+<script src="${ctx}/static/comp/fullcalendar/moment.min.js"></script>
+<script src="${ctx}/static/comp/fullcalendar/fullcalendar.min.js"></script>
+<script src="${ctx}/static/comp/fullcalendar/zh-cn.js"></script>
+<script src="${ctx}/static/comp/ace/js/bootbox.min.js"></script>
+
+
+

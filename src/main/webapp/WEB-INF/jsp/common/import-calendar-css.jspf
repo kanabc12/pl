@@ -1,0 +1,2 @@
+<link rel="stylesheet" href="${ctx}/static/comp/fullcalendar/fullcalendar.min.css?1">
+<link rel="stylesheet" href="${ctx}/static/comp/fullcalendar/fullcalendar.print.css?1" media='print'>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.hxy.pl.vo.personal.CalendarVO">
+    <resultMap id="calendarMap" type="org.hxy.pl.vo.personal.CalendarVO">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="details" column="details" jdbcType="VARCHAR"/>
+        <result property="startDate" column="start_date" jdbcType="DATE"/>
+        <result property="length" column="length" jdbcType="INTEGER"/>
+        <result property="startTime" column="start_time" jdbcType="TIME"/>
+        <result property="endTime" column="end_time" jdbcType="TIME"/>
+        <result property="backgroundColor" column="background_color" jdbcType="VARCHAR"/>
+        <result property="textColor" column="text_color" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--保存事件-->
+    <insert id="saveCalendar" parameterType="org.hxy.pl.vo.personal.CalendarVO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into personal_calendar(user_id,title,details,start_date,length,start_time,end_time,background_color,text_color) values (
+          #{userId},#{title},#{details},#{startDate},#{length},#{startTime},#{endTime},#{backgroundColor},#{textColor}
+        );
+    </insert>
+    <!--获取所有事件-->
+    <select id="findAllCalender" parameterType="java.lang.Integer" resultMap="calendarMap">
+        select
+        calendar.id,
+        calendar.user_id,
+        calendar.title,
+        calendar.details,
+        calendar.start_time,
+        calendar.end_time,
+        calendar.background_color,
+        calendar.text_color
+        from  personal_calendar  as  calendar
+        where
+        calendar.user_id = #{userId}
+    </select>
+    <select id="countRecentlyCalendar" parameterMap="java.util.Map" resultType="java.lang.Long">
+        select
+        count(id)
+        from personal_calendar
+        where user_id = #{userId}
+        and ((start_date=#{startDate} and (start_date is null or start_date &lt;#{startDate})) or (start_date &gt;
+        #{startDate} and start_date&lt;=(#{startDate}+#{interval})) or (start_date&lt;#{startDate} and (start_date+length)&gt;#{startDate}) or ((start_date+length)=#{start_date} and
+        (end_time is null or end_time>#{endTime})))
+    </select>
+</mapper>
