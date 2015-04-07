@@ -136,8 +136,7 @@
             buttonIcons: true, // show the prev/next text
             editable: true,
             eventLimit: true,// allow "more" link when too many events
-            events:[
-            ],
+            events: "${ctx}/personal/calendar/load",
             droppable: true, // this allows things to be dropped onto the calendar !!!
             drop: function(date, allDay) { // this function is called when something is dropped
                 // retrieve the dropped element's stored Event Object

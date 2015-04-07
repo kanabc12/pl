@@ -8,8 +8,8 @@
         <result property="details" column="details" jdbcType="VARCHAR"/>
         <result property="startDate" column="start_date" jdbcType="DATE"/>
         <result property="length" column="length" jdbcType="INTEGER"/>
-        <result property="startTime" column="start_time" jdbcType="TIME"/>
-        <result property="endTime" column="end_time" jdbcType="TIME"/>
+        <result property="startTime" column="start_time" jdbcType="DATE"/>
+        <result property="endTime" column="end_time" jdbcType="DATE"/>
         <result property="backgroundColor" column="background_color" jdbcType="VARCHAR"/>
         <result property="textColor" column="text_color" jdbcType="VARCHAR"/>
     </resultMap>
@@ -21,13 +21,15 @@
         );
     </insert>
     <!--获取所有事件-->
-    <select id="findAllCalender" parameterType="java.lang.Integer" resultMap="calendarMap">
-        select
+    <select id="findAllCalender" parameterType="long" resultMap="calendarMap">
+        select 
         calendar.id,
         calendar.user_id,
         calendar.title,
         calendar.details,
         calendar.start_time,
+        calendar.start_date,
+        calendar.length,
         calendar.end_time,
         calendar.background_color,
         calendar.text_color
@@ -35,7 +37,7 @@
         where
         calendar.user_id = #{userId}
     </select>
-    <select id="countRecentlyCalendar" parameterMap="java.util.Map" resultType="java.lang.Long">
+    <select id="countRecentlyCalendar" parameterType="java.util.Map" resultType="java.lang.Long">
         select
         count(id)
         from personal_calendar
@@ -44,4 +46,7 @@
         #{startDate} and start_date&lt;=(#{startDate}+#{interval})) or (start_date&lt;#{startDate} and (start_date+length)&gt;#{startDate}) or ((start_date+length)=#{start_date} and
         (end_time is null or end_time>#{endTime})))
     </select>
+    <delete id="deleteCalendar"  parameterType="java.util.Map">
+        delete from personal_calendar  where  id = #{id}
+    </delete>
 </mapper>
