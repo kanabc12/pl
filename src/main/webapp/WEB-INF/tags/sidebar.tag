@@ -44,9 +44,9 @@
 
 <ul class="nav nav-list">
 <li class="active">
-    <a href="index.html">
+    <a href="${ctx}/">
         <i class="menu-icon fa fa-tachometer"></i>
-        <span class="menu-text"> Dashboard </span>
+        <span class="menu-text"> 首页 </span>
     </a>
 
     <b class="arrow"></b>
@@ -55,7 +55,7 @@
 <li class="">
     <a href="#" class="dropdown-toggle">
         <i class="menu-icon fa fa-desktop"></i>
-        <span class="menu-text"> UI &amp; Elements </span>
+        <span class="menu-text"> 基本信息 </span>
 
         <b class="arrow fa fa-angle-down"></b>
     </a>
@@ -66,8 +66,7 @@
         <li class="">
             <a href="#" class="dropdown-toggle">
                 <i class="menu-icon fa fa-caret-right"></i>
-
-                Layouts
+					球队信息
                 <b class="arrow fa fa-angle-down"></b>
             </a>
 
@@ -75,9 +74,9 @@
 
             <ul class="submenu">
                 <li class="">
-                    <a href="top-menu.html">
+                    <a href="${ctx}/bd/team/showAddTeam">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Top Menu
+                        球队信息录入
                     </a>
 
                     <b class="arrow"></b>

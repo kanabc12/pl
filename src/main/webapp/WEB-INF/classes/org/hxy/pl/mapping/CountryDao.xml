@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.hxy.pl.vo.bd.CountryVO">
+    <resultMap id="calendarMap" type="org.hxy.pl.vo.bd.CountryVO">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--获取所有事件-->
+    <select id="findAllCountry"  resultMap="calendarMap">
+        select 
+        id,
+        name
+        from  fl_country 
+    </select>
+</mapper>

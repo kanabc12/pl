@@ -42,7 +42,7 @@
                                         <div id="external-events">
                                             <div class="external-event label-grey" data-class="label-grey">
                                                 <i class="ace-icon fa fa-arrows"></i>
-                                                My Event 1
+                                                比赛结果录入
                                             </div>
 
                                             <div class="external-event label-success" data-class="label-success">
@@ -191,7 +191,7 @@
                              <div class="modal-body">\
                                <button type="button" class="close" data-dismiss="modal" style="margin-top:-10px;">&times;</button>\
                                <form class="no-margin">\
-                                  <label>Change event name &nbsp;</label>\
+                                  <label>修改事件名称 &nbsp;</label>\
                                   <input class="middle" autocomplete="off" type="text" value="' + calEvent.title + '" />\
 					 <button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> 保存</button>\
 				   </form>\
@@ -231,4 +231,29 @@
             }
         });
     });
+    function openNewCalendarForm(start, end) {
+        var url = "${ctx}/personal/calendar/new";
+        if(start) {
+            start = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm:ss");
+            end = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm:ss");
+            url = url + "?start=" + start + "&end=" + end;
+        }
+        $.app.modalDialog("新增提醒事项", url, {
+            width:370,
+            height:430,
+            ok : function(modal) {
+
+                var form = modal.find("#editForm");
+                if(!form.validationEngine('validate')) {
+                    return false;
+                }
+                var url = "${ctx}/admin/personal/calendar/new";
+                $.post(url, form.serialize(), function() {
+                    calendar.fullCalendar("refetchEvents");
+                });
+
+                return true;
+            }
+        });
+    }
  </script>

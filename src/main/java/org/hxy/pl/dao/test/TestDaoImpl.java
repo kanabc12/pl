@@ -10,7 +10,6 @@ import java.util.Map;
  * Created by Administrator on 15-3-24.
  */
 public class TestDaoImpl extends BaseDao<TestVo> implements TestDao {
-    @Override
     public TestVo findTestVoById(Integer id) {
         Map<String, Object> map = new HashMap<String,Object>();
         map.put("id",id);

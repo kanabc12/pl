@@ -10,7 +10,7 @@ import org.hxy.pl.vo.personal.CalendarVO;
  */
 public interface CalendarDao {
     Long countRecentlyCalendar(Long userId, Date nowDate, Date nowTime, Integer interval);
-    void delete(CalendarVO calendar);
+    void delete(CalendarVO  calendar);
     CalendarVO  addCalendar(CalendarVO calendar);
     List<CalendarVO> findAllCalendar(Long userId);
     
