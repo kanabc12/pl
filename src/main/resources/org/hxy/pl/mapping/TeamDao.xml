@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.hxy.pl.vo.bd.TeamVO">
-    <resultMap id="calendarMap" type="org.hxy.pl.vo.bd.TeamVO">
+    <resultMap id="teamMap" type="org.hxy.pl.vo.bd.TeamVO">
         <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="nameAbbr" column="name_abbr" jdbcType="VARCHAR"/>
-        <result property="country" column="country_id" jdbcType="INTEGER"/>
+        <result property="contry" column="country_id" jdbcType="INTEGER"/>
         <result property="logo" column="logo" jdbcType="VARCHAR"/>
         <result property="coach" column="coach" jdbcType="VARCHAR"/>
         <result property="buildDate" column="build_date" jdbcType="DATE"/>
         <result property="type" column="team_type" jdbcType="INTEGER"/>
+        <result property="contryName"  column="contryName" jdbcType="VARCHAR"/>
     </resultMap>
     <insert id="insert" parameterType="org.hxy.pl.vo.bd.TeamVO" useGeneratedKeys="true"
             keyProperty="id">
@@ -17,4 +18,17 @@
             #{name},#{nameAbbr},#{contry},#{logo},#{coach},#{buildDate},#{type}
             )
      </insert>
+    <select id="selectTeamsByCondition" parameterType="org.hxy.pl.vo.bd.TeamVO" resultMap="teamMap">
+        select a.*,b.name as contryName from fl_team a,fl_country b
+        where a.country_id =  b.id
+        <if test="name!=null">
+            and a.name like concat('%', #{name}, '%')
+        </if>
+        <if test="contry !=0">
+            and a.country_id = #{contry}
+        </if>
+        <if test="type !=0">
+            and a.team_type=#{type}
+        </if>
+    </select>
 </mapper>

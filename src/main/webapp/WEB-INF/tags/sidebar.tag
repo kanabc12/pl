@@ -83,9 +83,9 @@
                 </li>
 
                 <li class="">
-                    <a href="mobile-menu-1.html">
+                    <a href="${ctx}/bd/team/showEdit">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Default Mobile Menu
+                        球队信息编辑
                     </a>
 
                     <b class="arrow"></b>

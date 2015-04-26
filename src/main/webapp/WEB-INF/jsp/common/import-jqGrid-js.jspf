@@ -1,0 +1,6 @@
+<script src="${ctx}/static/comp/jqGrid/js/jquery.jqGrid.min.js"></script>
+<script src="${ctx}/static/comp/jqGrid/js/grid.base.js"></script>
+<script src="${ctx}/static/comp/jqGrid/js/i18n/grid.locale-en.js"></script>
+
+
+

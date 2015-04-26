@@ -1,5 +1,7 @@
 package org.hxy.pl.vo.bd;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class TeamVO {
@@ -9,9 +11,19 @@ public class TeamVO {
 	private Long contry;
 	private String logo;
 	private String coach;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date buildDate;
-	private int type;
-	public Long getId() {
+	private Long type;
+    private String contryName;
+    public String getContryName() {
+        return contryName;
+    }
+
+    public void setContryName(String contryName) {
+        this.contryName = contryName;
+    }
+
+    public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
@@ -53,10 +65,10 @@ public class TeamVO {
 	public void setBuildDate(Date buildDate) {
 		this.buildDate = buildDate;
 	}
-	public int getType() {
+	public Long getType() {
 		return type;
 	}
-	public void setType(int type) {
+	public void setType(Long type) {
 		this.type = type;
 	}
 	
