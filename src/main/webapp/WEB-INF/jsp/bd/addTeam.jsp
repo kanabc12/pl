@@ -67,11 +67,12 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"
-                                   for="country" >建队日期 </label>
+                                   for="country">建队日期 </label>
+
                             <div class="col-sm-9">
                                 <div class="col-xs-10 col-sm-5 input-group">
-                                <input class="date-picker col-xs-12" id="buildDate" type="text"
-                                       data-date-format="yyyy-mm-dd" name="buildDate"/>
+                                    <input class="date-picker col-xs-12" id="buildDate" type="text"
+                                           data-date-format="yyyy-mm-dd" name="buildDate"/>
 																<span class="input-group-addon">
 																	<i class="fa fa-calendar bigger-110"></i>
 																</span>
@@ -98,6 +99,15 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right"
+                                   for="coach"> 球队队徽 </label>
+                            <div class="col-sm-9">
+                                    <input type="file" id="logo"
+                                           class="col-xs-10 col-sm-5" name="logo"/>
+                            </div>
+                        </div>
+
                         <div class="clearfix form-actions">
                             <div class="col-md-offset-3 col-md-9">
                                 <button class="btn btn-info" type="submit">
@@ -126,7 +136,19 @@
         $('.date-picker').datepicker({
             autoclose: true,
             todayHighlight: true,
-            language:"zh-CN"
-        })
+            language: "zh-CN"
+        });
+        $('#logo').ace_file_input({
+            no_file: '请上传队徽 ...',
+            btn_choose: '选择',
+            btn_change: '改变',
+            droppable: false,
+            onchange: null,
+            thumbnail: false //| true | large
+            //whitelist:'gif|png|jpg|jpeg'
+            //blacklist:'exe|php'
+            //onchange:''
+            //
+        });
     });
 </script>
