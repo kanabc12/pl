@@ -34,7 +34,7 @@
                 <div class="col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->
                     <form class="form-horizontal" role="form"
-                          action="${ctx}/bd/team/saveTeam" method="post">
+                          action="${ctx}/bd/team/saveTeam" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="name">
                                 球队名称 </label>
@@ -104,7 +104,7 @@
                                    for="coach"> 球队队徽 </label>
                             <div class="col-sm-9">
                                     <input type="file" id="logo"
-                                           class="col-xs-10 col-sm-5" name="logo"/>
+                                           class="col-xs-10 col-sm-5" name="logo1"/>
                             </div>
                         </div>
 

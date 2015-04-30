@@ -35,6 +35,7 @@
         <ant.version>1.9.2</ant.version>
         <asm.version>4.2</asm.version>
         <cglib.version>3.1</cglib.version>
+        <prettytime.version>3.2.3.Final</prettytime.version>
     </properties>
     <dependencies>
         <!-- spring核心包 -->
@@ -223,6 +224,12 @@
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>
             <version>${asm.version}</version>
+        </dependency>
+        <!--日期美化-->
+        <dependency>
+            <groupId>org.ocpsoft.prettytime</groupId>
+            <artifactId>prettytime</artifactId>
+            <version>${prettytime.version}</version>
         </dependency>
         <!-- utils 相关jar包 -->
         <dependency>

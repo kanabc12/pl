@@ -131,6 +131,11 @@
     <!-- 类型转换及数据格式化 -->
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
 
+    <!-- 设置默认的文件上传路径 -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.hxy.pl.common.web.upload.FileUploadUtils.setDefaultBaseDir"/>
+        <property name="arguments" value="${file.upload.dir}"/>
+    </bean>
 
     <import resource="spring-config-monitor.xml"/>
     <!--    <import resource="spring-config-cache.xml"/>
