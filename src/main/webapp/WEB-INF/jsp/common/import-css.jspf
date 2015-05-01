@@ -12,6 +12,10 @@
 <link type="text/css" href="${ctx}/static/comp/ace/css/ace-skins.min.css?1" rel="stylesheet"/>
 <link type="text/css" href="${ctx}/static/comp/ace/css/ace-rtl.min.css?1" rel="stylesheet"/>
 
+<link href="${ctx}/static/comp/jQuery-Validation-Engine/css/validationEngine.jquery.css?1" rel="stylesheet">
+<link href="${ctx}/static/comp/jQuery-Validation-Engine/css/template.css?1" rel="stylesheet">
+
+
 <!--[if lte IE 9]>
 <link rel="stylesheet" href="${ctx}/static/comp/ace/css/ace-ie.min.css" />
 <![endif]-->

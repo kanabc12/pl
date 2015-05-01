@@ -2,6 +2,7 @@ package org.hxy.pl.service.bd;
 
 import org.hxy.pl.dao.bd.TeamDao;
 import org.hxy.pl.vo.bd.TeamVO;
+import org.hxy.pl.vo.common.JqGridData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +20,13 @@ public class TeamService {
 
     public List<TeamVO> findTeams(TeamVO teamVO){
         return  teamDao.findTeamsByConditions(teamVO);
+    }
+
+    public JqGridData<TeamVO> findTeamPageList(TeamVO teamVO,int pageNo,int pageSize){
+        List<TeamVO> teamVOs = teamDao.findTeamPageListBySize(teamVO,pageNo,pageSize);
+        int teamCount =  teamDao.findTeamCount(teamVO);
+        int totalPage = (teamCount%pageSize)==0?teamCount/pageSize:teamCount/pageSize+1;
+        JqGridData jqGridData = new JqGridData(totalPage,pageNo,teamCount,teamVOs);
+        return  jqGridData;
     }
 }

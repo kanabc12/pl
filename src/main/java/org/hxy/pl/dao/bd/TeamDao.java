@@ -8,4 +8,6 @@ public interface TeamDao {
 	public  int saveTeam(TeamVO team);
 	public  TeamVO findTeamById(Long id);
     public List<TeamVO> findTeamsByConditions(TeamVO teamVO);
+    public List<TeamVO>findTeamPageListBySize(TeamVO teamVO,int pageNo,int pageSize);
+    public Integer findTeamCount(TeamVO  teamVO);
 }

@@ -31,4 +31,35 @@
             and a.team_type=#{type}
         </if>
     </select>
+
+    <select id="findTeamPageListBySize" parameterType="java.util.Map" resultMap="teamMap">
+        select a.*,b.name as contryName from fl_team a,fl_country b
+        where a.country_id =  b.id
+        <if test="name!=null">
+            and a.name like concat('%', #{name}, '%')
+        </if>
+        <if test="contry !=0">
+            and a.country_id = #{contry}
+        </if>
+        <if test="type !=0">
+            and a.team_type=#{type}
+        </if>
+        <if test="m!=0">
+            limit #{n},#{m}
+        </if>
+    </select>
+
+    <select id="selectTeamCount" parameterType="org.hxy.pl.vo.bd.TeamVO" resultType="int">
+        select count(*)  from fl_team a
+        where 1=1
+        <if test="name!=null">
+            and a.name like concat('%', #{name}, '%')
+        </if>
+        <if test="contry !=0">
+            and a.country_id = #{contry}
+        </if>
+        <if test="type !=0">
+            and a.team_type=#{type}
+        </if>
+    </select>
 </mapper>

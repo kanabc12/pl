@@ -7,6 +7,7 @@ import org.hxy.pl.service.bd.CountryService;
 import org.hxy.pl.service.bd.TeamService;
 import org.hxy.pl.vo.bd.CountryVO;
 import org.hxy.pl.vo.bd.TeamVO;
+import org.hxy.pl.vo.common.JqGridData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,12 +51,21 @@ public class TeamController {
         return "bd/eddTeam";
     }
 
+//    @RequestMapping(method = RequestMethod.POST, value = "/showEdit")
+//    @ResponseBody
+//    public List<TeamVO> showTeams(@ModelAttribute("teamVO") TeamVO teamVO) {
+//        List<TeamVO> teamVOs = teamService.findTeams(teamVO);
+//        return teamVOs;
+//    }
     @RequestMapping(method = RequestMethod.POST, value = "/showEdit")
     @ResponseBody
-    public List<TeamVO> showTeams(@ModelAttribute("teamVO") TeamVO teamVO) {
-        List<TeamVO> teamVOs = teamService.findTeams(teamVO);
-        return teamVOs;
+    public String showTeamPage(@ModelAttribute("teamVO") TeamVO teamVO,@RequestParam(value = "rows") int rows ,@RequestParam(value = "page") int page){
+        JqGridData<TeamVO> teamVOJqGridData = teamService.findTeamPageList(teamVO,page,rows);
+        return teamVOJqGridData.getJsonString();
     }
+
+
+
 
     private void showAllContry(Model model) {
         List<CountryVO> countryList = countryService.showAllContry();

@@ -33,7 +33,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->
-                    <form class="form-horizontal" role="form"
+                    <form class="form-horizontal" role="form" id="form"
                           action="${ctx}/bd/team/saveTeam" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="name">
@@ -41,7 +41,7 @@
 
                             <div class="col-sm-9">
                                 <input type="text" id="name" placeholder="请输入球队名称"
-                                       class="col-xs-10 col-sm-5" name="name"/>
+                                       class="col-xs-10 col-sm-5 validate[required,maxSize[100]]" name="name"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -85,7 +85,7 @@
 
                             <div class="col-sm-9">
                                 <input type="text" id="coach" placeholder="请输入主教练姓名"
-                                       class="col-xs-10 col-sm-5" name="coach"/>
+                                       class="col-xs-10 col-sm-5 validate[required,maxSize[100]]" name="coach"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -102,7 +102,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"
                                    for="coach"> 球队队徽 </label>
-                            <div class="col-sm-9">
+                            <div class="col-sm-4">
                                     <input type="file" id="logo"
                                            class="col-xs-10 col-sm-5" name="logo1"/>
                             </div>
@@ -149,6 +149,11 @@
             //blacklist:'exe|php'
             //onchange:''
             //
+        });
+        var validationEngine = $("form").validationEngine({
+            promptPosition : "topRight",
+            autoPositionUpdate:true,
+            scroll:false
         });
     });
 </script>
