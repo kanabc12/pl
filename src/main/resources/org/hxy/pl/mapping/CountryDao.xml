@@ -12,4 +12,8 @@
         name
         from  fl_country 
     </select>
+
+    <select id="getCountryById" parameterType="Long" resultType="org.hxy.pl.vo.bd.CountryVO">
+        select * from fl_country where id = #{id}
+    </select>
 </mapper>

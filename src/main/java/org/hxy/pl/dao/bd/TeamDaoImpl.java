@@ -44,4 +44,14 @@ public class TeamDaoImpl extends BaseDao<TeamVO> implements TeamDao {
         return (Integer)selectOne(generateStatement("selectTeamCount"),teamVO);
     }
 
+    @Override
+    public void deleteTeamById(TeamVO teamVO) {
+        delete(generateStatement("deleteTeamById"),teamVO);
+    }
+
+    @Override
+    public int updateTeam(TeamVO teamVO) {
+        return  super.update(generateStatement("updateTeam"),teamVO);
+    }
+
 }

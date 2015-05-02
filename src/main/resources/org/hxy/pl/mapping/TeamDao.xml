@@ -10,7 +10,7 @@
         <result property="coach" column="coach" jdbcType="VARCHAR"/>
         <result property="buildDate" column="build_date" jdbcType="DATE"/>
         <result property="type" column="team_type" jdbcType="INTEGER"/>
-        <result property="contryName"  column="contryName" jdbcType="VARCHAR"/>
+        <result property="contryName" column="contryName" jdbcType="VARCHAR"/>
     </resultMap>
     <insert id="insert" parameterType="org.hxy.pl.vo.bd.TeamVO" useGeneratedKeys="true"
             keyProperty="id">
@@ -20,7 +20,7 @@
      </insert>
     <select id="selectTeamsByCondition" parameterType="org.hxy.pl.vo.bd.TeamVO" resultMap="teamMap">
         select a.*,b.name as contryName from fl_team a,fl_country b
-        where a.country_id =  b.id
+        where a.country_id = b.id
         <if test="name!=null">
             and a.name like concat('%', #{name}, '%')
         </if>
@@ -34,7 +34,7 @@
 
     <select id="findTeamPageListBySize" parameterType="java.util.Map" resultMap="teamMap">
         select a.*,b.name as contryName from fl_team a,fl_country b
-        where a.country_id =  b.id
+        where a.country_id = b.id
         <if test="name!=null">
             and a.name like concat('%', #{name}, '%')
         </if>
@@ -50,7 +50,7 @@
     </select>
 
     <select id="selectTeamCount" parameterType="org.hxy.pl.vo.bd.TeamVO" resultType="int">
-        select count(*)  from fl_team a
+        select count(*) from fl_team a
         where 1=1
         <if test="name!=null">
             and a.name like concat('%', #{name}, '%')
@@ -62,4 +62,33 @@
             and a.team_type=#{type}
         </if>
     </select>
+
+    <delete id="deleteTeamById" parameterType="org.hxy.pl.vo.bd.TeamVO">
+        delete from fl_team  where id = #{id}
+    </delete>
+
+    <update id="updateTeam" parameterType="org.hxy.pl.vo.bd.TeamVO">
+        update fl_team
+        <set>
+            <if test="name !=null and name !=''">
+                 name = #{name},
+            </if>
+            <if test="nameAbbr !=null and nameAbbr !=''">
+                 name_abbr = #{nameAbbr},
+            </if>
+            <if test="contry !=0">
+                 country_id = #{contry},
+            </if>
+            <if test="coach !=null and coach !=''">
+                 coach = #{coach},
+            </if>
+            <if test="buildDate !=null">
+                 build_date = #{buildDate},
+            </if>
+            <if test="type !=0">
+                 team_type = #{type},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
 </mapper>

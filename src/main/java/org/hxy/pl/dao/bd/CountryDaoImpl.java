@@ -13,4 +13,9 @@ public class CountryDaoImpl extends BaseDao<CountryVO> implements CountryDao {
 		 return super.findList(generateStatement("findAllCountry"));
 	}
 
+    @Override
+    public CountryVO getCountryById(Long id) {
+        return  (CountryVO)selectOne(generateStatement("getCountryById"),id);
+    }
+
 }

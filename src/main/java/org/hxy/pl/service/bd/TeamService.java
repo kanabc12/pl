@@ -29,4 +29,12 @@ public class TeamService {
         JqGridData jqGridData = new JqGridData(totalPage,pageNo,teamCount,teamVOs);
         return  jqGridData;
     }
+
+    public void deleteTeamById (TeamVO teamVO){
+        teamDao.deleteTeamById(teamVO);
+    }
+
+    public  int updateTeam(TeamVO teamVO){
+        return teamDao.updateTeam(teamVO);
+    }
 }

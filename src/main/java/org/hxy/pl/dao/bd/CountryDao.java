@@ -6,4 +6,5 @@ import org.hxy.pl.vo.bd.CountryVO;
 
 public interface CountryDao {
 	List<CountryVO> showAllCountry();
+    CountryVO getCountryById(Long id);
 }

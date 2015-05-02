@@ -51,6 +51,15 @@ public class TeamController {
         return "bd/eddTeam";
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/editTeam")
+    @ResponseBody
+    public String editTeam(@ModelAttribute("teamVO")TeamVO teamVO) {
+        int result = teamService.updateTeam(teamVO);
+        if(result == 1)
+            return  "success";
+        return "error";
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/showEdit")
     @ResponseBody
     public String showTeamPage(@ModelAttribute("teamVO") TeamVO teamVO,@RequestParam(value = "rows") int rows ,@RequestParam(value = "page") int page){
@@ -59,12 +68,33 @@ public class TeamController {
         return teamVOJqGridData.getJsonString();
     }
 
-
-
+    @RequestMapping(method = RequestMethod.GET, value = "/getCountry")
+    @ResponseBody
+    public CountryVO getCountry(Long id){
+        CountryVO countryVO = countryService.getCountryById(id);
+        return countryVO;
+    }
 
     private void showAllContry(Model model) {
         List<CountryVO> countryList = countryService.showAllContry();
+        StringBuffer returnStr  =  new StringBuffer();
+        for(CountryVO countryVO:countryList){
+            returnStr.append(countryVO.getId()+":"+countryVO.getName()+";");
+        }
         model.addAttribute("countryList", countryList);
+        model.addAttribute("countryStr",returnStr.toString().substring(0,returnStr.length()-1));
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/ShowCountry")
+    @ResponseBody
+    public String showCountry(){
+        List<CountryVO> countryList = countryService.showAllContry();
+        StringBuffer returnStr  =  new StringBuffer();
+        returnStr.append("<select>");
+        for(CountryVO countryVO:countryList){
+            returnStr.append("<option value=\""+countryVO.getId()+"\""+">"+countryVO.getName()+"</option>");
+        }
+        returnStr.append("</select>");
+        return returnStr.toString();
+    }
 }

@@ -65,6 +65,7 @@
 <%@include file="/WEB-INF/jsp/common/import-datetime-js.jspf" %>
 <%@include file="/WEB-INF/jsp/common/import-jqGrid-js.jspf" %>
 <script type="text/javascript">
+var  countryStr = "${countryStr}"
 jQuery(function ($) {
     gritInit();
     $(window).on('resize.jqGrid', function () {
@@ -156,6 +157,9 @@ jQuery(function ($) {
             url: "${ctx}/bd/team/showEdit",
             datatype: "json",
             mtype: "POST",
+            jsonReader: {
+                id: "id"
+            },
             postData: {name: $("#name").val(),
                 contry: $("#contry").val(),
                 type: $("#type").val()}
@@ -164,9 +168,7 @@ jQuery(function ($) {
 });
 function style_edit_form(form) {
     //enable datepicker on "sdate" field and switches for "stock" field
-    form.find('input[name=buildDate]').datepicker({format: 'yyyy-mm-dd', autoclose: true,})
-            .end().find('input[name=stock]')
-            .addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
+    form.find('input[name=buildDate]').datepicker({format: 'yyyy-mm-dd', autoclose: true, language: "zh-CN"});
     //don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
     //.addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
 
@@ -182,20 +184,42 @@ function style_edit_form(form) {
     buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
 }
 function gritInit() {
+    <%--$.ajax({--%>
+        <%--type: 'POST',--%>
+        <%--url:"${ctx}/bd/team/ShowCountryString",--%>
+        <%--//防止自动转换数据格式。--%>
+        <%--async :false,--%>
+        <%--success:function(data) {--%>
+            <%--if(data){--%>
+                <%--countryStr = data.toString();--%>
+            <%--}else{--%>
+            <%--}--%>
+        <%--}--%>
+    <%--});--%>
     jQuery("#grid-table").jqGrid({
         height: "auto",//高度，表格高度。可为数值、百分比或'auto'
         autowidth: true,
         caption: "查询结果",
-        colNames: [ '球队名称', '英文简写', '所属国家', '主教练', '建队日期', '球队性质' ],
+        colNames: ['球队名称', '英文简写', '所属国家', '主教练', '建队日期', '球队性质', "编辑"],
         loadtext: "正在加载...",
+        editurl: "${ctx}/bd/team/editTeam",//nothing is saved
         colModel: [
-            {name: 'name', width: 55,editable:true},
-            {name: 'nameAbbr', width: 90,editable:true},
-            {name: 'contryName', width: 100,editable:true},
-            {name: 'coach', width: 80, align: "right",editable:true},
-            {name: 'buildDate', index: 'buildDate', editable:true, width: 80, align: "right",formatoptions:{srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s'}},
-            {name: 'type', width: 80, align: "right",editable:true}
+            {name: 'name', width: 55, editable: true},
+            {name: 'nameAbbr', width: 50, editable: true},
+            {name: 'contry', width: 50, editable: true,edittype:"select",formatter: "select", formatoptions:{value:countryStr}, editoptions: {dataUrl:"${ctx}/bd/team/ShowCountry"}},
+            {name: 'coach', width: 80, align: "right", editable: true},
+            {name: 'buildDate', index: 'buildDate', editable: true, width: 80, align: "right", unformat: pickDate},
+            {name: 'type', width: 40, align: "right", editable: true, edittype:"select",formatter: "select", editoptions: {value: "1:俱乐部;2:国家队"}},
+            {name: 'myac', index: '', width: 80, fixed: true, sortable: false, resize: false, align: "center",
+                formatter: 'actions',
+                formatoptions: {
+                    keys: true,
+                    delOptions: {recreateForm: true, beforeShowForm: beforeDeleteCallback}
+                    //editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
+                }
+            }
         ],
+        altRows: true,
         multiselect: true,
         multiboxonly: true,
         rowNum: 10,
@@ -285,5 +309,19 @@ function style_search_form(form) {
     buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
     buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
     buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+}
+function beforeDeleteCallback(e) {
+    var form = $(e[0]);
+    if (form.data('styled')) return false;
+    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+    style_delete_form(form);
+    form.data('styled', true);
+}
+//enable datepicker
+function pickDate(cellvalue, options, cell) {
+    setTimeout(function () {
+        $(cell).find('input[type=text]')
+                .datepicker({format: 'yyyy-mm-dd', autoclose: true, language: "zh-CN"});
+    }, 0);
 }
 </script>

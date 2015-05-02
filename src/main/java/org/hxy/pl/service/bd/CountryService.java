@@ -14,5 +14,8 @@ public class CountryService {
 	public List<CountryVO> showAllContry(){
 		return contryDao.showAllCountry();
 	}
-	
+
+    public CountryVO getCountryById(Long id){
+        return  contryDao.getCountryById(id);
+    }
 }
