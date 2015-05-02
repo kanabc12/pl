@@ -18,6 +18,16 @@ public class JqGridData<T> {
     /** The actual data */
     private List<T> rows;
 
+    private String dateFormat  = "yyyy-MM-dd HH:mm:ss";//默认日期格式;
+
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+
     public JqGridData(int total, int page, int records, List<T> rows) {
         this.total = total;
         this.page = page;
@@ -47,6 +57,6 @@ public class JqGridData<T> {
         map.put("total", total);
         map.put("records", records);
         map.put("rows", rows);
-        return JSON.toJSONString(map);
+        return JSON.toJSONStringWithDateFormat(map, getDateFormat());
     }
 }

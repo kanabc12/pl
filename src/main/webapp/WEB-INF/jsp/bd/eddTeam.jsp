@@ -2,6 +2,7 @@
          pageEncoding="utf-8" %>
 <%@include file="/WEB-INF/jsp/common/taglibs.jspf" %>
 <pl:contentHeader title="足彩统计分析系统"/>
+<%@include file="/WEB-INF/jsp/common/import-datetime-css.jspf" %>
 <pl:navbar/>
 <!-- /section:basics/navbar.layout -->
 <div class="main-container" id="main-container">
@@ -61,6 +62,7 @@
     </div>
 </div>
 <pl:contentFooter/>
+<%@include file="/WEB-INF/jsp/common/import-datetime-js.jspf" %>
 <%@include file="/WEB-INF/jsp/common/import-jqGrid-js.jspf" %>
 <script type="text/javascript">
 jQuery(function ($) {
@@ -162,7 +164,7 @@ jQuery(function ($) {
 });
 function style_edit_form(form) {
     //enable datepicker on "sdate" field and switches for "stock" field
-    form.find('input[name=sdate]').datepicker({format: 'yyyy-mm-dd', autoclose: true})
+    form.find('input[name=buildDate]').datepicker({format: 'yyyy-mm-dd', autoclose: true,})
             .end().find('input[name=stock]')
             .addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
     //don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
@@ -187,13 +189,15 @@ function gritInit() {
         colNames: [ '球队名称', '英文简写', '所属国家', '主教练', '建队日期', '球队性质' ],
         loadtext: "正在加载...",
         colModel: [
-            {name: 'name', width: 55},
-            {name: 'nameAbbr', width: 90},
-            {name: 'contryName', width: 100},
-            {name: 'coach', width: 80, align: "right"},
-            {name: 'buildDate', index: 'tax', datefmt: "yyyy-mm-dd", width: 80, align: "right"},
-            {name: 'type', width: 80, align: "right"}
+            {name: 'name', width: 55,editable:true},
+            {name: 'nameAbbr', width: 90,editable:true},
+            {name: 'contryName', width: 100,editable:true},
+            {name: 'coach', width: 80, align: "right",editable:true},
+            {name: 'buildDate', index: 'buildDate', editable:true, width: 80, align: "right",formatoptions:{srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s'}},
+            {name: 'type', width: 80, align: "right",editable:true}
         ],
+        multiselect: true,
+        multiboxonly: true,
         rowNum: 10,
         rowList: [ 10, 20, 30 ],
         rownumbers: true,

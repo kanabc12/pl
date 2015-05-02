@@ -51,16 +51,11 @@ public class TeamController {
         return "bd/eddTeam";
     }
 
-//    @RequestMapping(method = RequestMethod.POST, value = "/showEdit")
-//    @ResponseBody
-//    public List<TeamVO> showTeams(@ModelAttribute("teamVO") TeamVO teamVO) {
-//        List<TeamVO> teamVOs = teamService.findTeams(teamVO);
-//        return teamVOs;
-//    }
     @RequestMapping(method = RequestMethod.POST, value = "/showEdit")
     @ResponseBody
     public String showTeamPage(@ModelAttribute("teamVO") TeamVO teamVO,@RequestParam(value = "rows") int rows ,@RequestParam(value = "page") int page){
         JqGridData<TeamVO> teamVOJqGridData = teamService.findTeamPageList(teamVO,page,rows);
+        teamVOJqGridData.setDateFormat("yyyy-MM-dd");
         return teamVOJqGridData.getJsonString();
     }
 
