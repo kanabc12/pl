@@ -30,8 +30,8 @@ public class TeamService {
         return  jqGridData;
     }
 
-    public void deleteTeamById (TeamVO teamVO){
-        teamDao.deleteTeamById(teamVO);
+    public int deleteTeamById (TeamVO teamVO){
+        return teamDao.deleteTeamById(teamVO);
     }
 
     public  int updateTeam(TeamVO teamVO){

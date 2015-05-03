@@ -7,6 +7,7 @@ import java.util.Date;
 public class TeamVO {
 	private Long id;
 	private String name;
+    private String nameEn;
 	private String nameAbbr;
 	private Long contry;
 	private String logo;
@@ -71,5 +72,11 @@ public class TeamVO {
 	public void setType(Long type) {
 		this.type = type;
 	}
-	
+    public String getNameEn() {
+        return nameEn;
+    }
+
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
+    }
 }

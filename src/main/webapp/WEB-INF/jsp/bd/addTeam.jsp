@@ -45,6 +45,15 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="nameEn">
+                                英文名称 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="nameEn" placeholder="请输入英文名称"
+                                       class="col-xs-10 col-sm-5 validate[required,maxSize[100]]" name="nameEn"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"
                                    for="nameAbbr"> 球队英文缩写 </label>
 

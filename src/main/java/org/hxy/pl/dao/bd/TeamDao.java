@@ -10,7 +10,7 @@ public interface TeamDao {
     public List<TeamVO> findTeamsByConditions(TeamVO teamVO);
     public List<TeamVO>findTeamPageListBySize(TeamVO teamVO,int pageNo,int pageSize);
     public Integer findTeamCount(TeamVO  teamVO);
-    public void deleteTeamById(TeamVO teamVO);
+    public int  deleteTeamById(TeamVO teamVO);
     public int updateTeam(TeamVO teamVO);
 
 

@@ -45,8 +45,8 @@ public class TeamDaoImpl extends BaseDao<TeamVO> implements TeamDao {
     }
 
     @Override
-    public void deleteTeamById(TeamVO teamVO) {
-        delete(generateStatement("deleteTeamById"),teamVO);
+    public int  deleteTeamById(TeamVO teamVO) {
+        return delete(generateStatement("deleteTeamById"),teamVO);
     }
 
     @Override

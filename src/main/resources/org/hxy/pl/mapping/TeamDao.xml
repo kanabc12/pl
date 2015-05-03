@@ -5,6 +5,7 @@
         <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="nameAbbr" column="name_abbr" jdbcType="VARCHAR"/>
+        <result property="nameEn" column="name_en" jdbcType="VARCHAR"/>
         <result property="contry" column="country_id" jdbcType="INTEGER"/>
         <result property="logo" column="logo" jdbcType="VARCHAR"/>
         <result property="coach" column="coach" jdbcType="VARCHAR"/>
@@ -14,8 +15,8 @@
     </resultMap>
     <insert id="insert" parameterType="org.hxy.pl.vo.bd.TeamVO" useGeneratedKeys="true"
             keyProperty="id">
-            insert into fl_team(name,name_abbr,country_id,logo,coach,build_date,team_type) values(
-            #{name},#{nameAbbr},#{contry},#{logo},#{coach},#{buildDate},#{type}
+            insert into fl_team(name,name_en,name_abbr,country_id,logo,coach,build_date,team_type) values(
+            #{name},#{nameEn},#{nameAbbr},#{contry},#{logo},#{coach},#{buildDate},#{type}
             )
      </insert>
     <select id="selectTeamsByCondition" parameterType="org.hxy.pl.vo.bd.TeamVO" resultMap="teamMap">
@@ -73,10 +74,13 @@
             <if test="name !=null and name !=''">
                  name = #{name},
             </if>
+            <if test="nameEn !=null and nameEn !=''">
+                name_en = #{nameEn},
+            </if>
             <if test="nameAbbr !=null and nameAbbr !=''">
                  name_abbr = #{nameAbbr},
             </if>
-            <if test="contry !=0">
+            <if test="contry != null and contry !=0">
                  country_id = #{contry},
             </if>
             <if test="coach !=null and coach !=''">
@@ -85,7 +89,7 @@
             <if test="buildDate !=null">
                  build_date = #{buildDate},
             </if>
-            <if test="type !=0">
+            <if test="type != null and type !=0">
                  team_type = #{type},
             </if>
         </set>

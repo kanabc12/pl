@@ -53,10 +53,18 @@ public class TeamController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/editTeam")
     @ResponseBody
-    public String editTeam(@ModelAttribute("teamVO")TeamVO teamVO) {
-        int result = teamService.updateTeam(teamVO);
-        if(result == 1)
-            return  "success";
+    public String editTeam(@ModelAttribute("teamVO")TeamVO teamVO,@RequestParam(value = "oper") String oper) {
+        if("edit".equals(oper)){
+            int result = teamService.updateTeam(teamVO);
+            if(result == 1)
+                return  "success";
+        }else if("del".equals(oper)){
+            int result = teamService.deleteTeamById(teamVO);
+            if(result == 1)
+                return  "success";
+        }else {
+
+        }
         return "error";
     }
 

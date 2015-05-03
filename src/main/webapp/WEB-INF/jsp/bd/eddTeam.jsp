@@ -184,30 +184,20 @@ function style_edit_form(form) {
     buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
 }
 function gritInit() {
-    <%--$.ajax({--%>
-        <%--type: 'POST',--%>
-        <%--url:"${ctx}/bd/team/ShowCountryString",--%>
-        <%--//防止自动转换数据格式。--%>
-        <%--async :false,--%>
-        <%--success:function(data) {--%>
-            <%--if(data){--%>
-                <%--countryStr = data.toString();--%>
-            <%--}else{--%>
-            <%--}--%>
-        <%--}--%>
-    <%--});--%>
     jQuery("#grid-table").jqGrid({
         height: "auto",//高度，表格高度。可为数值、百分比或'auto'
         autowidth: true,
+        shrinkToFit:true,
         caption: "查询结果",
-        colNames: ['球队名称', '英文简写', '所属国家', '主教练', '建队日期', '球队性质', "编辑"],
+        colNames: ['球队名称','英文名称','英文简写', '所属国家', '主教练', '建队日期', '球队性质', "编辑"],
         loadtext: "正在加载...",
         editurl: "${ctx}/bd/team/editTeam",//nothing is saved
         colModel: [
-            {name: 'name', width: 55, editable: true},
-            {name: 'nameAbbr', width: 50, editable: true},
-            {name: 'contry', width: 50, editable: true,edittype:"select",formatter: "select", formatoptions:{value:countryStr}, editoptions: {dataUrl:"${ctx}/bd/team/ShowCountry"}},
-            {name: 'coach', width: 80, align: "right", editable: true},
+            {name: 'name', width: 30, editable: true},
+            {name: 'nameEn', width: 80, editable: true},
+            {name: 'nameAbbr', width: 30, editable: true},
+            {name: 'contry', width: 30, editable: true,edittype:"select",formatter: "select", formatoptions:{value:countryStr}, editoptions: {dataUrl:"${ctx}/bd/team/ShowCountry"}},
+            {name: 'coach', width: 50, align: "right", editable: true},
             {name: 'buildDate', index: 'buildDate', editable: true, width: 80, align: "right", unformat: pickDate},
             {name: 'type', width: 40, align: "right", editable: true, edittype:"select",formatter: "select", editoptions: {value: "1:俱乐部;2:国家队"}},
             {name: 'myac', index: '', width: 80, fixed: true, sortable: false, resize: false, align: "center",
