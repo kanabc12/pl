@@ -17,12 +17,15 @@ import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -103,13 +106,31 @@ public class ExcelDataService {
         ExcelDataService proxy = ((ExcelDataService) AopContext.currentProxy());
         BufferedInputStream bis = null;
         try{
-            long beginTime =  System.currentTimeMillis();
             List<ExcelVO> dataList = Lists.newArrayList();
             bis = new BufferedInputStream(is);
             OPCPackage pkg = OPCPackage.open(bis);
             XSSFReader r = new XSSFReader(pkg);
             XMLReader parser =
                     XMLReaderFactory.createXMLReader();
+            ContentHandler handler = new Excel2007ImportSheetHandler(proxy, dataList, batchSize);
+            parser.setContentHandler(handler);
+            Iterator<InputStream> sheets = r.getSheetsData();
+            while (sheets.hasNext()) {
+                InputStream sheet = null;
+                try {
+                    sheet = sheets.next();
+                    InputSource sheetSource = new InputSource(sheet);
+                    parser.parse(sheetSource);
+                } catch (Exception e) {
+                    throw e;
+                } finally {
+                    IOUtils.closeQuietly(sheet);
+                }
+            }
+            //把最后剩下的不足batchSize大小
+            if (dataList.size() > 0) {
+                proxy.doBatchSave(dataList);
+            }
         }catch (Exception e){
             log.error("excel import error", e);
         }finally {

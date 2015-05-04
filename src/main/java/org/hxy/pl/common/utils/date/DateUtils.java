@@ -719,4 +719,7 @@ public class DateUtils {
     public static SimpleLunarCalendar getSimpleLunarCalendar(Date date) {
         return new SimpleLunarCalendar(date);
     }
+    public static  void main(String[] args){
+        Date date = new Date();
+    }
 }

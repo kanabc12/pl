@@ -223,7 +223,7 @@
 <li class="">
     <a href="#" class="dropdown-toggle">
         <i class="menu-icon fa fa-list"></i>
-        <span class="menu-text"> Tables </span>
+        <span class="menu-text"> 信息导入 </span>
 
         <b class="arrow fa fa-angle-down"></b>
     </a>
@@ -232,9 +232,9 @@
 
     <ul class="submenu">
         <li class="">
-            <a href="tables.html">
+            <a href="${ctx}/excel/import">
                 <i class="menu-icon fa fa-caret-right"></i>
-                Simple &amp; Dynamic
+                比分&赔率导入
             </a>
 
             <b class="arrow"></b>

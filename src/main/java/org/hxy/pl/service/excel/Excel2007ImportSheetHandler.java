@@ -69,16 +69,14 @@ public class Excel2007ImportSheetHandler extends DefaultHandler {
 
             totalSize++;
 
-            if (totalSize % batchSize == 0) {
+//            if (totalSize % batchSize == 0) {
 //                try {
 //                    excelDataService.doBatchSave(dataList);
 //                } catch (Exception e) {
-//                    Long fromId = dataList.get(0).getId();
-//                    Long endId = dataList.get(dataList.size() - 1).getId();
-//                    log.error("from " + fromId + " to " + endId + ", error", e);
+//                    log.error("save error", e);
 //                }
-                dataList.clear();
-            }
+//                dataList.clear();
+//            }
         }
 
         if ("c".equals(name)) {//按照列顺序添加数据
