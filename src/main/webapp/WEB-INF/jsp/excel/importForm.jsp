@@ -30,7 +30,7 @@
                                    for="file"> 导入Excel </label>
                             <div class="col-sm-4">
                                 <input type="file" id="file"
-                                       class="col-xs-10 col-sm-5 validate[required]" name="file"/>
+                                       class="col-xs-10 col-sm-5" name="file"/>
                             </div>
                         </div>
 
@@ -69,11 +69,6 @@
             //blacklist:'exe|php'
             //onchange:''
             //
-        });
-        var validationEngine = $("form").validationEngine({
-            promptPosition : "topRight",
-            autoPositionUpdate:true,
-            scroll:false
         });
     });
 </script>

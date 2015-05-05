@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
+import org.apache.poi.xssf.model.SharedStringsTable;
 import org.hxy.pl.common.utils.date.DateStyle;
 import org.hxy.pl.common.utils.date.DateUtils;
 import org.hxy.pl.dao.game.OddDao;
@@ -105,6 +106,8 @@ public class ExcelDataService {
     public void importExcel2007(final InputStream is){
         ExcelDataService proxy = ((ExcelDataService) AopContext.currentProxy());
         BufferedInputStream bis = null;
+        //共享字符串表
+        SharedStringsTable sst;
         try{
             List<ExcelVO> dataList = Lists.newArrayList();
             bis = new BufferedInputStream(is);
@@ -112,7 +115,9 @@ public class ExcelDataService {
             XSSFReader r = new XSSFReader(pkg);
             XMLReader parser =
                     XMLReaderFactory.createXMLReader();
-            ContentHandler handler = new Excel2007ImportSheetHandler(proxy, dataList, batchSize);
+            sst = r.getSharedStringsTable();
+            ContentHandler handler = new Excel2007ImportSheetHandler(proxy, dataList, batchSize,sst);
+
             parser.setContentHandler(handler);
             Iterator<InputStream> sheets = r.getSheetsData();
             while (sheets.hasNext()) {
