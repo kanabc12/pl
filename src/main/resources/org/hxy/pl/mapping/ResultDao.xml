@@ -3,20 +3,24 @@
 <mapper namespace="org.hxy.pl.vo.game.ResultVO">
     <resultMap id="resultMap" type="org.hxy.pl.vo.game.ResultVO">
         <id property="id" column="id" jdbcType="INTEGER"/>
-        <result property="name" column="name" jdbcType="VARCHAR"/>
-        <result property="nameAbbr" column="name_abbr" jdbcType="VARCHAR"/>
-        <result property="nameEn" column="name_en" jdbcType="VARCHAR"/>
-        <result property="contry" column="country_id" jdbcType="INTEGER"/>
-        <result property="logo" column="logo" jdbcType="VARCHAR"/>
-        <result property="coach" column="coach" jdbcType="VARCHAR"/>
-        <result property="buildDate" column="build_date" jdbcType="DATE"/>
-        <result property="type" column="team_type" jdbcType="INTEGER"/>
-        <result property="contryName" column="contryName" jdbcType="VARCHAR"/>
+        <result property="homeTeam" column="ht_id" jdbcType="INTEGER"/>
+        <result property="customTeam" column="ct_id" jdbcType="INTEGER"/>
+        <result property="homeHalfGoals" column="ht_half_goals" jdbcType="INTEGER"/>
+        <result property="customGoals" column="ct_goals" jdbcType="INTEGER"/>
+        <result property="customHalfGoals" column="ct_half_goals" jdbcType="INTEGER"/>
+        <result property="resultType" column="result_type" jdbcType="INTEGER"/>
+        <result property="planDate" column="plan_time" jdbcType="DATE"/>
+        <result property="actualTime" column="game_time" jdbcType="DATE"/>
+        <result property="gameCity" column="game_city" jdbcType="VARCHAR"/>
+        <result property="leagueId" column="leauge_id" jdbcType="INTEGER"/>
+        <result property="seasonId" column="session_id" jdbcType="INTEGER"/>
+        <result property="round" column="round" jdbcType="INTEGER"/>
+        <result property="gameStatus" column="status" jdbcType="INTEGER"/>
     </resultMap>
     <insert id="insert" parameterType="org.hxy.pl.vo.game.ResultVO" useGeneratedKeys="true"
             keyProperty="id">
-            insert into fl_games(ht_id,ct_id,ht_goals,ht_half_goals,ct_goals,ct_half_goals,result_type,plan_time,game_time,game_city,leauge_id,session_id,round,status) values(
+            insert into fl_games(ht_id,ct_id,ht_goals,ht_half_goals,ct_goals,ct_half_goals,result_type,plan_time,game_time,game_city,league_id,season_id,round,status) values(
             #{homeTeam},#{customTeam},#{homeGoals},#{homeHalfGoals},#{customGoals},#{customHalfGoals},#{resultType},#{planDate},#{actualTime},#{gameCity},#{leagueId},#{seasonId},#{round},#{gameStatus}
             )
      </insert>
- </mapper>
+</mapper>

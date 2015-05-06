@@ -223,7 +223,7 @@
 <li class="">
     <a href="#" class="dropdown-toggle">
         <i class="menu-icon fa fa-list"></i>
-        <span class="menu-text"> 信息导入 </span>
+        <span class="menu-text"> 数据导入 </span>
 
         <b class="arrow fa fa-angle-down"></b>
     </a>
@@ -243,7 +243,7 @@
         <li class="">
             <a href="jqgrid.html">
                 <i class="menu-icon fa fa-caret-right"></i>
-                jqGrid plugin
+                赛程导入
             </a>
 
             <b class="arrow"></b>

@@ -54,16 +54,28 @@ public class ExcelDataService {
     public void doBatchSave(final List<ExcelVO> dataList) {
         for(ExcelVO data : dataList) {
             ResultVO resultVO =  new ResultVO();
-            Date  gameDate = DateUtils.StringToDate(data.getGameTimeStr(), DateStyle.YYYY_MM_DD_HH_MM_SS_EN);
+            Date  gameDate = DateUtils.StringToDate(data.getGameTimeStr(), DateStyle.YYYY_MM_DD_HH_MM_SS);
+            resultVO.setHomeTeam(Integer.parseInt(data.getHomeTeam()));
+            resultVO.setCustomTeam(Integer.parseInt(data.getCustomTeam()));
             resultVO.setActualTime(gameDate);
             resultVO.setCustomGoals(parseResultStr("custom",data.getResultStr()));
             resultVO.setPlanDate(gameDate);
             resultVO.setGameStatus(1);
             resultVO.setHomeGoals(parseResultStr("home",data.getResultStr()));
+            if(resultVO.getHomeGoals()>resultVO.getCustomGoals()){
+                resultVO.setResultType(1);
+            }else if(resultVO.getHomeGoals()<resultVO.getCustomGoals()){
+                resultVO.setResultType(-1);
+            }else{
+                resultVO.setResultType(0);
+            }
             if("英超".equals(data.getLeagueName())){
                 resultVO.setLeagueId(1);
+            }else if("西甲".equals(data.getLeagueName())){
+                resultVO.setLeagueId(2);
             }
-            int gameId = resultDao.saveGameResult(resultVO);
+            resultDao.saveGameResult(resultVO);
+            int gameId = resultVO.getId();
             OddVO  wOdd = new OddVO();
             wOdd.setGemeId(gameId);
             wOdd.setCompanyId(1);
@@ -98,6 +110,7 @@ public class ExcelDataService {
             lOddFinal.setWinOdd(Float.parseFloat(data.getLwfOdd()));
             lOddFinal.setDrawOdd(Float.parseFloat(data.getLdfOdd()));
             lOddFinal.setLoseOdd(Float.parseFloat(data.getLlfOdd()));
+            lOddFinal.setType(2);
             oddDao.saveGameOdd(lOddFinal);
         }
     }

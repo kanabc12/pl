@@ -3,15 +3,13 @@
 <mapper namespace="org.hxy.pl.vo.game.OddVO">
     <resultMap id="oddMap" type="org.hxy.pl.vo.game.OddVO">
         <id property="id" column="id" jdbcType="INTEGER"/>
-        <result property="name" column="name" jdbcType="VARCHAR"/>
-        <result property="nameAbbr" column="name_abbr" jdbcType="VARCHAR"/>
-        <result property="nameEn" column="name_en" jdbcType="VARCHAR"/>
-        <result property="contry" column="country_id" jdbcType="INTEGER"/>
-        <result property="logo" column="logo" jdbcType="VARCHAR"/>
-        <result property="coach" column="coach" jdbcType="VARCHAR"/>
-        <result property="buildDate" column="build_date" jdbcType="DATE"/>
-        <result property="type" column="team_type" jdbcType="INTEGER"/>
-        <result property="contryName" column="contryName" jdbcType="VARCHAR"/>
+        <result property="gemeId" column="game_id" jdbcType="INTEGER"/>
+        <result property="winOdd" column="win_odds" />
+        <result property="drawOdd" column="draw_odds" />
+        <result property="loseOdd" column="lose_odds"/>
+        <result property="addDate" column="odd_time"/>
+        <result property="type" column="odd_type" jdbcType="INTEGER"/>
+        <result property="companyId" column="odd_company" jdbcType="INTEGER"/>
     </resultMap>
     <insert id="insert" parameterType="org.hxy.pl.vo.game.OddVO" useGeneratedKeys="true"
             keyProperty="id">

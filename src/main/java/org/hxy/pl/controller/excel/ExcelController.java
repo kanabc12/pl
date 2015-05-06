@@ -49,16 +49,15 @@ public class ExcelController extends BaseController {
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     public String importExcel(
             @RequestParam("file") MultipartFile file,
-            Model model,
-            RedirectAttributes redirectAttributes) throws IOException {
+            Model model) throws IOException {
         if(!canImport(file, model)) {
             return showImportExcelForm();
         }
         InputStream is = file.getInputStream();
         excelDataService.importExcel2007(is);
 
-        redirectAttributes.addFlashAttribute(Constants.MESSAGE, "导入成功");
-        return redirectToUrl(null);
+        model.addAttribute(Constants.MESSAGE, "导入成功");
+        return "excel/importForm";
     }
 
     private boolean canImport(final MultipartFile file, final Model model) {
