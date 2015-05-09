@@ -95,4 +95,7 @@
         </set>
         where id = #{id}
     </update>
+    <select id="findTeamByCountryId" parameterType="java.lang.Long"  resultMap="teamMap">
+        select * from fl_team where country_id = #{countryId}
+    </select>
 </mapper>

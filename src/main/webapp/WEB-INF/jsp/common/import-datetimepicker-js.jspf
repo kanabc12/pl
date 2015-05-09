@@ -1,0 +1,5 @@
+<script src="${ctx}/static/comp/bootstrap-datetimepicker/js/moment-with-locales.js"></script>
+<script src="${ctx}/static/comp/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+
+
+

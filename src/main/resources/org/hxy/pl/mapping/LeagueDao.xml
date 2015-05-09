@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.hxy.pl.vo.bd.LeagueVO">
+    <resultMap id="leagueMap" type="org.hxy.pl.vo.bd.LeagueVO">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="seasonId" column="season_id" jdbcType="INTEGER"/>
+        <result property="beginDate" column="bgn_date" jdbcType="DATE"/>
+        <result property="endDate" column="end_date" jdbcType="DATE"/>
+        <result property="formatId" column="format_id" jdbcType="INTEGER"/>
+        <result property="countryId" column="country_id" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="findAllLeague"  resultMap="leagueMap">
+        select * from fl_league
+    </select>
+</mapper>

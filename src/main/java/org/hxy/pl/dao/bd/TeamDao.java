@@ -12,6 +12,7 @@ public interface TeamDao {
     public Integer findTeamCount(TeamVO  teamVO);
     public int  deleteTeamById(TeamVO teamVO);
     public int updateTeam(TeamVO teamVO);
+    public  List<TeamVO> findTeamByCountry(Long  countryId);
 
 
 }

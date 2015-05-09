@@ -254,7 +254,7 @@
 <li class="">
     <a href="#" class="dropdown-toggle">
         <i class="menu-icon fa fa-pencil-square-o"></i>
-        <span class="menu-text"> Forms </span>
+        <span class="menu-text"> 赛事信息录入 </span>
 
         <b class="arrow fa fa-angle-down"></b>
     </a>
@@ -263,9 +263,9 @@
 
     <ul class="submenu">
         <li class="">
-            <a href="form-elements.html">
+            <a href="${ctx}/game/gameInputInit">
                 <i class="menu-icon fa fa-caret-right"></i>
-                Form Elements
+                比赛结果录入
             </a>
 
             <b class="arrow"></b>

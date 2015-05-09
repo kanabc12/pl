@@ -54,4 +54,9 @@ public class TeamDaoImpl extends BaseDao<TeamVO> implements TeamDao {
         return  super.update(generateStatement("updateTeam"),teamVO);
     }
 
+    @Override
+    public List<TeamVO> findTeamByCountry(Long countryId) {
+        return super.findList(generateStatement("findTeamByCountryId"),countryId);
+    }
+
 }

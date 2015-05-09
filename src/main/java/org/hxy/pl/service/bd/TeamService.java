@@ -37,4 +37,9 @@ public class TeamService {
     public  int updateTeam(TeamVO teamVO){
         return teamDao.updateTeam(teamVO);
     }
+
+    public List<TeamVO> findTeamsByCountryId(Long countryId){
+        return  teamDao.findTeamByCountry(countryId);
+    }
+
 }

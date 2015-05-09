@@ -1,9 +1,8 @@
-<script src="${ctx}/static/comp/ace/js/date-time/bootstrap-datepicker.min.js"></script>
-<%--<script src="${ctx}/static/comp/ace/js/date-time/bootstrap-datetimepicker.min.js"></script>--%>
 <script src="${ctx}/static/comp/ace/js/date-time/moment.min.js"></script>
+<script src="${ctx}/static/comp/ace/js/date-time/bootstrap-datepicker.min.js"></script>
 <script src="${ctx}/static/comp/ace/js/date-time/bootstrap-timepicker.min.js"></script>
 <script src="${ctx}/static/comp/ace/js/date-time/daterangepicker.min.js"></script>
-<script src="${ctx}/static/comp/ace/js/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>
+<script src="${ctx}/static/comp/ace/js/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>>
 
 
 
