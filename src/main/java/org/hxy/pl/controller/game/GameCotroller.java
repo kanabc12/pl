@@ -1,11 +1,14 @@
 package org.hxy.pl.controller.game;
 
+import org.hxy.pl.common.Constants;
 import org.hxy.pl.service.bd.LeagueService;
 import org.hxy.pl.service.bd.SeasonService;
 import org.hxy.pl.service.bd.TeamService;
+import org.hxy.pl.service.game.GameService;
 import org.hxy.pl.vo.bd.LeagueVO;
 import org.hxy.pl.vo.bd.SeasonVO;
 import org.hxy.pl.vo.bd.TeamVO;
+import org.hxy.pl.vo.game.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +31,9 @@ public class GameCotroller {
 
     @Autowired
     private TeamService teamService;
+
+    @Autowired
+    private GameService gameService;
 
     @ModelAttribute("leagueList")
     public List<LeagueVO> getAllLeague(){
@@ -53,6 +59,30 @@ public class GameCotroller {
     public List<TeamVO>findTeamsByCountry(@RequestParam(value = "countryId") Long countryId){
         List<TeamVO> teamVOs = teamService.findTeamsByCountryId(countryId);
         return  teamVOs;
+    }
+
+    @RequestMapping(value = "/saveGame",method = RequestMethod.POST)
+    public String saveGameResult(@ModelAttribute("resultVO")ResultVO resultVO,Model model){
+        int result;
+        String resultStr;
+        resultStr = resultVO.getHomeGoals()+":" + resultVO.getCustomGoals();
+        resultVO.setResultStr(resultStr);
+        if(resultVO.getHomeGoals()>resultVO.getCustomGoals()){
+            resultVO.setResultType(1);
+        }else if(resultVO.getHomeGoals()<resultVO.getCustomGoals()){
+            resultVO.setResultType(-1);
+        }else{
+            resultVO.setResultType(0);
+        }
+        resultVO.setHomeSecGoals(resultVO.getHomeGoals()-resultVO.getHomeHalfGoals());
+        resultVO.setCustomSecGoals(resultVO.getCustomGoals()-resultVO.getCustomHalfGoals());
+        result = gameService.saveGameResult(resultVO);
+        if(result == 0){
+            model.addAttribute(Constants.ERROR, "保存失败，请重新填写");
+        }else{
+            model.addAttribute(Constants.MESSAGE,"保存成功");
+        }
+        return "game/addGame";
     }
 
 }

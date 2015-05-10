@@ -1,6 +1,7 @@
 package org.hxy.pl.vo.game;
 
 import org.hxy.pl.vo.BaseVO;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -13,10 +14,15 @@ public class ResultVO extends BaseVO {
     private Integer customTeam;
     private Integer homeGoals;
     private Integer homeHalfGoals;
+    private Integer homeSecGoals;
     private Integer customGoals;
     private Integer customHalfGoals;
+    private Integer customSecGoals;
+    private String resultStr;
     private Integer resultType;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date planDate;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date actualTime;
     private String gameCity;
     private Integer leagueId;
@@ -142,5 +148,29 @@ public class ResultVO extends BaseVO {
 
     public void setGameStatus(Integer gameStatus) {
         this.gameStatus = gameStatus;
+    }
+
+    public String getResultStr() {
+        return resultStr;
+    }
+
+    public void setResultStr(String resultStr) {
+        this.resultStr = resultStr;
+    }
+
+    public Integer getHomeSecGoals() {
+        return homeSecGoals;
+    }
+
+    public void setHomeSecGoals(Integer homeSecGoals) {
+        this.homeSecGoals = homeSecGoals;
+    }
+
+    public Integer getCustomSecGoals() {
+        return customSecGoals;
+    }
+
+    public void setCustomSecGoals(Integer customSecGoals) {
+        this.customSecGoals = customSecGoals;
     }
 }

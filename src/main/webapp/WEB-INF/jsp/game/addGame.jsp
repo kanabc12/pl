@@ -24,22 +24,22 @@
             <div class="row">
                 <div class="col-sm-12">
                     <!-- PAGE CONTENT BEGINS -->
-                    <form class="form-horizontal" role="form" id="form"
-                          action="${ctx}/bd/game/saveGame" method="post">
+                    <form class="form-horizontal" role="form" id="myForm"
+                          action="${ctx}/game/saveGame" method="post">
                         <pl:showMessage/>
                         <div class="form-group">
                             <label class="col-sm-1 control-label no-padding-right"
-                                   for="country"> 所属联赛 </label>
+                                   for="leagueId"> 所属联赛 </label>
 
                             <div class="col-sm-3">
-                                <select class="col-sm-12" id="country" name="country">
+                                <select class="col-sm-12" id="leagueId" name="leagueId">
                                     <c:forEach items="${leagueList}" var="c">
                                         <option value="${c.id}">${c.name}</option>
                                     </c:forEach>
                                 </select>
                             </div>
                             <label class="col-sm-1 control-label no-padding-right"
-                                   for="planDate"> 所属赛季 </label>
+                                   for="seasonId"> 所属赛季 </label>
 
                             <div class="col-sm-3">
                                 <select class="col-sm-12" id="seasonId" name="seasonId">
@@ -49,7 +49,7 @@
                                 </select>
                             </div>
                             <label class="col-sm-1 control-label no-padding-right"
-                                   for="gameDate"> 赛季轮次 </label>
+                                   for="round"> 赛季轮次 </label>
 
                             <div class="col-sm-3">
                                 <select class="col-sm-12" id="round" name="round">
@@ -76,14 +76,14 @@
 
                             <div class="col-sm-3">
                                 <input type="text" id="homeGoals" placeholder="请填写主队进球数"
-                                       class="col-sm-12" name="homeGoals"/>
+                                       class="col-sm-12 validate[required,custom[integer]]" name="homeGoals" />
                             </div>
                             <label class="col-sm-1 control-label no-padding-right"
                                    for="homeHalfGoals"> 半场进球 </label>
 
                             <div class="col-sm-3">
                                 <input type="text" id="homeHalfGoals" placeholder="请填写主队半场进球"
-                                       class="col-sm-12" name="homeHalfGoals"/>
+                                       class="col-sm-12 validate[required,custom[integer]]" name="homeHalfGoals"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -91,7 +91,7 @@
                                 客场球队 </label>
 
                             <div class="col-sm-3">
-                                <select class="col-sm-12" id="customTeam" name="customTeam">
+                                <select class="col-sm-12 validate[funcCall[validCustTeam]]" id="customTeam" name="customTeam">
                                     <c:forEach items="${teamList}" var="c">
                                         <option value="${c.id}">${c.name}</option>
                                     </c:forEach>
@@ -102,14 +102,14 @@
 
                             <div class="col-sm-3">
                                 <input type="text" id="customGoals" placeholder="请填写客队进球数"
-                                       class="col-sm-12" name="customGoals"/>
+                                       class="col-sm-12 validate[required,custom[integer]]" name="customGoals"/>
                             </div>
                             <label class="col-sm-1 control-label no-padding-right"
                                    for="customHalfGoals"> 半场进球 </label>
 
                             <div class="col-sm-3">
                                 <input type="text" id="customHalfGoals" placeholder="请填写客队半场进球"
-                                       class="col-sm-12" name="customHalfGoals"/>
+                                       class="col-sm-12 validate[required,custom[integer]]" name="customHalfGoals"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -118,7 +118,7 @@
 
                             <div class="col-sm-3">
                                 <input type="text" id="gameCity" placeholder="请输入比赛城市名"
-                                       class="col-sm-12" name="gameCity"/>
+                                       class="col-sm-12 validate[required,custom[chinese]]" name="gameCity"/>
                             </div>
                             <label class="col-sm-1 control-label no-padding-right"
                                    for="planDate"> 原定时间 </label>
@@ -126,19 +126,19 @@
                             <div class="col-sm-3">
                                 <div class="col-sm-12 input-group">
                                     <input class="datetime-picker col-xs-12" id="planDate" type="text"
-                                           data-format="yyyy-mm-dd hh:mm:ss" name="planDate"/>
+                                           name="planDate"/>
 																<span class="input-group-addon">
 																	<i class="fa fa-calendar bigger-110"></i>
 																</span>
                                 </div>
                             </div>
                             <label class="col-sm-1 control-label no-padding-right"
-                                   for="gameDate"> 开球时间 </label>
+                                   for="actualTime"> 开球时间 </label>
 
                             <div class="col-sm-3">
                                 <div class="col-sm-12 input-group">
-                                    <input class="datetime-picker col-xs-12" id="gameDate" type="text"
-                                           data-format="yyyy-mm-dd hh:mm:ss" name="gameDate"/>
+                                    <input class="datetime-picker col-xs-12" id="actualTime" type="text"
+                                           data-format="yyyy-mm-dd hh:mm:ss" name="actualTime"/>
 																<span class="input-group-addon">
 																	<i class="fa fa-calendar bigger-110"></i>
 																</span>
@@ -188,10 +188,15 @@
                 }
             });
         });
-        var validationEngine = $("form").validationEngine({
+        $("#myForm").validationEngine({
             promptPosition: "topRight",
             autoPositionUpdate: true,
             scroll: false
         });
     });
+    function validCustTeam(field, rules, i, options){
+        if($("#customTeam").val() ==$("#homeTeam").val()){
+            return options.allrules.customTeam.alertText;
+        }
+    }
 </script>
