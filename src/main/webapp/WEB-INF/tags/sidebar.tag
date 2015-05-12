@@ -265,16 +265,16 @@
         <li class="">
             <a href="${ctx}/game/gameInputInit">
                 <i class="menu-icon fa fa-caret-right"></i>
-                比赛结果录入
+                单场比赛结果录入
             </a>
 
             <b class="arrow"></b>
         </li>
 
         <li class="">
-            <a href="form-wizard.html">
+            <a href="${ctx}/odd/addOdd">
                 <i class="menu-icon fa fa-caret-right"></i>
-                Wizard &amp; Validation
+                赔率信息录入
             </a>
 
             <b class="arrow"></b>

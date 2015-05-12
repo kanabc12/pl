@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -73,6 +74,14 @@ public class GameCotroller {
             resultVO.setResultType(-1);
         }else{
             resultVO.setResultType(0);
+        }
+        Date  currentDate = new Date();
+        if(resultVO.getActualTime() != null){
+            if(currentDate.getTime()>resultVO.getActualTime().getTime()){
+                resultVO.setGameStatus(1);//已赛
+            }else{
+                resultVO.setGameStatus(0);//未赛
+            }
         }
         resultVO.setHomeSecGoals(resultVO.getHomeGoals()-resultVO.getHomeHalfGoals());
         resultVO.setCustomSecGoals(resultVO.getCustomGoals()-resultVO.getCustomHalfGoals());
