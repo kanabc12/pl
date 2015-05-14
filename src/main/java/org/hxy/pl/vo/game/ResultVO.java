@@ -11,7 +11,9 @@ import java.util.Date;
 public class ResultVO extends BaseVO {
     private Integer id;
     private Integer homeTeam;
+    private String homeTeamName;
     private Integer customTeam;
+    private String customTeamName;
     private Integer homeGoals;
     private Integer homeHalfGoals;
     private Integer homeSecGoals;
@@ -26,9 +28,12 @@ public class ResultVO extends BaseVO {
     private Date actualTime;
     private String gameCity;
     private Integer leagueId;
+    private String leagueName;
     private Integer seasonId;
+    private String seasonName;
     private Integer round ;
     private Integer  gameStatus;
+    private Integer oddCounts;
 
     public Integer getId() {
         return id;
@@ -172,5 +177,45 @@ public class ResultVO extends BaseVO {
 
     public void setCustomSecGoals(Integer customSecGoals) {
         this.customSecGoals = customSecGoals;
+    }
+
+    public Integer getOddCounts() {
+        return oddCounts;
+    }
+
+    public void setOddCounts(Integer oddCounts) {
+        this.oddCounts = oddCounts;
+    }
+
+    public String getHomeTeamName() {
+        return homeTeamName;
+    }
+
+    public void setHomeTeamName(String homeTeamName) {
+        this.homeTeamName = homeTeamName;
+    }
+
+    public String getCustomTeamName() {
+        return customTeamName;
+    }
+
+    public void setCustomTeamName(String customTeamName) {
+        this.customTeamName = customTeamName;
+    }
+
+    public String getLeagueName() {
+        return leagueName;
+    }
+
+    public void setLeagueName(String leagueName) {
+        this.leagueName = leagueName;
+    }
+
+    public String getSeasonName() {
+        return seasonName;
+    }
+
+    public void setSeasonName(String seasonName) {
+        this.seasonName = seasonName;
     }
 }
