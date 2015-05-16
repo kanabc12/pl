@@ -1,5 +1,6 @@
 package org.hxy.pl.vo.game;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.hxy.pl.vo.BaseVO;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -25,6 +26,7 @@ public class ResultVO extends BaseVO {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date planDate;
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date actualTime;
     private String gameCity;
     private Integer leagueId;

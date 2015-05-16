@@ -19,6 +19,11 @@
         <result property="seasonId" column="session_id" jdbcType="INTEGER"/>
         <result property="round" column="round" jdbcType="INTEGER"/>
         <result property="gameStatus" column="status" jdbcType="INTEGER"/>
+        <result property="oddCounts" column="oddCounts" javaType="INTEGER"/>
+        <result property="homeTeamName" column="name" jdbcType="VARCHAR"/>
+        <result property="customTeamName" column="name" jdbcType="VARCHAR"/>
+        <result property="leagueName" column="name" jdbcType="VARCHAR"/>
+        <result property="seasonName" column="name" jdbcType="VARCHAR"/>
     </resultMap>
     <insert id="insert" parameterType="org.hxy.pl.vo.game.ResultVO" useGeneratedKeys="true"
             keyProperty="id">
@@ -26,4 +31,44 @@
             #{homeTeam},#{customTeam},#{homeGoals},#{homeHalfGoals},#{homeSecGoals},#{customGoals},#{customHalfGoals},#{customSecGoals},#{resultStr},#{resultType},#{planDate},#{actualTime},#{gameCity},#{leagueId},#{seasonId},#{round},#{gameStatus}
             )
      </insert>
+    <select id="findResultByPageList" parameterType="java.util.Map" resultMap="resultMap">
+        select id,game_time,
+        (select name from fl_season where id = a.season_id) as seasonName,
+        (select name from fl_team  where id = a.ht_id) as homeTeamName ,
+        (select name from fl_team  where id = a.ct_id) as customTeamName ,
+        (select count(*) from fl_odds  where game_id = a.id) as oddCounts,
+        result_str
+        from fl_games  a where a.league_id=#{leagueId}
+        <if test="seasonId !=0">
+            and a.season_id = #{seasonId}
+        </if>
+        <if test="round !=0">
+            and a.round = #{round}
+        </if>
+        <if test="homeTeam !=0">
+            and a.ht_id = #{homeTeam}
+        </if>
+        <if test="customTeam !=0">
+            and a.ct_id = #{customTeam}
+        </if>
+          order by game_time desc
+        <if test="m!=0">
+            limit #{n},#{m}
+        </if>
+    </select>
+    <select id="getResultCount" parameterType="org.hxy.pl.vo.game.ResultVO" resultType="int">
+        select count(*) from fl_games a where a.league_id=#{leagueId}
+        <if test="seasonId !=0">
+            and season_id = #{seasonId}
+        </if>
+        <if test="round !=0">
+            and round = #{round}
+        </if>
+        <if test="homeTeam !=0">
+            and ht_id = #{homeTeam}
+        </if>
+        <if test="customTeam !=0">
+            and ct_id = #{customTeam}
+        </if>
+    </select>
 </mapper>

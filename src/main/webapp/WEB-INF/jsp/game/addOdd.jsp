@@ -137,9 +137,37 @@
         //分页功能
         var options = {
             bootstrapMajorVersion:3,
-            currentPage:2,
+            currentPage:1,
             totalPages:5,
-            numberOfPages:5
+            numberOfPages:10,
+            itemTexts: function (type, page, current) {
+                switch (type) {
+                    case "first":
+                        return "首页";
+                    case "prev":
+                        return "上一页";
+                    case "next":
+                        return "下一页";
+                    case "last":
+                        return "末页";
+                    case "page":
+                        return page;
+                }
+            },
+            tooltipTitles: function (type, page, current) {
+                switch (type) {
+                    case "first":
+                        return "前往首页";
+                    case "prev":
+                        return "前往上一页";
+                    case "next":
+                        return "前往下一页";
+                    case "last":
+                        return "前往末页";
+                    case "page":
+                        return (page === current) ? "当前是第" + page+"页" : "前往第" + page+"页 ";
+                }
+            }
         }
         $('#page1').bootstrapPaginator(options);
         $("#leagueId").change(function () {
@@ -148,9 +176,9 @@
                 data: {"countryId": selectedValue},
                 success: function (data) {
                     $("#homeTeam").html("");
-                    $("#homeTeam").append("<option value=0></option>");
+                    $("#homeTeam").append("<option value=\"0\"></option>");
                     $("#customTeam").html("");
-                    $("#customTeam").append("<option value=0></option>");
+                    $("#customTeam").append("<option value=\"0\"></option>");
                     $.each(data, function (i, item) {
                         $("#homeTeam").append("<option value=" + item.id + ">" + item.name + "</option>");
                         $("#customTeam").append("<option value=" + item.id + ">" + item.name + "</option>");
@@ -165,7 +193,17 @@
         });
         $("#btnQuery").click(function () {
            if( $("#myForm").validationEngine("validate")){
-
+               $.ajax({
+                   url:"${ctx}/odd/queryResult",
+                   type:"post",
+                   dataType: "json",
+                   data:$("#myForm").serialize(),
+                   success:function(data){
+                       if(data !=null){
+                           alert("aaaa");
+                       }
+                   }
+               });
            }
         });
     });
