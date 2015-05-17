@@ -24,20 +24,27 @@
         <result property="customTeamName" column="name" jdbcType="VARCHAR"/>
         <result property="leagueName" column="name" jdbcType="VARCHAR"/>
         <result property="seasonName" column="name" jdbcType="VARCHAR"/>
+        <result property="gameSummarize" column="game_summarize" jdbcType="VARCHAR"/>
+        <result property="resultStr" column="result_str" jdbcType="VARCHAR"/>
     </resultMap>
     <insert id="insert" parameterType="org.hxy.pl.vo.game.ResultVO" useGeneratedKeys="true"
             keyProperty="id">
-            insert into fl_games(ht_id,ct_id,ht_goals,ht_half_goals,ht_sec_goals,ct_goals,ct_half_goals,ct_sec_goals,result_str,result_type,plan_time,game_time,game_city,league_id,season_id,round,status) values(
-            #{homeTeam},#{customTeam},#{homeGoals},#{homeHalfGoals},#{homeSecGoals},#{customGoals},#{customHalfGoals},#{customSecGoals},#{resultStr},#{resultType},#{planDate},#{actualTime},#{gameCity},#{leagueId},#{seasonId},#{round},#{gameStatus}
+            insert into fl_games(ht_id,ct_id,ht_goals,ht_half_goals,ht_sec_goals,ct_goals,ct_half_goals,ct_sec_goals,result_str,result_type,plan_time,game_time,game_city,league_id,season_id,round,status,game_summarize) values(
+            #{homeTeam},#{customTeam},#{homeGoals},#{homeHalfGoals},#{homeSecGoals},#{customGoals},#{customHalfGoals},#{customSecGoals},#{resultStr},#{resultType},#{planDate},#{actualTime},#{gameCity},#{leagueId},#{seasonId},#{round},#{gameStatus},#{gameSummarize}
             )
      </insert>
     <select id="findResultByPageList" parameterType="java.util.Map" resultMap="resultMap">
         select id,game_time,
+        ht_id,
+        ct_id,
         (select name from fl_season where id = a.season_id) as seasonName,
         (select name from fl_team  where id = a.ht_id) as homeTeamName ,
         (select name from fl_team  where id = a.ct_id) as customTeamName ,
+        (select name from fl_league  where id = a.league_id) as leagueName ,
         (select count(*) from fl_odds  where game_id = a.id) as oddCounts,
-        result_str
+        result_str,
+        status,
+        round
         from fl_games  a where a.league_id=#{leagueId}
         <if test="seasonId !=0">
             and a.season_id = #{seasonId}

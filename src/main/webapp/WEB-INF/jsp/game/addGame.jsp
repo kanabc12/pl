@@ -145,6 +145,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label no-padding-right"
+                                   for="leagueId"> 比赛总结 </label>
+
+                            <div class="col-sm-11">
+                                <textarea class="form-control" id="gameSummarize" placeholder="请输入比赛简要总结" name="gameSummarize"></textarea>
+                            </div>
+                        </div>
                         <div class="clearfix form-actions">
                             <div class="col-md-offset-5 col-md-9">
                                 <button class="btn btn-info" type="submit">

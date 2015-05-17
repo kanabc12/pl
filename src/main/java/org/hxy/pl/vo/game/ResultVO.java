@@ -36,6 +36,7 @@ public class ResultVO extends BaseVO {
     private Integer round ;
     private Integer  gameStatus;
     private Integer oddCounts;
+    private String gameSummarize;
 
     public Integer getId() {
         return id;
@@ -219,5 +220,13 @@ public class ResultVO extends BaseVO {
 
     public void setSeasonName(String seasonName) {
         this.seasonName = seasonName;
+    }
+
+    public String getGameSummarize() {
+        return gameSummarize;
+    }
+
+    public void setGameSummarize(String gameSummarize) {
+        this.gameSummarize = gameSummarize;
     }
 }

@@ -18,6 +18,7 @@ window.jQuery || document.write("<script src='${ctx}/static/comp/js/jquery1x.min
 <script src="${ctx}/static/comp/ace/js/excanvas.min.js"></script>
 <![endif]-->
 <script src="${ctx}/static/comp/ace/js/jquery-ui.custom.min.js?1" type="text/javascript"></script>
+<script src="${ctx}/static/comp/ace/js/jquery-ui.min.js?1" type="text/javascript"></script>
 <script src="${ctx}/static/comp/ace/js/jquery.ui.touch-punch.min.js?1" type="text/javascript"></script>
 <script src="${ctx}/static/comp/ace/js/jquery.easypiechart.min.js?1" type="text/javascript"></script>
 <script src="${ctx}/static/comp/ace/js/jquery.sparkline.min.js?1" type="text/javascript"></script>

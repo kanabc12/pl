@@ -73,7 +73,7 @@ public class TeamController {
     public String showTeamPage(@ModelAttribute("teamVO") TeamVO teamVO,@RequestParam(value = "rows") int rows ,@RequestParam(value = "page") int page){
         JqGridData<TeamVO> teamVOJqGridData = teamService.findTeamPageList(teamVO,page,rows);
         teamVOJqGridData.setDateFormat("yyyy-MM-dd");
-        return teamVOJqGridData.getJsonString();
+    return teamVOJqGridData.getJsonString();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getCountry")
