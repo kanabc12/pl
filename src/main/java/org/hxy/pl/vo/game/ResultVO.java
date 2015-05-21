@@ -24,6 +24,7 @@ public class ResultVO extends BaseVO {
     private String resultStr;
     private Integer resultType;
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date planDate;
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @JSONField(format="yyyy-MM-dd HH:mm:ss")

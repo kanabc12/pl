@@ -2,7 +2,6 @@
          pageEncoding="utf-8" %>
 <%@include file="/WEB-INF/jsp/common/taglibs.jspf" %>
 <pl:contentHeader title="足彩统计分析系统"/>
-<%@include file="/WEB-INF/jsp/common/import-datetimepicker-css.jspf" %>
 <pl:navbar/>
 <!-- /section:basics/navbar.layout -->
 <div class="main-container" id="main-container">
@@ -118,7 +117,7 @@
                             <th class="hidden-480">操作</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="gameResult">
                         </tbody>
                     </table>
                 </div>
@@ -126,16 +125,65 @@
                     <ul id="page1"></ul>
                 </div>
                 <div id="dialog-message" class="hide">
-                    <p>
-                        This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.
-                    </p>
+                    <form class="form-horizontal" id="oddForm">
+                        <div>
+                            <label class="control-label no-padding-right" for="addDate">
+                                更新时间 </label>
+                            <input class="datetime-picker input-sm" id="addDate" type="text" style="z-index: 1000;!important"
+                                   data-format="yyyy-mm-dd hh:mm:ss" name="addDate"/>
+                            <label class=" control-label no-padding-right" for="leagueName">
+                                赛事名称 </label>
+                            <input class="input-sm" type="text" name="leagueName" id="leagueName" readonly="true">
+                        </div>
+                        <div  style="margin-top: 30px;">
+                            <label class=" control-label no-padding-right" for="winOdd">
+                                主胜赔率 </label>
+                            <input class="input-sm validate[required,custom[number]]" type="text" placeholder="请输入主胜赔率" id="winOdd" name="winOdd">
+                            <label class=" control-label no-padding-right" for="seasonName">
+                                赛季名称 </label>
+                            <input class="input-sm" type="text" placeholder="请输入主负赔率" id="seasonName" name="seasonName" readonly="true">
+                        </div>
+                        <div style="margin-top: 30px;">
+                            <label class="control-label no-padding-right" for="drawOdd">
+                                主平赔率 </label>
+                            <input class="input-sm validate[required,custom[number]]" type="text" placeholder="请输入主平赔率" id="drawOdd" name="drawOdd">
+                            <label class=" control-label no-padding-right" for="homeTeamName">
+                                主队名称 </label>
+                            <input class="input-sm" type="text" name="homeTeamName" id="homeTeamName" readonly="true">
+                        </div>
+                        <div style="margin-top: 30px;">
+                            <label class=" control-label no-padding-right" for="loseOdd">
+                                主负赔率 </label>
+                            <input class="input-sm validate[required,custom[number]]" type="text" placeholder="请输入主负赔率" id="loseOdd" name="loseOdd">
+                            <label class="control-label no-padding-right" for="customTeamName">
+                                客队名称 </label>
+                            <input class="input-sm" type="text" name="customTeamName" id="customTeamName" readonly="true">
+                        </div>
+                        <div style="margin-top: 30px;">
+                            <label class=" control-label no-padding-right" for="companyId">
+                                博彩公司 </label>
+                            <select id="companyId" name="companyId" style="width: 159px;">
+                                <option value="1">威廉希尔</option>
+                                <option value="2">立博</option>
+                            </select>
+                            <label class=" control-label no-padding-right" for="planDate">
+                                比赛时间 </label>
+                            <input class="input-sm" type="text" placeholder="请输入主负赔率" id="planDate" name="planDate" readonly="true">
+                        </div>
+                        <div style="margin-top: 30px;">
+                            <label class=" control-label no-padding-right" for="companyId">
+                                赔率性质 </label>
+                            <select id="oddType" name="oddType" style="width: 159px;">
+                                <option value="1">初始赔率</option>
+                                <option value="3">瞬时赔率</option>
+                                <option value="2">最终赔率</option>
+                            </select>
+                            <label class=" control-label no-padding-right" for="gameRound">
+                                赛事轮次 </label>
+                            <input class="input-sm" type="text" name="gameRound" id="gameRound" readonly="true">
+                        </div>
+                    </form>
 
-                    <div class="hr hr-12 hr-double"></div>
-
-                    <p>
-                        Currently using
-                        <b>36% of your storage space</b>.
-                    </p>
                 </div>
             </div>
             <!-- /.row -->
@@ -155,6 +203,10 @@
                 else title.text($title);
             }
         }));
+        $('.datetime-picker').datetimepicker({
+            format: "YYYY-MM-DD HH:mm:ss",
+            locale: "zh-cn"
+        });
         $("#leagueId").change(function () {
             var selectedValue = $(this).val();
             $.ajax({type: "post", url: "${ctx}/game/findTeamsByCountry", dataType: "json",
@@ -171,7 +223,7 @@
                 }
             });
         });
-        $("#myForm").validationEngine({
+        $("#oddForm").validationEngine({
             promptPosition: "topRight",
             autoPositionUpdate: true,
             scroll: false
@@ -186,7 +238,7 @@
                     success: function (data) {
                         if (data != null) {
                             var lineNumber = 1;
-                            $("tbody").html("");
+                            $("#gameResult").html("");
                             $.each(data.list, function (index, item) {
                                 reloadTable(item, lineNumber);
                                 lineNumber++;
@@ -236,7 +288,7 @@
                                         success: function (data) {
                                             if (data != null) {
                                                 var lineNumber = 1;
-                                                $("tbody").html("");
+                                                $("#gameResult").html("");
                                                 $.each(data.list, function (index, item) {
                                                     reloadTable(item, lineNumber);
                                                     lineNumber++;
@@ -281,32 +333,102 @@
         } else {
             row.append('<td style="vertical-align: middle;">推迟</td>');
         }
-        row.append('<td ><a href="javascript:void(0)"  class="btn btn-app btn-primary no-radius btn-xs" title="录入赔率" onclick="showOddAdd('+item.id+')"><i class="ace-icon fa fa-plus"></i></a>&nbsp;<a href="javascript:void(0)"  class="btn  btn-app btn-purple no-radius btn-xs" title="查看赔率"><i class="ace-icon fa fa-search"></i><span class="label label-inverse arrowed-in">' + item.oddCounts + '</span></a></td>');
-        $("tbody").append(row);
+        row.append('<td ><a href="javascript:void(0)"  class="btn btn-app btn-primary no-radius btn-xs" title="录入赔率" onclick="showOddAdd('+item.id+')"><i class="ace-icon fa fa-plus"></i></a>&nbsp;<a href="javascript:void(0)"  class="btn  btn-app btn-purple no-radius btn-xs" title="查看赔率"><i class="ace-icon fa fa-search"></i><span class="label label-inverse arrowed-in" id="span'+item.id+'">' + item.oddCounts + '</span></a></td>');
+        $("#gameResult").append(row);
     }
     function showOddAdd(gameId){
-        var dialog = $( "#dialog-message" ).removeClass('hide').dialog({
-            modal: true,
-            height: 330,
-            width:300,
-            title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-plus'></i>添加赔率</h4></div>",
-            title_html: true,
-            buttons: [
-                {
-                    text: "Cancel",
-                    "class" : "btn btn-xs",
-                    click: function() {
-                        $( this ).dialog( "close" );
-                    }
-                },
-                {
-                    text: "OK",
-                    "class" : "btn btn-primary btn-xs",
-                    click: function() {
-                        $( this ).dialog( "close" );
-                    }
+        $.ajax({
+            url: "${ctx}/game/getResultById",
+            type: "post",
+            dataType: "json",
+            data: {
+                gameId:gameId
+            },
+            success:function(data){
+                if(data != null){
+                    fillFormData(data);
+                    var dialog = $( "#dialog-message" ).removeClass('hide').dialog({
+                        modal: true,
+                        height: 470,
+                        width:470,
+                        title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-plus'></i>添加赔率</h4></div>",
+                        title_html: true,
+                        zIndex:10,
+                        close: function(event, ui) {
+                            clearFormData();
+                        },
+                        buttons: [
+                            {
+                                text: "取消",
+                                "class" : "btn btn-xs",
+                                click: function() {
+                                    clearFormData();
+                                    $("#dialog-message").dialog( "close" );
+                                }
+                            },
+                            {
+                                text: "保存",
+                                "class" : "btn btn-primary btn-xs",
+                                click: function() {
+                                    if($("#oddForm").validationEngine("validate")){
+                                        $.ajax({
+                                            url: "${ctx}/odd/saveOdd",
+                                            type: "post",
+                                            dataType: "json",
+                                            data: {
+                                                gemeId:gameId,
+                                                winOdd:$("#winOdd").val(),
+                                                drawOdd:$("#drawOdd").val(),
+                                                loseOdd:$("#loseOdd").val(),
+                                                companyId:$("#companyId").val(),
+                                                addDate:$("#addDate").val(),
+                                                type:$("#oddType").val()
+                                            },
+                                            success:function(data){
+                                                if(data!=null){
+                                                    if(data ==1){
+                                                        var oddCount = $("#span"+gameId).text();
+                                                        var newOddCount = parseInt(oddCount)+1;
+                                                        $("#span"+gameId).text(newOddCount);
+                                                        clearFormData();
+                                                        $("#dialog-message").dialog( "close" );
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        ]
+                    });
                 }
-            ]
+            }
         });
+    }
+    function clearFormData(){
+//        $("#addDate").val("");
+//        $("#leagueName").val("");
+//        $("#gameRound").val("");
+//        $("#winOdd").val("");
+//        $("#homeTeamName").val("");
+//        $("#drawOdd").val("");
+//        $("#customTeamName").val("");
+//        $("#loseOdd").val("");
+//        $("#planDate").val("");
+//        $("#companyId").val("1");
+        $('#oddForm')[0].reset()
+    }
+
+    function fillFormData(data){
+        $("#leagueName").val(data.leagueName);
+        if(typeof(data.round) =="undefined"){
+            $("#gameRound").val("未知");
+        }else{
+            $("#gameRound").val(data.round);
+        }
+        $("#homeTeamName").val(data.homeTeamName);
+        $("#customTeamName").val(data.customTeamName);
+        $("#planDate").val(data.planDate);
+        $("#seasonName").val(data.seasonName);
     }
 </script>

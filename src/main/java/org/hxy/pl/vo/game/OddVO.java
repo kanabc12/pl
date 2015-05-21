@@ -1,6 +1,8 @@
 package org.hxy.pl.vo.game;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.hxy.pl.vo.BaseVO;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -13,6 +15,8 @@ public class OddVO extends BaseVO {
     private Float winOdd;
     private Float drawOdd;
     private Float loseOdd;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date addDate;
     private Integer companyId;
     private int type;

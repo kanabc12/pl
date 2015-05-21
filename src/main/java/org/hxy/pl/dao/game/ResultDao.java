@@ -11,4 +11,5 @@ public interface ResultDao {
     public int saveGameResult(ResultVO resultVO);
     public List<ResultVO>  getResults(ResultVO resultVO,int pageNo,int pageSize);
     public int getResultCount(ResultVO resultVO);
+    public ResultVO getResultById(Integer gameId);
 }

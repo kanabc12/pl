@@ -31,4 +31,8 @@ public class GameService {
         return  pageModel;
     }
 
+    public  ResultVO getResultById(Integer gameId){
+        return resultDao.getResultById(gameId);
+    }
+
 }

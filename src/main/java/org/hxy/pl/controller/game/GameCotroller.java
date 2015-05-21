@@ -94,4 +94,11 @@ public class GameCotroller {
         return "game/addGame";
     }
 
+    @RequestMapping(value = "/getResultById",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultVO getResultById(@RequestParam("gameId")Integer gameId){
+        ResultVO resultVO = gameService.getResultById(gameId);
+        return  resultVO;
+    }
+
 }

@@ -5,6 +5,7 @@
 <link type="text/css" href="${ctx}/static/comp/ace/css/ace-fonts.css?1" rel="stylesheet"/>
 <link type="text/css" href="${ctx}/static/comp/ace/css/jquery-ui.min.css?1" rel="stylesheet"/>
 <link rel="stylesheet" href="${ctx}/static/comp/ace/css/ui.jqgrid.css?1">
+<link rel="stylesheet" href="${ctx}/static/comp/ace/css/bootstrap-datetimepicker.css?1">
 <link type="text/css" href="${ctx}/static/comp/ace/css/ace.min.css?1" rel="stylesheet"/>
 <!--[if lte IE 9]>
 <link rel="stylesheet" href="${ctx}/static/comp/ace/css/ace-part2.min.css" />

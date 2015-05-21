@@ -35,4 +35,9 @@ public class ResultDaoImpl extends BaseDao<ResultVO> implements ResultDao {
     public int getResultCount(ResultVO resultVO) {
         return (Integer)selectOne("getResultCount",resultVO);
     }
+
+    @Override
+    public ResultVO getResultById(Integer gameId) {
+        return (ResultVO)selectOne(generateStatement("getResultById"),gameId);
+    }
 }

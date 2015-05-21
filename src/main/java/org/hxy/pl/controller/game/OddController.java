@@ -4,10 +4,12 @@ import org.hxy.pl.service.bd.LeagueService;
 import org.hxy.pl.service.bd.SeasonService;
 import org.hxy.pl.service.bd.TeamService;
 import org.hxy.pl.service.game.GameService;
+import org.hxy.pl.service.game.OddService;
 import org.hxy.pl.vo.bd.LeagueVO;
 import org.hxy.pl.vo.bd.SeasonVO;
 import org.hxy.pl.vo.bd.TeamVO;
 import org.hxy.pl.vo.common.PageModel;
+import org.hxy.pl.vo.game.OddVO;
 import org.hxy.pl.vo.game.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,8 @@ public class OddController {
     private TeamService teamService;
     @Autowired
     private GameService gameService;
+    @Autowired
+    private OddService oddService;
 
     @RequestMapping("/addOdd")
     public String showAddOdd(Model model) {
@@ -48,5 +52,10 @@ public class OddController {
     public PageModel queryResult(@ModelAttribute("resultVO") ResultVO resultVO, @RequestParam(value = "page", defaultValue = "1") int pageNO, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         PageModel pageModel = gameService.findResultsPageList(resultVO, pageNO, pageSize);
         return pageModel;
+    }
+    @RequestMapping(value = "/saveOdd",method = RequestMethod.POST)
+    @ResponseBody
+    public int saveOdd(@ModelAttribute("oddVO")OddVO oddVO){
+        return oddService.saveOdd(oddVO);
     }
 }

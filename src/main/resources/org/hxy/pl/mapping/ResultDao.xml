@@ -78,4 +78,14 @@
             and ct_id = #{customTeam}
         </if>
     </select>
+    <select id="getResultById" parameterType="java.lang.Integer" resultType="org.hxy.pl.vo.game.ResultVO">
+         select id,
+        (select name from fl_season where id = a.season_id) as seasonName,
+        (select name from fl_team  where id = a.ht_id) as homeTeamName ,
+        (select name from fl_team  where id = a.ct_id) as customTeamName ,
+        (select name from fl_league  where id = a.league_id) as leagueName ,
+        round,
+        plan_time as planDate
+        from fl_games a  where id = #{gameId}
+    </select>
 </mapper>
