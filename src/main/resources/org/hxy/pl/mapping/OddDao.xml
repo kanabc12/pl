@@ -17,4 +17,8 @@
             #{gemeId},#{winOdd},#{drawOdd},#{loseOdd},#{addDate},#{type},#{companyId}
             )
      </insert>
+
+    <select id="getOddsByGameAndCompany" parameterType="java.util.Map" resultMap="oddMap">
+        select * from  fl_odds where game_id = #{gameId} and odd_company = #{companyId}
+    </select>
  </mapper>

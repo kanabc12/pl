@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 15-5-12.
@@ -58,4 +59,12 @@ public class OddController {
     public int saveOdd(@ModelAttribute("oddVO")OddVO oddVO){
         return oddService.saveOdd(oddVO);
     }
+
+    @RequestMapping(value = "/getOddsByGameId", method = RequestMethod.POST)
+    @ResponseBody
+    public Map getOddsByGameId(@RequestParam(value = "gameId") Integer gameId){
+        Map<String,List<OddVO>> resultMap = oddService.getOddsByGameId(gameId);
+        return resultMap;
+    }
+
 }
