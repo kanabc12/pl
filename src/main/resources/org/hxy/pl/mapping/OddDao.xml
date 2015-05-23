@@ -19,6 +19,6 @@
      </insert>
 
     <select id="getOddsByGameAndCompany" parameterType="java.util.Map" resultMap="oddMap">
-        select * from  fl_odds where game_id = #{gameId} and odd_company = #{companyId}
+        select * from  fl_odds where game_id = #{gameId} and odd_company = #{companyId}  order by odd_time desc
     </select>
  </mapper>

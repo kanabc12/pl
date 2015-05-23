@@ -130,7 +130,7 @@
             <label class="control-label no-padding-right" for="addDate">
                 更新时间 </label>
             <input class="datetime-picker input-sm" id="addDate" type="text" style="z-index: 1000;!important"
-                   data-format="yyyy-mm-dd hh:mm:ss" name="addDate"/>
+                   data-format="yyyy-mm-dd hh:mm:00" name="addDate"/>
             <label class=" control-label no-padding-right" for="leagueName">
                 赛事名称 </label>
             <input class="input-sm" type="text" name="leagueName" id="leagueName" readonly="true">
@@ -514,7 +514,7 @@ function showGameOdd(gameId) {
                     fillOddResult(data.wOdds[i],wOddObj,i+1);
                 }
                 for(var i=0;i<data.lOdds.length;i++){
-                    fillOddResult(data.wOdds[i],lOddObj,i+1);
+                    fillOddResult(data.lOdds[i],lOddObj,i+1);
                 }
                 var dialog = $("#oddResult").removeClass('hide').dialog({
                     modal: true,
