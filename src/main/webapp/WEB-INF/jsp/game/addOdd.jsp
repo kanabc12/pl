@@ -394,7 +394,11 @@ function reloadTable(item, lineNumber) {
     row.append('<td style="vertical-align: middle;">' + item.seasonName + '</td>');
     row.append('<td style="vertical-align: middle;">' + item.leagueName + '</td>');
     row.append('<td style="vertical-align: middle;"><a href = "${ctx}/bd/team/showTeam?teamId=' + item.homeTeam + '">' + item.homeTeamName + '</a></td>');
-    row.append('<td style="vertical-align: middle;">' + item.resultStr + '</td>');
+    if (typeof(item.resultStr) == "undefined") {
+        row.append('<td style="vertical-align: middle;">未赛</td>');
+    }else{
+        row.append('<td style="vertical-align: middle;">' + item.resultStr + '</td>');
+    }
     row.append('<td style="vertical-align: middle;"><a href = "${ctx}/bd/team/showTeam?teamId=' + item.customTeam + '">' + item.customTeamName + '</a></td>');
     if (typeof(item.round) == "undefined") {
         row.append('<td style="vertical-align: middle;">未知</td>');
