@@ -66,5 +66,9 @@ public class OddController {
         Map<String,List<OddVO>> resultMap = oddService.getOddsByGameId(gameId);
         return resultMap;
     }
+    @RequestMapping(value = "/showOdd", method = RequestMethod.GET)
+    public String showOdd(){
+        return "game/showOdd";
+    }
 
 }

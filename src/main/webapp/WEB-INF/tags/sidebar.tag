@@ -301,6 +301,55 @@
 </li>
 
 <li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon fa  fa-folder"></i>
+        <span class="menu-text"> 统计分析 </span>
+
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+
+    <b class="arrow"></b>
+
+    <ul class="submenu">
+        <li class="">
+            <a href="${ctx}/analyse/team/show">
+                <i class="menu-icon fa fa-caret-right"></i>
+                球队基本数据分析
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="${ctx}/odd/addOdd">
+                <i class="menu-icon fa fa-caret-right"></i>
+                赔率信息录入
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="wysiwyg.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                Wysiwyg &amp; Markdown
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="dropzone.html">
+                <i class="menu-icon fa fa-caret-right"></i>
+                Dropzone File Upload
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+    </ul>
+</li>
+
+<li class="">
     <a href="widgets.html">
         <i class="menu-icon fa fa-list-alt"></i>
         <span class="menu-text"> Widgets </span>
