@@ -59,4 +59,17 @@ public class TeamDaoImpl extends BaseDao<TeamVO> implements TeamDao {
         return super.findList(generateStatement("findTeamByCountryId"),countryId);
     }
 
+    @Override
+    public TeamVO countWDFBySeason(TeamVO teamVO, Long seasonId) {
+        Map<String, Object> map = new HashMap<String,Object>();
+        map.put("teamId",teamVO.getId());
+        map.put("seasonId",seasonId);
+        return (TeamVO)super.selectOne(generateStatement("countWDFBySeason"),map);
+    }
+
+    @Override
+    public TeamVO selectTeamByName(String teamName) {
+        return (TeamVO)super.selectOne(generateStatement("selectTeamByName"),teamName);
+    }
+
 }

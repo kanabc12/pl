@@ -27,6 +27,24 @@
                         <div class="col-sm-3">
                             <div id="tree1"></div>
                         </div>
+                        <div class="col-sm-9 hide" id="rightArea">
+                            <div class="row">
+                                <label class="col-sm-1 control-label no-padding-right"
+                                       for="seasonId"> 所属赛季 </label>
+                                <div class="col-sm-3">
+                                    <select class="col-sm-12" id="seasonId" name="seasonId">
+                                        <c:forEach items="${seasonList}" var="c">
+                                            <option value="${c.id}">${c.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="col-sm-5">
+                                    <div  id="teamWDF" style="height:600px;"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -36,16 +54,23 @@
 </div>
 </div>
 <pl:contentFooter/>
-<%@include file="/WEB-INF/jsp/common/import-echarts-js.jspf" %>
+<%@include file="/WEB-INF/jsp/common/import-echarts-all-js.jspf" %>
 <%@include file="/WEB-INF/jsp/common/import-tree-js.jspf" %>
 <script type="text/javascript">
+    var teamWDFPie = echarts.init(document.getElementById("teamWDF"));
     jQuery(function ($) {
         $('#tree1').treeview({
             data: getTree("${ctx}/analyse/team/getTreeData"),
             showTags:true,
             onNodeSelected:function(event, data) {
-                console.log(data);
+                $("#rightArea").removeClass("hide");
+                loadPie(data.text,$("#seasonId").val());
             }
+        });
+        $("#seasonId").change(function(){
+            var seasonId = $(this).children('option:selected').val();
+            var nodeText =  $('#tree1').treeview('getSelected')[0].text;
+            loadPie(nodeText,seasonId);
         });
     });
     function getTree(url) {
@@ -66,5 +91,24 @@
         });
         return retdata;
     }
-    ;
+    //查询
+    function loadPie(text,seasonId) {
+        teamWDFPie.clear();
+        teamWDFPie.showLoading({text: '正在努力的读取数据中...'});
+        $.ajax({
+            url:"${ctx}/analyse/team/getTeamWDF",
+            data:{
+                seasonId:seasonId,
+                teamName:text
+            },
+            type: 'POST',
+            dataType: 'json',
+            success:function(data){
+                if(data!= null){
+                    teamWDFPie.setOption(data, true);
+                    teamWDFPie.hideLoading();
+                }
+            }
+        });
+    }
 </script>

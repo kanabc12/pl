@@ -1,5 +1,10 @@
 package org.hxy.pl.service.bd;
 
+import com.github.abel533.echarts.Option;
+import com.github.abel533.echarts.Title;
+import com.github.abel533.echarts.code.X;
+import com.github.abel533.echarts.data.PieData;
+import com.github.abel533.echarts.series.Pie;
 import org.hxy.pl.dao.bd.TeamDao;
 import org.hxy.pl.vo.bd.TeamVO;
 import org.hxy.pl.vo.common.JqGridData;
@@ -40,6 +45,28 @@ public class TeamService {
 
     public List<TeamVO> findTeamsByCountryId(Long countryId){
         return  teamDao.findTeamByCountry(countryId);
+    }
+
+    public Option countTeamWDF(Long seasonId,String teamName){
+        TeamVO teamVO =  teamDao.selectTeamByName(teamName);
+        TeamVO countTeam =  teamDao.countWDFBySeason(teamVO,seasonId);
+        Option option = new Option();
+        Title title = new Title();
+        if(countTeam !=null){
+            title.setText(countTeam.getName());
+            title.setX(X.center);
+            option.setTitle(title);
+            Pie pie = new Pie("场");
+            pie.data(new PieData("主场胜",countTeam.getHomeWin()));
+            pie.data(new PieData("主场平",countTeam.getHomeDraw()));
+            pie.data(new PieData("主场负",countTeam.getHomeLose()));
+            pie.data(new PieData("客场胜",countTeam.getCustomWin()));
+            pie.data(new PieData("客场平",countTeam.getCustomDraw()));
+            pie.data(new PieData("客场负",countTeam.getCustomLose()));
+            pie.center(900,380).radius(100);
+            option.series(pie);
+        }
+        return  option;
     }
 
 }

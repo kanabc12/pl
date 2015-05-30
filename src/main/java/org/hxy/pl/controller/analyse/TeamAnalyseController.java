@@ -1,17 +1,17 @@
 package org.hxy.pl.controller.analyse;
 
+import com.github.abel533.echarts.Option;
 import org.hxy.pl.service.bd.CountryService;
+import org.hxy.pl.service.bd.SeasonService;
 import org.hxy.pl.service.bd.TeamService;
 import org.hxy.pl.vo.bd.CountryVO;
+import org.hxy.pl.vo.bd.SeasonVO;
 import org.hxy.pl.vo.bd.TeamVO;
 import org.hxy.pl.vo.tree.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +26,18 @@ public class TeamAnalyseController {
     private TeamService teamService;
     @Autowired
     private CountryService countryService;
+
+    @Autowired
+    private SeasonService seasonService;
+
     @RequestMapping("/show")
     public String showTeamAnalysePage(){
         return "analyse/teamAnalyse";
+    }
+
+    @ModelAttribute("seasonList")
+    public List<SeasonVO> getAllSeason(){
+        return seasonService.findAllSeason();
     }
 
     @RequestMapping(value = "/getTreeData",method = RequestMethod.POST)
@@ -62,9 +71,15 @@ public class TeamAnalyseController {
             vo.setData( voItemList );
         }else{
             List<TeamVO> teamVOs = teamService.findTeamsByCountryId(countryId);
-
         }
         return  vo;
+    }
+
+    @RequestMapping(value = "/getTeamWDF",method = RequestMethod.POST)
+    @ResponseBody
+    public Option getTeamWDF(@RequestParam(value = "seasonId")Long seasonId,@RequestParam(value = "teamName") String teamName){
+        Option option = teamService.countTeamWDF(seasonId,teamName);
+        return  option;
     }
 
 }

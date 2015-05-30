@@ -16,6 +16,14 @@ public class TeamVO {
 	private Date buildDate;
 	private Long type;
     private String contryName;
+
+    private int homeWin;
+    private int homeDraw;
+    private int homeLose;
+    private int customWin;
+    private int customDraw;
+    private int customLose;
+
     public String getContryName() {
         return contryName;
     }
@@ -78,5 +86,53 @@ public class TeamVO {
 
     public void setNameEn(String nameEn) {
         this.nameEn = nameEn;
+    }
+
+    public int getHomeWin() {
+        return homeWin;
+    }
+
+    public void setHomeWin(int homeWin) {
+        this.homeWin = homeWin;
+    }
+
+    public int getHomeDraw() {
+        return homeDraw;
+    }
+
+    public void setHomeDraw(int homeDraw) {
+        this.homeDraw = homeDraw;
+    }
+
+    public int getHomeLose() {
+        return homeLose;
+    }
+
+    public void setHomeLose(int homeLose) {
+        this.homeLose = homeLose;
+    }
+
+    public int getCustomWin() {
+        return customWin;
+    }
+
+    public void setCustomWin(int customWin) {
+        this.customWin = customWin;
+    }
+
+    public int getCustomDraw() {
+        return customDraw;
+    }
+
+    public void setCustomDraw(int customDraw) {
+        this.customDraw = customDraw;
+    }
+
+    public int getCustomLose() {
+        return customLose;
+    }
+
+    public void setCustomLose(int customLose) {
+        this.customLose = customLose;
     }
 }

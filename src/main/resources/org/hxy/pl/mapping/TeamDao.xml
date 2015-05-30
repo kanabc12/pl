@@ -98,4 +98,24 @@
     <select id="findTeamByCountryId" parameterType="java.lang.Long"  resultMap="teamMap">
         select * from fl_team where country_id = #{countryId}
     </select>
+
+    <select id="countWDFBySeason" parameterType="java.util.Map"  resultType="org.hxy.pl.vo.bd.TeamVO">
+        select ht_id as id,
+                  name,
+                  homeWin,
+                  homeDraw,
+                  homeLose,
+                  customLose,
+                  customDraw,
+                  customWin
+                  from
+                  (select ht_id, sum(case when result_type = 1 then 1 else 0 end) as homeWin, sum(case when result_type=0 then 1 else 0 end ) as homeDraw, sum(case when result_type = -1 then 1 else 0 end)  as homeLose from fl_games where ht_id =#{teamId} and season_id = #{seasonId}  group by ht_id) a ,
+                  (select ct_id, sum(case when result_type = 1 then 1 else 0 end) customLose, sum(case when result_type=0 then 1 else 0 end ) customDraw, sum(case when result_type = -1 then 1 else 0 end)  as customWin from fl_games where ct_id =#{teamId} and season_id = #{seasonId}  group by ct_id) b,
+                  fl_team c
+                   where a.ht_id = b.ct_id and a.ht_id =  c.id ;
+    </select>
+
+    <select id="selectTeamByName" parameterType="java.lang.String" resultType="org.hxy.pl.vo.bd.TeamVO">
+        select * from fl_team where name = #{teamName}
+    </select>
 </mapper>
