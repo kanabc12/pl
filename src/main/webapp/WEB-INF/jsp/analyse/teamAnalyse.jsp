@@ -77,8 +77,10 @@
             data: getTree("${ctx}/analyse/team/getTreeData"),
             showTags: true,
             onNodeSelected: function (event, data) {
-                $("#rightArea").removeClass("hide");
-                loadPie(data.text, $("#seasonId").val());
+                if(data.nodes.length==0&& typeof(data.parentId) !="undefined"){
+                    $("#rightArea").removeClass("hide");
+                    loadPie(data.text, $("#seasonId").val());
+                }
             }
         });
         $("#seasonId").change(function () {

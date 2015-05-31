@@ -1,14 +1,14 @@
 package org.hxy.pl.service.bd;
 
-import com.github.abel533.echarts.Legend;
-import com.github.abel533.echarts.Option;
-import com.github.abel533.echarts.Title;
-import com.github.abel533.echarts.Tooltip;
+import com.github.abel533.echarts.*;
 import com.github.abel533.echarts.code.Orient;
 import com.github.abel533.echarts.code.Trigger;
 import com.github.abel533.echarts.code.X;
 import com.github.abel533.echarts.data.PieData;
 import com.github.abel533.echarts.series.Pie;
+import com.github.abel533.echarts.style.ItemStyle;
+import com.github.abel533.echarts.style.TextStyle;
+import com.github.abel533.echarts.style.itemstyle.Normal;
 import com.google.common.collect.Lists;
 import org.hxy.pl.dao.bd.TeamDao;
 import org.hxy.pl.vo.bd.TeamVO;
@@ -79,6 +79,11 @@ public class TeamService {
             pie.data(new PieData("客场胜",countTeam.getCustomWin()));
             pie.data(new PieData("客场平",countTeam.getCustomDraw()));
             pie.data(new PieData("客场负",countTeam.getCustomLose()));
+//            pie.radius(new String[]{"50%", "70%"});
+//            ItemStyle itemStyle = new ItemStyle();
+//            itemStyle.normal().label(new Label().show(false)).labelLine().show(false);
+//            itemStyle.emphasis().label().show(true).position("center").textStyle(new TextStyle().fontSize(30).fontFamily("bold"));
+//            pie.itemStyle(itemStyle);
             option.series(pie);
         }
         return  option;
