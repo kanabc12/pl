@@ -34,46 +34,21 @@
 <%@include file="/WEB-INF/jsp/common/import-echarts-js.jspf" %>
 <script type="text/javascript">
     require.config({
-        paths:{
-            echarts:"${ctx}/static/comp/echarts"
+        paths: {
+            echarts: "${ctx}/static/comp/echarts"
         }
     });
     // 使用
     require(
             [
                 'echarts',
-                'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
             ],
             function (ec) {
                 // 基于准备好的dom，初始化echarts图表
                 var myChart = ec.init(document.getElementById('main'));
 
-                var option = {
-                    tooltip: {
-                        show: true
-                    },
-                    legend: {
-                        data:['销量']
-                    },
-                    xAxis : [
-                        {
-                            type : 'category',
-                            data : ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-                        }
-                    ],
-                    yAxis : [
-                        {
-                            type : 'value'
-                        }
-                    ],
-                    series : [
-                        {
-                            "name":"销量",
-                            "type":"bar",
-                            "data":[5, 20, 40, 10, 10, 20]
-                        }
-                    ]
-                };
+                var option = {"legend":{"data":["主场胜","主场平","主场负","客场胜","客场平","客场负"],"orient":"vertical","x":"left"},"series":[{"data":[{"name":"主场胜","value":5},{"name":"主场平","value":3},{"name":"主场负","value":1},{"name":"客场胜","value":6},{"name":"客场平","value":2},{"name":"客场负","value":2}],"name":"场次","type":"pie"}],"title":{"text":"切尔西","x":"center"},"tooltip":{"formatter":"{a} <br/>{b} : {c} ({d}%)","trigger":"item"}};
 
                 // 为echarts对象加载数据
                 myChart.setOption(option);

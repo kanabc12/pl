@@ -27,10 +27,11 @@
                         <div class="col-sm-3">
                             <div id="tree1"></div>
                         </div>
-                        <div class="col-sm-9 hide" id="rightArea">
+                        <div class="col-sm-9" id="rightArea">
                             <div class="row">
                                 <label class="col-sm-1 control-label no-padding-right"
                                        for="seasonId"> 所属赛季 </label>
+
                                 <div class="col-sm-3">
                                     <select class="col-sm-12" id="seasonId" name="seasonId">
                                         <c:forEach items="${seasonList}" var="c">
@@ -40,8 +41,8 @@
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 10px;">
-                                <div class="col-sm-5">
-                                    <div  id="teamWDF" style="height:600px;"></div>
+                                <div class="col-sm-12">
+                                    <div id="teamWDF" style="height:400px;"></div>
                                 </div>
                             </div>
                         </div>
@@ -54,23 +55,36 @@
 </div>
 </div>
 <pl:contentFooter/>
-<%@include file="/WEB-INF/jsp/common/import-echarts-all-js.jspf" %>
+<%@include file="/WEB-INF/jsp/common/import-echarts-js.jspf" %>
 <%@include file="/WEB-INF/jsp/common/import-tree-js.jspf" %>
 <script type="text/javascript">
-    var teamWDFPie = echarts.init(document.getElementById("teamWDF"));
+    var teamWDFPie;
+    var eCharts;
+    require.config({
+        paths: {
+            'echarts': "${ctx}/static/comp/echarts",
+            'echarts/chart/pie':"${ctx}/static/comp/echarts/chart/pie"
+        }
+    });
+    require(
+            [
+                'echarts',
+                'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+            ],drawPie
+    );
     jQuery(function ($) {
         $('#tree1').treeview({
             data: getTree("${ctx}/analyse/team/getTreeData"),
-            showTags:true,
-            onNodeSelected:function(event, data) {
+            showTags: true,
+            onNodeSelected: function (event, data) {
                 $("#rightArea").removeClass("hide");
-                loadPie(data.text,$("#seasonId").val());
+                loadPie(data.text, $("#seasonId").val());
             }
         });
-        $("#seasonId").change(function(){
+        $("#seasonId").change(function () {
             var seasonId = $(this).children('option:selected').val();
-            var nodeText =  $('#tree1').treeview('getSelected')[0].text;
-            loadPie(nodeText,seasonId);
+            var nodeText = $('#tree1').treeview('getSelected')[0].text;
+            loadPie(nodeText, seasonId);
         });
     });
     function getTree(url) {
@@ -92,23 +106,85 @@
         return retdata;
     }
     //查询
-    function loadPie(text,seasonId) {
+    function loadPie(text, seasonId) {
         teamWDFPie.clear();
-        teamWDFPie.showLoading({text: '正在努力的读取数据中...'});
+        teamWDFPie.showLoading({text: '正在努力的读取数据中1...'});
         $.ajax({
-            url:"${ctx}/analyse/team/getTeamWDF",
-            data:{
-                seasonId:seasonId,
-                teamName:text
+            url: "${ctx}/analyse/team/getTeamWDF",
+            data: {
+                seasonId: seasonId,
+                teamName: text
             },
             type: 'POST',
             dataType: 'json',
-            success:function(data){
-                if(data!= null){
-                    teamWDFPie.setOption(data, true);
+            success: function (data) {
+                if (data != null) {
+                    teamWDFPie.setOption(data,true);
                     teamWDFPie.hideLoading();
                 }
             }
         });
+    }
+    function drawPie(ec){
+        eCharts = ec;
+        teamWDFPie = eCharts.init(document.getElementById('teamWDF'));
+        teamWDFPie.clear();
+        teamWDFPie.showLoading({text: '正在努力的读取数据中...'});
+        var option ={
+            "legend": {
+                "data": [
+                    "主场胜",
+                    "主场平",
+                    "主场负",
+                    "客场胜",
+                    "客场平",
+                    "客场负"
+                ],
+                "orient": "vertical",
+                "x": "left"
+            },
+            "series": [
+                {
+                    "data": [
+                        {
+                            "name": "主场胜",
+                            "value": 12
+                        },
+                        {
+                            "name": "主场平",
+                            "value": 3
+                        },
+                        {
+                            "name": "主场负",
+                            "value": 4
+                        },
+                        {
+                            "name": "客场胜",
+                            "value": 6
+                        },
+                        {
+                            "name": "客场平",
+                            "value": 7
+                        },
+                        {
+                            "name": "客场负",
+                            "value": 6
+                        }
+                    ],
+                    "name": "场次",
+                    "type": "pie"
+                }
+            ],
+            "title": {
+                "text": "切尔西",
+                "x": "center"
+            },
+            "tooltip": {
+                "formatter": "{a} <br/>{b} : {c} ({d}%)",
+                "trigger": "item"
+            }
+        };
+        teamWDFPie.setOption(option); //先把可选项注入myChart中
+        teamWDFPie.hideLoading();
     }
 </script>
