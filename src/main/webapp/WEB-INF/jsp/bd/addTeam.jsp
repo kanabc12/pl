@@ -2,7 +2,7 @@
          pageEncoding="utf-8" %>
 <%@include file="/WEB-INF/jsp/common/taglibs.jspf" %>
 <pl:contentHeader title="足彩统计分析系统"/>
-<%@include file="/WEB-INF/jsp/common/import-datetime-css.jspf" %>
+<%@include file="/WEB-INF/jsp/common/import-datetimepicker-css.jspf" %>
 <pl:navbar/>
 <!-- /section:basics/navbar.layout -->
 <div class="main-container" id="main-container">
@@ -81,7 +81,7 @@
                             <div class="col-sm-9">
                                 <div class="col-xs-10 col-sm-5 input-group">
                                     <input class="date-picker col-xs-12" id="buildDate" type="text"
-                                           data-date-format="yyyy-mm-dd" name="buildDate"/>
+                                           name="buildDate"/>
 																<span class="input-group-addon">
 																	<i class="fa fa-calendar bigger-110"></i>
 																</span>
@@ -139,13 +139,12 @@
     </div>
 </div>
 <pl:contentFooter/>
-<%@include file="/WEB-INF/jsp/common/import-datetime-js.jspf" %>
+<%@include file="/WEB-INF/jsp/common/import-datetimepicker-js.jspf" %>
 <script type="text/javascript">
     jQuery(function ($) {
-        $('.date-picker').datepicker({
-            autoclose: true,
-            todayHighlight: true,
-            language: "zh-CN"
+        $('.date-picker').datetimepicker({
+            format: "YYYY-MM-DD",
+            locale: "zh-cn"
         });
         $('#logo').ace_file_input({
             no_file: '请上传队徽 ...',

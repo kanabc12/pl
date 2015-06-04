@@ -2,6 +2,7 @@
          pageEncoding="utf-8" %>
 <%@include file="/WEB-INF/jsp/common/taglibs.jspf" %>
 <pl:contentHeader title="足彩统计分析系统"/>
+<%@include file="/WEB-INF/jsp/common/import-datetimepicker-css.jspf" %>
 <pl:navbar/>
 <!-- /section:basics/navbar.layout -->
 <div class="main-container" id="main-container">
@@ -428,8 +429,8 @@ function showOddAdd(gameId) {
                 fillFormData(data);
                 var dialog = $("#dialog-message").removeClass('hide').dialog({
                     modal: true,
-                    height: 470,
-                    width: 470,
+                    height: 480,
+                    width: 490,
                     title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-plus'></i>添加赔率</h4></div>",
                     title_html: true,
                     zIndex: 10,

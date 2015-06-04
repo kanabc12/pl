@@ -1,1 +1,1 @@
-<link rel="stylesheet" href="${ctx}/static/comp/ace/css/bootstrap-datetimepicker.css?1">
+<link rel="stylesheet" href="${ctx}/static/comp/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css?1">

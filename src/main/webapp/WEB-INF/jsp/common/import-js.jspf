@@ -31,8 +31,8 @@ window.jQuery || document.write("<script src='${ctx}/static/comp/js/jquery1x.min
 <script src="${ctx}/static/comp/ace/js/flot/jquery.flot.pie.min.js"></script>
 <script src="${ctx}/static/comp/ace/js/flot/jquery.flot.resize.min.js"></script>
 <!-- ace scripts -->
+<script src="${ctx}/static/comp/ace/js/ace-extra.min.js?1" type="text/javascript"></script>
 <script src="${ctx}/static/comp/ace/js/ace.min.js"></script>
 <script src="${ctx}/static/comp/ace/js/ace-elements.min.js"></script>
-<script src="${ctx}/static/comp/ace/js/ace-extra.min.js?1" type="text/javascript"></script>
 <script src="${ctx}/static/js/application.js?1" type="text/javascript"></script>
 
