@@ -40,9 +40,37 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row" style="margin-top: 10px;">
-                                <div class="col-sm-12">
-                                    <div id="teamWDF" style="height:400px;"></div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+                                    <div class="widget-box ui-sortable-handle">
+                                        <div class="widget-header">
+                                            <h5 class="widget-title">球队胜平负分析</h5>
+
+                                            <!-- #section:custom/widget-box.toolbar -->
+                                            <div class="widget-toolbar">
+                                                <a href="#" data-action="fullscreen" class="orange2">
+                                                    <i class="ace-icon fa fa-expand"></i>
+                                                </a>
+
+                                                <a href="#" data-action="reload">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                </a>
+
+                                                <a href="#" data-action="collapse">
+                                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                                </a>
+
+                                                <a href="#" data-action="close">
+                                                    <i class="ace-icon fa fa-times"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="widget-body">
+                                            <div class="widget-main">
+                                                <div id="teamWDF" style="height:400px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
