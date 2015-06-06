@@ -1,12 +1,17 @@
 package org.hxy.pl.controller.analyse;
 
+import com.alibaba.fastjson.JSON;
 import com.github.abel533.echarts.Option;
+import com.github.abel533.echarts.json.FastJsonUtil;
+import com.github.abel533.echarts.json.FsonOption;
 import org.hxy.pl.service.bd.CountryService;
 import org.hxy.pl.service.bd.SeasonService;
 import org.hxy.pl.service.bd.TeamService;
+import org.hxy.pl.service.game.GameService;
 import org.hxy.pl.vo.bd.CountryVO;
 import org.hxy.pl.vo.bd.SeasonVO;
 import org.hxy.pl.vo.bd.TeamVO;
+import org.hxy.pl.vo.game.ResultVO;
 import org.hxy.pl.vo.tree.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +31,9 @@ public class TeamAnalyseController {
     private TeamService teamService;
     @Autowired
     private CountryService countryService;
+
+    @Autowired
+    private GameService gameService;
 
     @Autowired
     private SeasonService seasonService;
@@ -81,5 +89,19 @@ public class TeamAnalyseController {
         Option option = teamService.countTeamWDF(seasonId,teamName);
         return  option;
     }
+
+    @RequestMapping(value = "/getTeamWDFAndYM",method = RequestMethod.POST)
+    @ResponseBody
+    public Object getTeamWDFAndYM(@RequestParam(value = "seasonId")Long seasonId,@RequestParam(value = "teamName") String teamName){
+        Option option = teamService.countWDFBySeasonAndYM(seasonId,teamName);
+        Object object = JSON.toJSON(option);
+        return  object;
+    }
+    @RequestMapping(value = "/getTeamWDFDetail",method = RequestMethod.POST)
+    @ResponseBody
+    public List<ResultVO> getResultsByTeam(@RequestParam(value = "resultType")Integer resultType,@RequestParam(value = "seasonId")Integer seasonId,@RequestParam(value = "teamName") String teamName){
+        return  gameService.getResultsByTeam(teamName,seasonId,resultType);
+    }
+
 
 }

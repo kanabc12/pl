@@ -40,4 +40,13 @@ public class ResultDaoImpl extends BaseDao<ResultVO> implements ResultDao {
     public ResultVO getResultById(Integer gameId) {
         return (ResultVO)selectOne(generateStatement("getResultById"),gameId);
     }
+
+    @Override
+    public List<ResultVO> getResultsByTeam(String teamName, Integer seasonId, Integer resultType) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("seasonId",seasonId);
+        map.put("resultType",resultType);
+        map.put("teamName",teamName);
+        return findList("getResultsByTeam",map);
+    }
 }

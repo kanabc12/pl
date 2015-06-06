@@ -14,6 +14,7 @@ public interface TeamDao {
     public int updateTeam(TeamVO teamVO);
     public  List<TeamVO> findTeamByCountry(Long  countryId);
     public TeamVO countWDFBySeason(TeamVO  teamVO,Long seasonId);
+    public List<TeamVO> countWDFBySeasonAndYM(TeamVO  teamVO,Long seasonId);
     public TeamVO selectTeamByName(String teamName);
 
 }

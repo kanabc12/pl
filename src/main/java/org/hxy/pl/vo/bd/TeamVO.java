@@ -23,6 +23,7 @@ public class TeamVO {
     private int customWin;
     private int customDraw;
     private int customLose;
+    private String ym;
 
     public String getContryName() {
         return contryName;
@@ -134,5 +135,13 @@ public class TeamVO {
 
     public void setCustomLose(int customLose) {
         this.customLose = customLose;
+    }
+
+    public String getYm() {
+        return ym;
+    }
+
+    public void setYm(String ym) {
+        this.ym = ym;
     }
 }

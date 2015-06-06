@@ -35,4 +35,8 @@ public class GameService {
         return resultDao.getResultById(gameId);
     }
 
+    public List<ResultVO> getResultsByTeam(String teamName,Integer seasonId,Integer resultType){
+        return resultDao.getResultsByTeam(teamName,seasonId,resultType);
+    }
+
 }

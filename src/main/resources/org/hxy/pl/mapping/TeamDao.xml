@@ -72,34 +72,34 @@
         update fl_team
         <set>
             <if test="name !=null and name !=''">
-                 name = #{name},
+                name = #{name},
             </if>
             <if test="nameEn !=null and nameEn !=''">
                 name_en = #{nameEn},
             </if>
             <if test="nameAbbr !=null and nameAbbr !=''">
-                 name_abbr = #{nameAbbr},
+                name_abbr = #{nameAbbr},
             </if>
             <if test="contry != null and contry !=0">
-                 country_id = #{contry},
+                country_id = #{contry},
             </if>
             <if test="coach !=null and coach !=''">
-                 coach = #{coach},
+                coach = #{coach},
             </if>
             <if test="buildDate !=null">
-                 build_date = #{buildDate},
+                build_date = #{buildDate},
             </if>
             <if test="type != null and type !=0">
-                 team_type = #{type},
+                team_type = #{type},
             </if>
         </set>
         where id = #{id}
     </update>
-    <select id="findTeamByCountryId" parameterType="java.lang.Long"  resultMap="teamMap">
+    <select id="findTeamByCountryId" parameterType="java.lang.Long" resultMap="teamMap">
         select * from fl_team where country_id = #{countryId}
     </select>
 
-    <select id="countWDFBySeason" parameterType="java.util.Map"  resultType="org.hxy.pl.vo.bd.TeamVO">
+    <select id="countWDFBySeason" parameterType="java.util.Map" resultType="org.hxy.pl.vo.bd.TeamVO">
         select ht_id as id,
                   name,
                   homeWin,
@@ -117,5 +117,24 @@
 
     <select id="selectTeamByName" parameterType="java.lang.String" resultType="org.hxy.pl.vo.bd.TeamVO">
         select * from fl_team where name = #{teamName}
+    </select>
+
+    <select id="countWDFBySeasonAndYM" parameterType="java.util.Map" resultMap="teamMap">
+        select ht_id as id,
+                  name,
+                  homeWin,
+                  homeDraw,
+                  homeLose,
+                  customLose,
+                  customDraw,
+                  customWin,
+                  a.ym
+                  from
+                (select ht_id,date_format(game_time, '%Y-%m') as ym,sum(case when result_type = 1 then 1 else 0 end) as homeWin, sum(case when result_type=0 then 1 else 0 end ) as homeDraw, sum(case when result_type = -1 then 1 else 0 end)  as homeLose from fl_games where ht_id =#{teamId} and season_id = #{seasonId}  group by ht_id,date_format(game_time, '%Y%m')) a,
+                (select ct_id,date_format(game_time, '%Y-%m') as ym,sum(case when result_type = 1 then 1 else 0 end) customLose, sum(case when result_type=0 then 1 else 0 end ) customDraw, sum(case when result_type = -1 then 1 else 0 end)  as customWin from fl_games where ct_id =#{teamId} and season_id = #{seasonId}  group by ct_id,date_format(game_time, '%Y%m')) b,
+                fl_team c
+                where a.ht_id = b.ct_id
+                and a.ht_id = c.id
+                and a.ym = b.ym;
     </select>
 </mapper>

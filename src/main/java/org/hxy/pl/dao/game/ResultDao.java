@@ -12,4 +12,5 @@ public interface ResultDao {
     public List<ResultVO>  getResults(ResultVO resultVO,int pageNo,int pageSize);
     public int getResultCount(ResultVO resultVO);
     public ResultVO getResultById(Integer gameId);
+    public List<ResultVO> getResultsByTeam(String teamName,Integer seasonId,Integer resultType);
 }
