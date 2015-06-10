@@ -49,4 +49,14 @@ public class ResultDaoImpl extends BaseDao<ResultVO> implements ResultDao {
         map.put("teamName",teamName);
         return findList("getResultsByTeam",map);
     }
+
+    @Override
+    public List<ResultVO> getResultsByTeamAndYM(String teamName, Integer seasonId, Integer resultType, String ym) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("seasonId",seasonId);
+        map.put("resultType",resultType);
+        map.put("teamName",teamName);
+        map.put("ym",ym);
+        return findList("getResultsByTeamAndYM",map);
+    }
 }

@@ -47,9 +47,10 @@
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.8.5" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.5" />
-          <element id="library" level="project" name="Maven: com.github.abel533:ECharts:2.2.0.3" />
+          <element id="library" level="project" name="Maven: com.github.abel533:ECharts:2.2.0.4" />
           <element id="library" level="project" name="Maven: cglib:cglib:3.1" />
           <element id="library" level="project" name="Maven: org.ow2.asm:asm:4.2" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.3.1" />
           <element id="library" level="project" name="Maven: org.ocpsoft.prettytime:prettytime:3.2.3.Final" />
           <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.4" />
           <element id="library" level="project" name="Maven: org.apache.commons:commons-collections4:4.0" />

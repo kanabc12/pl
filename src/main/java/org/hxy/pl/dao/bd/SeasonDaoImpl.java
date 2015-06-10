@@ -15,4 +15,9 @@ public class SeasonDaoImpl extends BaseDao<SeasonVO> implements SeasonDao {
     public List<SeasonVO> showAllSeason() {
         return findList(generateStatement("showAllSeason"));
     }
+
+    @Override
+    public SeasonVO findSeasonById(Long seasonId) {
+        return (SeasonVO)selectOne(generateStatement("findSeasonById"),seasonId);
+    }
 }

@@ -5,18 +5,19 @@ import com.github.abel533.echarts.axis.CategoryAxis;
 import com.github.abel533.echarts.axis.ValueAxis;
 import com.github.abel533.echarts.code.*;
 import com.github.abel533.echarts.data.PieData;
-import com.github.abel533.echarts.data.PointData;
 import com.github.abel533.echarts.feature.MagicType;
-import com.github.abel533.echarts.json.FsonOption;
+import com.github.abel533.echarts.json.GsonOption;
 import com.github.abel533.echarts.series.Bar;
-import com.github.abel533.echarts.series.Line;
 import com.github.abel533.echarts.series.Pie;
 import org.hxy.pl.dao.bd.TeamDao;
+import org.hxy.pl.vo.bd.SeasonVO;
 import org.hxy.pl.vo.bd.TeamVO;
 import org.hxy.pl.vo.common.JqGridData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -24,6 +25,9 @@ public class TeamService {
 
 	@Autowired
 	private TeamDao teamDao;
+
+    @Autowired
+    private SeasonService seasonService;
 	
 	public int saveTeam(TeamVO team){
 		return teamDao.saveTeam(team);
@@ -68,6 +72,11 @@ public class TeamService {
         tooltip.setTrigger(Trigger.item);
         tooltip.formatter("{a} <br/>{b} : {c} ({d}%)");
         option.setTooltip(tooltip);
+        option.toolbox().x(X.right).y(Y.center).orient(Orient.vertical).show(true).feature(Tool.mark,
+                Tool.dataView,
+                new MagicType(Magic.line, Magic.bar, Magic.stack, Magic.tiled),
+                Tool.restore,
+                Tool.saveAsImage).padding(10);
         if(countTeam !=null){
             title.setText(countTeam.getName());
             title.setX(X.center);
@@ -90,63 +99,62 @@ public class TeamService {
         return  option;
     }
 
-    public Option countWDFBySeasonAndYM(Long seasonId,String teamName){
-//        TeamVO teamVO =  teamDao.selectTeamByName(teamName);
-//        List<TeamVO> countTeam =  teamDao.countWDFBySeasonAndYM(teamVO,seasonId);
-//        Option option = new Option();
-//        Title title = new Title();
-//        Legend legend = new Legend();
-//        legend.setOrient(Orient.vertical);
-//        legend.setX(X.left);
-//        String[] legendTest = new String[]{"主场胜","主场平","主场负","客场胜","客场平","客场负"};
-//        legend.data(legendTest);
-//        option.legend(legend);
-//        Tooltip tooltip =  new Tooltip();
-//        tooltip.setTrigger(Trigger.axis);
-//        tooltip.axisPointer().type(PointerType.shadow);
-//        option.setTooltip(tooltip);
-//        //创建类目轴
-//        CategoryAxis category = new CategoryAxis();
-//        if(countTeam.size()>0){
-//            title.setText(countTeam.get(0).getName());
-//            title.setX(X.center);
-//            option.setTitle(title);
-//            Bar bar = new Bar("主场胜");
-//            for(TeamVO team :countTeam){
-//                //设置类目
-//                category.data(team.getYm());
-//                bar.data(team.getHomeWin());
-//            }
-//            option.xAxis(category);
-//            option.yAxis(new ValueAxis());
-//            option.series(bar);
-//        }
-        Option option = new Option();
-        option.title("某楼盘销售情况", "纯属虚构");
+    public GsonOption countWDFBySeasonAndYM(Long seasonId,String teamName){
+        ArrayList<String> ym = new ArrayList<>();
+        ArrayList<Integer> homeWin = new ArrayList<>();
+        ArrayList<Integer> homeDraw = new ArrayList<>();
+        ArrayList<Integer> homeLose = new ArrayList<>();
+        ArrayList<Integer> customWin = new ArrayList<>();
+        ArrayList<Integer> customDraw = new ArrayList<>();
+        ArrayList<Integer> customLose = new ArrayList<>();
+        TeamVO teamVO = teamDao.selectTeamByName(teamName);
+        SeasonVO seasonVO =seasonService.findSeasonById(seasonId);
+        GsonOption  option = new GsonOption ();
+        Title title = new Title();
+        title.setText(teamName);
+        title.setSubtext(seasonVO.getName());
+        title.setX(X.center);
+        option.setTitle(title);
         option.tooltip().trigger(Trigger.axis);
-        option.legend("意向", "预购", "成交");
-        option.toolbox().show(true).feature(Tool.mark,
+        Legend legend = new Legend();
+        legend.setOrient(Orient.vertical);
+        legend.setX(X.left);
+        String[] legendTest = new String[]{"主场胜","主场平","主场负","客场胜","客场平","客场负"};
+        legend.data(legendTest);
+        option.legend(legend);
+        option.toolbox().x(X.right).y(Y.center).orient(Orient.vertical).show(true).feature(Tool.mark,
                 Tool.dataView,
                 new MagicType(Magic.line, Magic.bar, Magic.stack, Magic.tiled),
                 Tool.restore,
-                Tool.saveAsImage).padding(20);
-        option.calculable(true);
-        option.xAxis(new CategoryAxis().boundaryGap(false).data("周一", "周二", "周三", "周四", "周五", "周六", "周日"));
+                Tool.saveAsImage).padding(10);
+        Bar homeWinBar = new Bar("主场胜");
+        Bar homeDrawBar = new Bar("主场平");
+        Bar homeLoseBar = new Bar("主场负");
+        Bar customWinBar = new Bar("客场胜");
+        Bar customDrawBar = new Bar("客场平");
+        Bar customLoseBar = new Bar("客场负");
+
+        if(teamVO!= null){
+            List<TeamVO>  teamVOs = teamDao.countWDFBySeasonAndYM(teamVO,seasonId);
+            for(TeamVO teamVO1:teamVOs){
+                homeWin.add(teamVO1.getHomeWin());
+                homeDraw.add(teamVO1.getHomeDraw());
+                homeLose.add(teamVO1.getHomeLose());
+                customWin.add(teamVO1.getCustomWin());
+                customDraw.add(teamVO1.getCustomDraw());
+                customLose.add(teamVO1.getCustomLose());
+                ym.add(teamVO1.getYm());
+            }
+        }
+        homeWinBar.data(homeWin.toArray());
+        homeDrawBar.data(homeDraw.toArray());
+        homeLoseBar.data(homeLose.toArray());
+        customWinBar.data(customWin.toArray());
+        customDrawBar.data(customDraw.toArray());
+        customLoseBar.data(customLose.toArray());
+        option.xAxis(new CategoryAxis().boundaryGap(false).data(ym.toArray()));
         option.yAxis(new ValueAxis());
-
-        Line l1 = new Line("成交");
-        l1.smooth(true).itemStyle().normal().areaStyle().typeDefault();
-        l1.data(10, 12, 21, 54, 260, 830, 710);
-
-        Line l2 = new Line("预购");
-        l2.smooth(true).itemStyle().normal().areaStyle().typeDefault();
-        l2.data(30, 182, 434, 791, 390, 30, 10);
-
-        Line l3 = new Line("意向");
-        l3.smooth(true).itemStyle().normal().areaStyle().typeDefault();
-        l3.data(1320, 1132, 601, 234, 120, 90, 20);
-
-        option.series(l1, l2, l3);
+        option.series(homeWinBar,homeDrawBar,homeLoseBar,customWinBar,customDrawBar,customLoseBar);
         return  option;
     }
 

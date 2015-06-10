@@ -146,7 +146,7 @@
             [
                 'echarts',
                 'echarts/chart/pie', // 使用柱状图就加载bar模块，按需加载
-                'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
             ],DrawCharts
     );
     jQuery(function ($) {
@@ -164,7 +164,7 @@
             onNodeSelected: function (event, data) {
                 if(data.nodes.length==0&& typeof(data.parentId) !="undefined"){
                     loadPie(data.text, $("#seasonId").val());
-//                    loadBar(data.text, $("#seasonId").val());
+                    loadBar(data.text, $("#seasonId").val());
                 }
             }
         });
@@ -177,7 +177,7 @@
                 nodeText = "切尔西";
             }
             loadPie(nodeText, seasonId);
-//            loadBar(nodeText, seasonId);
+            loadBar(nodeText, seasonId);
         });
     });
     function getTree(url) {
@@ -229,12 +229,10 @@
                 teamName: text
             },
             type: 'POST',
-            dataType: 'json',
             success: function (data) {
                 if (data != null) {
-                    console.log(data)
                     teamWDFBar.setOption($.parseJSON(data),true);
-//                    teamWDFBar.hideLoading();
+                    teamWDFBar.hideLoading();
                 }
             }
         });
@@ -319,80 +317,139 @@
         });
         teamWDFBar.hideLoading();
         teamWDFBar.setOption({
-            title : {
-                text: '未来一周气温变化',
-                subtext: '纯属虚构'
+            "calculable": true,
+            "title": {
+                "text": "切尔西",
+                "subtext": "12-13赛季"
             },
-            tooltip : {
-                trigger: 'axis'
-            },
-            legend: {
-                data:['最高气温','最低气温']
-            },
-            toolbox: {
-                show : true,
-                feature : {
-                    mark : {show: true},
-                    dataView : {show: true, readOnly: false},
-                    magicType : {show: true, type: ['line', 'bar']},
-                    restore : {show: true},
-                    saveAsImage : {show: true}
-                }
-            },
-            calculable : true,
-            xAxis : [
-                {
-                    type : 'category',
-                    boundaryGap : false,
-                    data : ['周一','周二','周三','周四','周五','周六','周日']
-                }
-            ],
-            yAxis : [
-                {
-                    type : 'value',
-                    axisLabel : {
-                        formatter: '{value} °C'
-                    }
-                }
-            ],
-            series : [
-                {
-                    name:'最高气温',
-                    type:'line',
-                    data:[11, 11, 15, 13, 12, 13, 10],
-                    markPoint : {
-                        data : [
-                            {type : 'max', name: '最大值'},
-                            {type : 'min', name: '最小值'}
+            "toolbox": {
+                "feature": {
+                    "mark": {
+                        "show": true,
+                        "title": {
+                            "mark": "辅助线开关",
+                            "markClear": "清空辅助线",
+                            "markUndo": "删除辅助线"
+                        },
+                        "lineStyle": {
+                            "color": "#1e90ff",
+                            "type": "dashed",
+                            "width": 2
+                        }
+                    },
+                    "dataView": {
+                        "show": true,
+                        "title": "数据视图",
+                        "readOnly": false,
+                        "lang": [
+                            "数据视图",
+                            "关闭",
+                            "刷新"
                         ]
                     },
-                    markLine : {
-                        data : [
-                            {type : 'average', name: '平均值'}
+                    "magicType": {
+                        "show": true,
+                        "title": {
+                            "line": "折线图切换",
+                            "stack": "堆积",
+                            "bar": "柱形图切换",
+                            "tiled": "平铺"
+                        },
+                        "type": [
+                            "line",
+                            "bar",
+                            "stack",
+                            "tiled"
+                        ]
+                    },
+                    "restore": {
+                        "show": true,
+                        "title": "还原"
+                    },
+                    "saveAsImage": {
+                        "show": true,
+                        "title": "保存为图片",
+                        "type": "png",
+                        "lang": [
+                            "点击保存"
                         ]
                     }
                 },
+                "show": true,
+                "padding": 20
+            },
+            "tooltip": {
+                "trigger": "axis"
+            },
+            "legend": {
+                "orient": "vertical",
+                "data": [
+                    "主场胜",
+                    "主场平",
+                    "主场负",
+                    "客场胜",
+                    "客场平",
+                    "客场负"
+                ],
+                "x": "left"
+            },
+            "xAxis": [
                 {
-                    name:'最低气温',
-                    type:'line',
-                    data:[1, -2, 2, 5, 3, 2, 0],
-                    markPoint : {
-                        data : [
-                            {name : '周最低', value : -2, xAxis: 1, yAxis: -1.5}
-                        ]
-                    },
-                    markLine : {
-                        data : [
-                            {type : 'average', name : '平均值'}
-                        ]
-                    }
+                    "boundaryGap": false,
+                    "type": "category",
+                    "data": [
+                        "2012-08",
+                        "2012-09",
+                        "2012-10",
+                        "2012-11",
+                        "2012-12"
+                    ]
+                }
+            ],
+            "yAxis": [
+                {
+                    "type": "value"
+                }
+            ],
+            "series": [
+                {
+                    "name": "主场胜",
+                    "type": "bar",
+                    "data": [
+                        2,
+                        1,
+                        1,
+                        0,
+                        1
+                    ]
                 }
             ]
         });
 
         var ecConfig = require('echarts/config');
         //ECharts图表的click事件监听
-        teamWDFBar.on("click",eConsole);
+        teamWDFBar.on("click",clickBar);
+    }
+    function clickBar(param){
+        $("#gameResult").removeClass('hide').dialog({
+            modal: true,
+            height: 430,
+            width: 800,
+            title: "<div class='widget-header widget-header-small'><h4 class='smaller'>查询结果</h4></div>",
+            title_html: true,
+            zIndex: 10,
+            buttons: [
+                {
+                    text: "关闭",
+                    "class": "btn btn-xs",
+                    click: function () {
+                        $("#gameResult").dialog("close");
+                    }
+                }
+            ]
+        });
+        $("#gameTable").bootstrapTable('load', getDetailData(param));
+
     }
     function eConsole(param) {
 //        var mes = '【' + param.type + '】';
@@ -471,4 +528,35 @@ function randomData(resultType){
     });
     return rows;
 }
+
+    function getDetailData(param){
+        var  rows = [];
+        var nodeText = "";
+        if($('#tree1').treeview('getSelected').length>0){
+            nodeText = $('#tree1').treeview('getSelected')[0].text;
+        }  else{
+            nodeText = "切尔西";
+        }
+        var seasonId = $("#seasonId").val();
+        $.ajax({
+            url: "${ctx}/analyse/team/getTeamWDFDetailByMonth",
+            data:{
+                teamName:nodeText,
+                seasonId:seasonId,
+                resultType:param.seriesIndex,
+                ym:param.name
+            },
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                if (data != null)
+                    rows = data;
+            },
+            error: function (response) {
+                //console.log(response);
+            }
+        });
+        return rows;
+    }
 </script>

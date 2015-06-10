@@ -13,4 +13,5 @@ public interface ResultDao {
     public int getResultCount(ResultVO resultVO);
     public ResultVO getResultById(Integer gameId);
     public List<ResultVO> getResultsByTeam(String teamName,Integer seasonId,Integer resultType);
+    public List<ResultVO>getResultsByTeamAndYM(String teamName,Integer seasonId,Integer resultType,String ym);
 }

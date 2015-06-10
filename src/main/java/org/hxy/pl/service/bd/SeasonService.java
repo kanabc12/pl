@@ -17,4 +17,7 @@ public class SeasonService {
     public List<SeasonVO>  findAllSeason(){
         return seasonDao.showAllSeason();
     }
+    public SeasonVO findSeasonById(Long seasonId){
+        return  seasonDao.findSeasonById(seasonId);
+    }
 }

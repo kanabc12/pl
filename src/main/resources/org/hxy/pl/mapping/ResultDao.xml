@@ -89,6 +89,46 @@
         from fl_games a  where id = #{gameId}
     </select>
     <select id="getResultsByTeam" parameterType="java.util.Map" resultMap="resultMap">
+    select
+    a.id,
+    game_time,
+    ht_id,
+    ct_id,
+    (select name from fl_season where id = a.season_id) as seasonName,
+    (select name from fl_team  where id = a.ht_id) as homeTeamName ,
+    (select name from fl_team  where id = a.ct_id) as customTeamName ,
+    (select name from fl_league  where id = a.league_id) as leagueName ,
+    result_str,
+    status,
+    round
+    from fl_games  a , fl_team b where a.league_id=b.league_id
+    <if test="seasonId !=0">
+        and a.season_id = #{seasonId}
+    </if>
+    <if test="teamName != null and teamName != ''">
+        and b.name = #{teamName}
+    </if>
+    <if test="resultType ==0">
+        and a.ht_id = b.id and a.result_type = 1
+    </if>
+    <if test="resultType ==1">
+        and a.ht_id = b.id and a.result_type = 0
+    </if>
+    <if test="resultType ==2">
+        and a.ht_id = b.id and a.result_type = -1
+    </if>
+    <if test="resultType ==3">
+        and a.ct_id = b.id and a.result_type = -1
+    </if>
+    <if test="resultType ==4">
+        and a.ct_id = b.id and a.result_type = 0
+    </if>
+    <if test="resultType ==5">
+        and a.ct_id = b.id and a.result_type = 1
+    </if>
+    order by game_time desc
+</select>
+<select id="getResultsByTeamAndYM" parameterType="java.util.Map" resultMap="resultMap">
         select
         a.id,
         game_time,
@@ -105,14 +145,17 @@
         <if test="seasonId !=0">
             and a.season_id = #{seasonId}
         </if>
-        <if test="teamName != null and teamName != ''">
+    <if test="ym != null and ym != ''">
+        and date_format(a.game_time, '%Y-%m') = #{ym}
+    </if>
+    <if test="teamName != null and teamName != ''">
             and b.name = #{teamName}
         </if>
         <if test="resultType ==0">
             and a.ht_id = b.id and a.result_type = 1
         </if>
         <if test="resultType ==1">
-        and a.ht_id = b.id and a.result_type = 0
+            and a.ht_id = b.id and a.result_type = 0
         </if>
         <if test="resultType ==2">
             and a.ht_id = b.id and a.result_type = -1
@@ -126,6 +169,7 @@
         <if test="resultType ==5">
             and a.ct_id = b.id and a.result_type = 1
         </if>
-      order by game_time desc
+        order by game_time desc
     </select>
+
 </mapper>

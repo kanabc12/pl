@@ -36,7 +36,8 @@
         <asm.version>4.2</asm.version>
         <cglib.version>3.1</cglib.version>
         <prettytime.version>3.2.3.Final</prettytime.version>
-        <echarts.version>2.2.0.3</echarts.version>
+        <echarts.version>2.2.0.4</echarts.version>
+        <gson.version>2.3.1</gson.version>
     </properties>
     <dependencies>
         <!-- spring核心包 -->
@@ -244,6 +245,12 @@
             <artifactId>asm</artifactId>
             <version>${asm.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+
         <!--日期美化-->
         <dependency>
             <groupId>org.ocpsoft.prettytime</groupId>

@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface SeasonDao {
     public List<SeasonVO> showAllSeason();
+
+    public SeasonVO findSeasonById(Long seasonId);
 }

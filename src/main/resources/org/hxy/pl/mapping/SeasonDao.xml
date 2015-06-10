@@ -10,4 +10,7 @@
     <select id="showAllSeason"  resultMap="seasonMap">
         select * from fl_season order by bgn_date desc;
     </select>
+    <select id="findSeasonById" parameterType="java.lang.Long" resultType="org.hxy.pl.vo.bd.SeasonVO">
+        select * from fl_season where id = #{seasonId}
+    </select>
 </mapper>

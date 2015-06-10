@@ -1,9 +1,8 @@
 package org.hxy.pl.controller.analyse;
 
-import com.alibaba.fastjson.JSON;
 import com.github.abel533.echarts.Option;
-import com.github.abel533.echarts.json.FastJsonUtil;
-import com.github.abel533.echarts.json.FsonOption;
+import com.github.abel533.echarts.json.GsonOption;
+import com.google.gson.Gson;
 import org.hxy.pl.service.bd.CountryService;
 import org.hxy.pl.service.bd.SeasonService;
 import org.hxy.pl.service.bd.TeamService;
@@ -15,7 +14,6 @@ import org.hxy.pl.vo.game.ResultVO;
 import org.hxy.pl.vo.tree.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -92,15 +90,19 @@ public class TeamAnalyseController {
 
     @RequestMapping(value = "/getTeamWDFAndYM",method = RequestMethod.POST)
     @ResponseBody
-    public Object getTeamWDFAndYM(@RequestParam(value = "seasonId")Long seasonId,@RequestParam(value = "teamName") String teamName){
-        Option option = teamService.countWDFBySeasonAndYM(seasonId,teamName);
-        Object object = JSON.toJSON(option);
-        return  object;
+    public String getTeamWDFAndYM(@RequestParam(value = "seasonId")Long seasonId,@RequestParam(value = "teamName") String teamName){
+        GsonOption barOption = teamService.countWDFBySeasonAndYM(seasonId,teamName);
+        return  barOption.toString();
     }
     @RequestMapping(value = "/getTeamWDFDetail",method = RequestMethod.POST)
     @ResponseBody
     public List<ResultVO> getResultsByTeam(@RequestParam(value = "resultType")Integer resultType,@RequestParam(value = "seasonId")Integer seasonId,@RequestParam(value = "teamName") String teamName){
         return  gameService.getResultsByTeam(teamName,seasonId,resultType);
+    }
+    @RequestMapping(value = "/getTeamWDFDetailByMonth",method = RequestMethod.POST)
+    @ResponseBody
+    public List<ResultVO> getResultsByTeamAndYM(@RequestParam(value = "resultType")Integer resultType,@RequestParam(value = "seasonId")Integer seasonId,@RequestParam(value = "teamName") String teamName,@RequestParam(value = "ym") String ym){
+        return  gameService.getResultsByTeamAndYM(teamName,seasonId,resultType,ym);
     }
 
 
