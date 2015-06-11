@@ -23,6 +23,8 @@ public class ResultVO extends BaseVO {
     private Integer customSecGoals;
     private String resultStr;
     private Integer resultType;
+    private Integer homeTeamRanking;
+    private Integer customTeamRanking;
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date planDate;
@@ -229,5 +231,21 @@ public class ResultVO extends BaseVO {
 
     public void setGameSummarize(String gameSummarize) {
         this.gameSummarize = gameSummarize;
+    }
+
+    public Integer getHomeTeamRanking() {
+        return homeTeamRanking;
+    }
+
+    public void setHomeTeamRanking(Integer homeTeamRanking) {
+        this.homeTeamRanking = homeTeamRanking;
+    }
+
+    public Integer getCustomTeamRanking() {
+        return customTeamRanking;
+    }
+
+    public void setCustomTeamRanking(Integer customTeamRanking) {
+        this.customTeamRanking = customTeamRanking;
     }
 }

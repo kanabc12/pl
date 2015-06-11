@@ -435,7 +435,7 @@
             modal: true,
             height: 430,
             width: 800,
-            title: "<div class='widget-header widget-header-small'><h4 class='smaller'>查询结果</h4></div>",
+            title: "<div class='widget-header widget-header-small'><h4 class='smaller'>"+param.name+"月"+param.seriesName+"详细赛况"+"</h4></div>",
             title_html: true,
             zIndex: 10,
             buttons: [
@@ -467,7 +467,7 @@
             modal: true,
             height: 430,
             width: 800,
-            title: "<div class='widget-header widget-header-small'><h4 class='smaller'>查询结果</h4></div>",
+            title: "<div class='widget-header widget-header-small'><h4 class='smaller'>"+param.name+"详细赛况</h4></div>",
             title_html: true,
             zIndex: 10,
             buttons: [

@@ -234,16 +234,16 @@
         <li class="">
             <a href="${ctx}/excel/import">
                 <i class="menu-icon fa fa-caret-right"></i>
-                比分&赔率导入
+                比分&赔率导入一
             </a>
 
             <b class="arrow"></b>
         </li>
 
         <li class="">
-            <a href="jqgrid.html">
+            <a href="${ctx}/excel/merge/import">
                 <i class="menu-icon fa fa-caret-right"></i>
-                赛程导入
+                比分&赔率导入二
             </a>
 
             <b class="arrow"></b>

@@ -20,7 +20,10 @@ public class ExcelVO {
     private String lwfOdd;
     private String ldfOdd;
     private String llfOdd;
-
+    private String round;
+    private String htRanking;
+    private String ctRanking;
+    private String seasonId;
     public String getLeagueName() {
         return leagueName;
     }
@@ -155,5 +158,37 @@ public class ExcelVO {
 
     public void setLlfOdd(String llfOdd) {
         this.llfOdd = llfOdd;
+    }
+
+    public String getRound() {
+        return round;
+    }
+
+    public void setRound(String round) {
+        this.round = round;
+    }
+
+    public String getCtRanking() {
+        return ctRanking;
+    }
+
+    public void setCtRanking(String ctRanking) {
+        this.ctRanking = ctRanking;
+    }
+
+    public String getHtRanking() {
+        return htRanking;
+    }
+
+    public void setHtRanking(String htRanking) {
+        this.htRanking = htRanking;
+    }
+
+    public String getSeasonId() {
+        return seasonId;
+    }
+
+    public void setSeasonId(String seasonId) {
+        this.seasonId = seasonId;
     }
 }

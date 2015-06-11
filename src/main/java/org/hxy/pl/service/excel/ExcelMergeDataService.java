@@ -33,10 +33,8 @@ import java.util.List;
  * Created by Administrator on 15-5-3.
  */
 @Service
-public class ExcelDataService {
-    private final Logger log = LoggerFactory.getLogger(ExcelDataService.class);
-    private int batchSize = 1000; //批处理大小
-    private int pageSize = 1000;//查询时每页大小
+public class ExcelMergeDataService {
+    private final Logger log = LoggerFactory.getLogger(ExcelMergeDataService.class);
 
     @Autowired
     private ResultDao resultDao;
@@ -46,19 +44,14 @@ public class ExcelDataService {
     /**
      * 导出文件的最大大小 超过这个大小会压缩
      */
-    private final int MAX_EXPORT_FILE_SIZE = 10 * 1024 * 1024; //10MB
 
-    private final String storePath = "upload/excel";
-    private final String EXPORT_FILENAME_PREFIX = "excel";
-
-    public void doBatchSave(final List<ExcelVO> dataList) {
-        for(ExcelVO data : dataList) {
+    public void doBatchSave(final ExcelVO data) {
             ResultVO resultVO =  new ResultVO();
             Date  gameDate = DateUtils.StringToDate(data.getGameTimeStr(), DateStyle.YYYY_MM_DD_HH_MM_SS);
-            resultVO.setHomeTeam(Integer.parseInt(data.getHomeTeam()));
-            resultVO.setCustomTeam(Integer.parseInt(data.getCustomTeam()));
+            resultVO.setHomeTeam(parseTeam(data.getHomeTeam()));
+            resultVO.setCustomTeam(parseTeam(data.getCustomTeam()));
             resultVO.setActualTime(gameDate);
-            resultVO.setCustomGoals(parseResultStr("custom", data.getResultStr()));
+            resultVO.setCustomGoals(parseResultStr("custom",data.getResultStr()));
             resultVO.setPlanDate(gameDate);
             resultVO.setGameStatus(1);
             resultVO.setResultStr(data.getResultStr());
@@ -70,11 +63,11 @@ public class ExcelDataService {
             }else{
                 resultVO.setResultType(0);
             }
-            if("英超".equals(data.getLeagueName())){
-                resultVO.setLeagueId(1);
-            }else if("西甲".equals(data.getLeagueName())){
-                resultVO.setLeagueId(2);
-            }
+            resultVO.setLeagueId(Integer.parseInt(data.getLeagueName()));
+            resultVO.setHomeTeamRanking(parseRanking(data.getHomeTeam()));
+            resultVO.setCustomTeamRanking(parseRanking(data.getCustomTeam()));
+            resultVO.setRound(Integer.parseInt(data.getRound()));
+            resultVO.setSeasonId(Integer.parseInt(data.getSeasonId()));
             resultDao.saveGameResult(resultVO);
             int gameId = resultVO.getId();
             OddVO  wOdd = new OddVO();
@@ -113,12 +106,33 @@ public class ExcelDataService {
             lOddFinal.setLoseOdd(Float.parseFloat(data.getLlfOdd()));
             lOddFinal.setType(2);
             oddDao.saveGameOdd(lOddFinal);
+    }
+
+
+    public Integer parseResultStr(String teamType,String resultStr){
+        if("home".equals(teamType)){
+            return Integer.parseInt(resultStr.substring(0,1));
+        }else if("custom".equals(teamType)){
+            return Integer.parseInt(resultStr.substring(2,3));
         }
+        return 0;
+    }
+    private Integer parseRanking(String teamName){
+        int posStart  = teamName.indexOf("[");
+        int posEnd = teamName.indexOf("]");
+        int ranking = Integer.parseInt(teamName.substring(posStart + 1, posEnd));
+        return  ranking;
+    }
+
+    private Integer parseTeam(String teamName){
+        int posStart  = teamName.indexOf("[");
+        int ranking = Integer.parseInt(teamName.substring(0,posStart));
+        return  ranking;
     }
 
     @Async
-    public void importExcel2007(final InputStream is){
-        ExcelDataService proxy = ((ExcelDataService) AopContext.currentProxy());
+    public void importMergeExcel2007(final InputStream is){
+        ExcelMergeDataService proxy = ((ExcelMergeDataService) AopContext.currentProxy());
         BufferedInputStream bis = null;
         //共享字符串表
         SharedStringsTable sst;
@@ -130,7 +144,7 @@ public class ExcelDataService {
             XMLReader parser =
                     XMLReaderFactory.createXMLReader();
             sst = r.getSharedStringsTable();
-            ContentHandler handler = new Excel2007ImportSheetHandler(proxy, dataList, batchSize,sst);
+            ContentHandler handler = new Excel2007ImportMergeSheetHandler(proxy, dataList,sst);
 
             parser.setContentHandler(handler);
             Iterator<InputStream> sheets = r.getSheetsData();
@@ -146,47 +160,11 @@ public class ExcelDataService {
                     IOUtils.closeQuietly(sheet);
                 }
             }
-            //把最后剩下的不足batchSize大小
-            if (dataList.size() > 0) {
-                proxy.doBatchSave(dataList);
-            }
         }catch (Exception e){
             log.error("excel import error", e);
         }finally {
             IOUtils.closeQuietly(bis);
         }
-    }
-
-    public Integer parseResultStr(String teamType,String resultStr){
-        if("home".equals(teamType)){
-            return Integer.parseInt(resultStr.substring(0,1));
-        }else if("custom".equals(teamType)){
-            return Integer.parseInt(resultStr.substring(2,3));
-        }
-        return 0;
-    }
-    public Integer getGameResult(String result){
-        int homeGoals = Integer.parseInt(result.substring(0,1));
-        int customGoals = Integer.parseInt(result.substring(2,3));
-        if(homeGoals>customGoals){
-            return 1;
-        } else if(homeGoals<customGoals){
-                return -1;
-        }else{
-            return 0;
-        }
-    } 
-    private Integer parseRanking(String teamName){
-        int posStart  = teamName.indexOf("[");
-        int posEnd = teamName.indexOf("]");
-        int ranking = Integer.parseInt(teamName.substring(posStart + 1, posEnd));
-        return  ranking;
-    }
-
-    private Integer parseTeam(String teamName){
-        int posStart  = teamName.indexOf("[");
-        int ranking = Integer.parseInt(teamName.substring(0,posStart));
-        return  ranking;
     }
 
 }
