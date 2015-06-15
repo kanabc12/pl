@@ -248,6 +248,14 @@
 
             <b class="arrow"></b>
         </li>
+        <li class="">
+            <a href="${ctx}/excel/schedule/import">
+                <i class="menu-icon fa fa-caret-right"></i>
+                联赛赛程导入
+            </a>
+
+            <b class="arrow"></b>
+        </li>
     </ul>
 </li>
 

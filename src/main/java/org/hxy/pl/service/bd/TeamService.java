@@ -61,6 +61,7 @@ public class TeamService {
         TeamVO teamVO =  teamDao.selectTeamByName(teamName);
         TeamVO countTeam =  teamDao.countWDFBySeason(teamVO,seasonId);
         Option option = new Option();
+        option.calculable(true);
         Title title = new Title();
         Legend legend = new Legend();
         legend.setOrient(Orient.vertical);

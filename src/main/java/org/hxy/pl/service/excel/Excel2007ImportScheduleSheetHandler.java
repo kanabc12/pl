@@ -1,34 +1,22 @@
 package org.hxy.pl.service.excel;
 
 import com.google.common.collect.Lists;
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.xssf.eventusermodel.XSSFReader;
 import org.apache.poi.xssf.model.SharedStringsTable;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
-import org.hxy.pl.common.utils.date.DateStyle;
 import org.hxy.pl.vo.excel.ExcelVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
 
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by Administrator on 15-5-3.
  */
-public class Excel2007ImportSheetHandler extends DefaultHandler {
-    private final Logger log = LoggerFactory.getLogger(Excel2007ImportSheetHandler.class);
+public class Excel2007ImportScheduleSheetHandler extends DefaultHandler {
+    private final Logger log = LoggerFactory.getLogger(Excel2007ImportScheduleSheetHandler.class);
 
     //共享字符串表
     private SharedStringsTable sst;
@@ -43,7 +31,7 @@ public class Excel2007ImportSheetHandler extends DefaultHandler {
     private ExcelDataService excelDataService;
     private List<String> currentCellData = Lists.newArrayList();
 
-    Excel2007ImportSheetHandler(
+    Excel2007ImportScheduleSheetHandler(
             final ExcelDataService excelDataService, final List<ExcelVO> dataList, final int batchSize, SharedStringsTable sst) {
         this.excelDataService = excelDataService;
         this.dataList = dataList;
@@ -80,27 +68,14 @@ public class Excel2007ImportSheetHandler extends DefaultHandler {
             data.setLeagueName(currentCellData.get(0));
             data.setGameTimeStr(currentCellData.get(1));
             data.setHomeTeam(currentCellData.get(2));
-            data.setResultStr(currentCellData.get(3));
-            data.setCustomTeam(currentCellData.get(4));
-            data.setWwiOdd(currentCellData.get(5));
-            data.setWdiOdd(currentCellData.get(6));
-            data.setWliOdd(currentCellData.get(7));
-            data.setWwfOdd(currentCellData.get(8));
-            data.setWdfOdd(currentCellData.get(9));
-            data.setWlfOdd(currentCellData.get(10));
-            data.setLwiOdd(currentCellData.get(11));
-            data.setLdiOdd(currentCellData.get(12));
-            data.setLliOdd(currentCellData.get(13));
-            data.setLwfOdd(currentCellData.get(14));
-            data.setLdfOdd(currentCellData.get(15));
-            data.setLlfOdd(currentCellData.get(16));
-            data.setRound(currentCellData.get(17));
-            data.setSeasonId(currentCellData.get(18));
+            data.setCustomTeam(currentCellData.get(3));
+            data.setRound(currentCellData.get(4));
+            data.setSeasonId(currentCellData.get(5));
             dataList.add(data);
             totalSize++;
             if (totalSize % batchSize == 0) {
                 try {
-                    excelDataService.doBatchSave(dataList);
+                    excelDataService.doBatchSaveSchedule(dataList);
                 } catch (Exception e) {
                     log.error("save error", e);
                 }

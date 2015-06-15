@@ -1,6 +1,9 @@
 package org.hxy.pl.controller.excel;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hxy.pl.common.Constants;
+import org.hxy.pl.common.utils.DownloadUtils;
+import org.hxy.pl.common.web.upload.FileUploadUtils;
 import org.hxy.pl.controller.BaseController;
 import org.hxy.pl.service.excel.ExcelDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +17,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
 
 /**
  * Created by Administrator on 15-5-4.
@@ -74,5 +80,28 @@ public class ExcelController extends BaseController {
 
         return true;
     }
+
+    @RequestMapping(value = "/download")
+    public String download(
+            HttpServletRequest request, HttpServletResponse response,
+            @RequestParam(value = "filename") String filename) throws Exception {
+
+
+        filename = filename.replace("/", "\\");
+
+        if (StringUtils.isEmpty(filename) || filename.contains("\\.\\.")) {
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().write("您下载的文件不存在！");
+            return null;
+        }
+        filename = URLDecoder.decode(filename, Constants.ENCODING);
+
+        String filePath = FileUploadUtils.extractUploadDir(request) + "/" + filename;
+
+        DownloadUtils.download(request, response, filePath, filename);
+
+        return null;
+    }
+
 
 }

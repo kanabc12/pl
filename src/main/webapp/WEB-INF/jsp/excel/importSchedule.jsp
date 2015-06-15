@@ -16,26 +16,29 @@
         <div class="page-content">
             <pl:setting/>
             <div class="page-header">
-                <h1>导入Excel比分以及赔率信息</h1>
+                <h1>导入联赛赛程</h1>
             </div>
             <!-- /.page-header -->
+
             <div class="row">
                 <div class="col-xs-12">
                     <div class="col-md-2 col-md-offset-10">
                         <h4>
                             <i class="ace-icon fa fa-hand-o-right green"></i>
-                            <a href="${ctx}/excel/merge/download?filename=\upload\template\tmp_2014-2015_gameresult_merge.xlsx" role="button" class="blue"> 模板下载 </a>
+                            <a href="${ctx}/excel/schedule/download?filename=\upload\template\tmp_2014-2015_gameschedule.xlsx"
+                               role="button" class="blue"> 模板下载 </a>
                         </h4>
                     </div>
                 </div>
                 <div class="col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->
                     <form class="form-horizontal" role="form" id="form"
-                          action="${ctx}/excel/merge/import" method="post" enctype="multipart/form-data">
+                          action="${ctx}/excel/schedule/import" method="post" enctype="multipart/form-data">
                         <pl:showMessage/>
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"
-                                   for="file"> 导入Excel </label>
+                                   for="file"> 导入赛程Excel </label>
+
                             <div class="col-sm-4">
                                 <input type="file" id="file"
                                        class="col-xs-10 col-sm-5" name="file"/>
@@ -73,7 +76,7 @@
             droppable: false,
             onchange: null,
             thumbnail: false, //| true | large
-            whitelist:'xlsx'
+            whitelist: 'xlsx'
             //blacklist:'exe|php'
             //onchange:''
             //

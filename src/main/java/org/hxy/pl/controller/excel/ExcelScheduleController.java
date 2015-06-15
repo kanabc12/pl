@@ -6,7 +6,6 @@ import org.hxy.pl.common.utils.DownloadUtils;
 import org.hxy.pl.common.web.upload.FileUploadUtils;
 import org.hxy.pl.controller.BaseController;
 import org.hxy.pl.service.excel.ExcelDataService;
-import org.hxy.pl.service.excel.ExcelMergeDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,11 +26,11 @@ import java.net.URLDecoder;
  * Created by Administrator on 15-5-4.
  */
 @Controller
-@RequestMapping(value = "/excel/merge")
-public class MergeExcelController extends BaseController {
+@RequestMapping(value = "/excel/schedule")
+public class ExcelScheduleController extends BaseController {
 
     @Autowired
-    private ExcelMergeDataService excelDataService;
+    private ExcelDataService excelDataService;
 
     @Autowired
     private ServletContext servletContext;
@@ -49,7 +48,7 @@ public class MergeExcelController extends BaseController {
 
     @RequestMapping(value = "/import", method = RequestMethod.GET)
     public String showImportExcelForm() {
-        return "excel/importMergeForm";
+        return "excel/importSchedule";
     }
 
     @RequestMapping(value = "/import", method = RequestMethod.POST)
@@ -60,10 +59,10 @@ public class MergeExcelController extends BaseController {
             return showImportExcelForm();
         }
         InputStream is = file.getInputStream();
-        excelDataService.importMergeExcel2007(is);
+        excelDataService.importScheduleExcel2007(is);
 
         model.addAttribute(Constants.MESSAGE, "导入成功");
-        return "excel/importMergeForm";
+        return "excel/importSchedule";
     }
 
     private boolean canImport(final MultipartFile file, final Model model) {
@@ -102,5 +101,6 @@ public class MergeExcelController extends BaseController {
 
         return null;
     }
+
 
 }

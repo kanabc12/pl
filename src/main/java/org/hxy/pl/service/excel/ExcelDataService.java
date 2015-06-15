@@ -55,14 +55,20 @@ public class ExcelDataService {
         for(ExcelVO data : dataList) {
             ResultVO resultVO =  new ResultVO();
             Date  gameDate = DateUtils.StringToDate(data.getGameTimeStr(), DateStyle.YYYY_MM_DD_HH_MM_SS);
-            resultVO.setHomeTeam(Integer.parseInt(data.getHomeTeam()));
-            resultVO.setCustomTeam(Integer.parseInt(data.getCustomTeam()));
+            resultVO.setHomeTeam(parseTeam(data.getHomeTeam(),"home"));
+            resultVO.setCustomTeam(parseTeam(data.getCustomTeam(),"custom"));
             resultVO.setActualTime(gameDate);
             resultVO.setCustomGoals(parseResultStr("custom", data.getResultStr()));
+            resultVO.setCustomHalfGoals(getCustomHalfGoals(data.getResultStr()));
+            resultVO.setCustomSecGoals(parseResultStr("custom", data.getResultStr())-getCustomHalfGoals(data.getResultStr()));
+            resultVO.setCustomTeamRanking(parseRanking(data.getCustomTeam()));
             resultVO.setPlanDate(gameDate);
             resultVO.setGameStatus(1);
             resultVO.setResultStr(data.getResultStr());
             resultVO.setHomeGoals(parseResultStr("home",data.getResultStr()));
+            resultVO.setHomeHalfGoals(getHomeHalfGoals(data.getResultStr()));
+            resultVO.setHomeSecGoals(parseResultStr("home",data.getResultStr())-getHomeHalfGoals(data.getResultStr()));
+            resultVO.setHomeTeamRanking(parseRanking(data.getHomeTeam()));
             if(resultVO.getHomeGoals()>resultVO.getCustomGoals()){
                 resultVO.setResultType(1);
             }else if(resultVO.getHomeGoals()<resultVO.getCustomGoals()){
@@ -70,11 +76,9 @@ public class ExcelDataService {
             }else{
                 resultVO.setResultType(0);
             }
-            if("英超".equals(data.getLeagueName())){
-                resultVO.setLeagueId(1);
-            }else if("西甲".equals(data.getLeagueName())){
-                resultVO.setLeagueId(2);
-            }
+            resultVO.setLeagueId(Integer.parseInt(data.getLeagueName()));
+            resultVO.setSeasonId(Integer.parseInt(data.getSeasonId()));
+            resultVO.setRound(Integer.parseInt(data.getRound()));
             resultDao.saveGameResult(resultVO);
             int gameId = resultVO.getId();
             OddVO  wOdd = new OddVO();
@@ -85,7 +89,9 @@ public class ExcelDataService {
             wOdd.setDrawOdd(Float.parseFloat(data.getWdfOdd()));
             wOdd.setLoseOdd(Float.parseFloat(data.getWliOdd()));
             wOdd.setType(1);
-            oddDao.saveGameOdd(wOdd);
+            if(wOdd.getWinOdd()!=0f){
+                oddDao.saveGameOdd(wOdd);
+            }
             OddVO wOddFinal = new OddVO();
             wOddFinal.setGemeId(gameId);
             wOddFinal.setCompanyId(1);
@@ -94,7 +100,9 @@ public class ExcelDataService {
             wOddFinal.setDrawOdd(Float.parseFloat(data.getWdfOdd()));
             wOddFinal.setLoseOdd(Float.parseFloat(data.getWlfOdd()));
             wOddFinal.setType(2);
-            oddDao.saveGameOdd(wOddFinal);
+            if(wOddFinal.getWinOdd()!=0f){
+                oddDao.saveGameOdd(wOddFinal);
+            }
             OddVO lOdd = new OddVO();
             lOdd.setGemeId(gameId);
             lOdd.setCompanyId(2);
@@ -103,7 +111,9 @@ public class ExcelDataService {
             lOdd.setDrawOdd(Float.parseFloat(data.getLdiOdd()));
             lOdd.setLoseOdd(Float.parseFloat(data.getLliOdd()));
             lOdd.setType(1);
-            oddDao.saveGameOdd(lOdd);
+            if(lOdd.getWinOdd()!=0f){
+                oddDao.saveGameOdd(lOdd);
+            }
             OddVO lOddFinal = new OddVO();
             lOddFinal.setGemeId(gameId);
             lOddFinal.setCompanyId(2);
@@ -112,7 +122,24 @@ public class ExcelDataService {
             lOddFinal.setDrawOdd(Float.parseFloat(data.getLdfOdd()));
             lOddFinal.setLoseOdd(Float.parseFloat(data.getLlfOdd()));
             lOddFinal.setType(2);
-            oddDao.saveGameOdd(lOddFinal);
+            if(lOddFinal.getWinOdd()!=0f){
+                oddDao.saveGameOdd(lOddFinal);
+            }
+        }
+    }
+
+    public void doBatchSaveSchedule(final List<ExcelVO> dataList) {
+        for(ExcelVO data : dataList) {
+            ResultVO resultVO =  new ResultVO();
+            Date  gameDate = DateUtils.StringToDate(data.getGameTimeStr(), DateStyle.YYYY_MM_DD_HH_MM_SS);
+            resultVO.setHomeTeam(Integer.parseInt(data.getHomeTeam()));
+            resultVO.setCustomTeam(Integer.parseInt(data.getCustomTeam()));
+            resultVO.setPlanDate(gameDate);
+            resultVO.setGameStatus(0);//未赛
+            resultVO.setLeagueId(Integer.parseInt(data.getLeagueName()));
+            resultVO.setSeasonId(Integer.parseInt(data.getSeasonId()));
+            resultVO.setRound(Integer.parseInt(data.getRound()));
+            resultDao.saveGameResult(resultVO);
         }
     }
 
@@ -157,36 +184,81 @@ public class ExcelDataService {
         }
     }
 
+    @Async
+    public void importScheduleExcel2007(final InputStream is){
+        ExcelDataService proxy = ((ExcelDataService) AopContext.currentProxy());
+        BufferedInputStream bis = null;
+        //共享字符串表
+        SharedStringsTable sst;
+        try{
+            List<ExcelVO> dataList = Lists.newArrayList();
+            bis = new BufferedInputStream(is);
+            OPCPackage pkg = OPCPackage.open(bis);
+            XSSFReader r = new XSSFReader(pkg);
+            XMLReader parser =
+                    XMLReaderFactory.createXMLReader();
+            sst = r.getSharedStringsTable();
+            ContentHandler handler = new Excel2007ImportScheduleSheetHandler(proxy, dataList, batchSize,sst);
+
+            parser.setContentHandler(handler);
+            Iterator<InputStream> sheets = r.getSheetsData();
+            while (sheets.hasNext()) {
+                InputStream sheet = null;
+                try {
+                    sheet = sheets.next();
+                    InputSource sheetSource = new InputSource(sheet);
+                    parser.parse(sheetSource);
+                } catch (Exception e) {
+                    throw e;
+                } finally {
+                    IOUtils.closeQuietly(sheet);
+                }
+            }
+            //把最后剩下的不足batchSize大小
+            if (dataList.size() > 0) {
+                proxy.doBatchSaveSchedule(dataList);
+            }
+        }catch (Exception e){
+            log.error("excel import error", e);
+        }finally {
+            IOUtils.closeQuietly(bis);
+        }
+    }
+
     public Integer parseResultStr(String teamType,String resultStr){
+        String fullResultStr = resultStr.substring(0,resultStr.indexOf("(") );
         if("home".equals(teamType)){
-            return Integer.parseInt(resultStr.substring(0,1));
+            return Integer.parseInt(fullResultStr.substring(0,fullResultStr.indexOf(":")));
         }else if("custom".equals(teamType)){
-            return Integer.parseInt(resultStr.substring(2,3));
+            return Integer.parseInt(fullResultStr.substring(fullResultStr.indexOf(":")+1));
         }
         return 0;
     }
-    public Integer getGameResult(String result){
-        int homeGoals = Integer.parseInt(result.substring(0,1));
-        int customGoals = Integer.parseInt(result.substring(2,3));
-        if(homeGoals>customGoals){
-            return 1;
-        } else if(homeGoals<customGoals){
-                return -1;
-        }else{
-            return 0;
+
+    private Integer parseTeam(String teamName,String teamType){
+        int team = 0;
+        if("home".equals(teamType)){
+            team = Integer.parseInt(teamName.substring(teamName.indexOf("]")+1));
+        }else if("custom".equals(teamType)){
+            team = Integer.parseInt(teamName.substring(0,teamName.indexOf("[")));
         }
-    } 
+        return  team;
+    }
     private Integer parseRanking(String teamName){
         int posStart  = teamName.indexOf("[");
-        int posEnd = teamName.indexOf("]");
-        int ranking = Integer.parseInt(teamName.substring(posStart + 1, posEnd));
-        return  ranking;
+        int team = Integer.parseInt(teamName.substring(posStart+1,teamName.indexOf("]")));
+        return  team;
+    }
+    private Integer getHomeHalfGoals(String resultStr){
+        String halfResultStr = resultStr.substring(resultStr.indexOf("(") + 1, resultStr.indexOf(")"));
+        int homeHalfGoals = Integer.parseInt(halfResultStr.substring(0,halfResultStr.indexOf(":")));
+        return  homeHalfGoals;
     }
 
-    private Integer parseTeam(String teamName){
-        int posStart  = teamName.indexOf("[");
-        int ranking = Integer.parseInt(teamName.substring(0,posStart));
-        return  ranking;
+    private Integer getCustomHalfGoals(String resultStr){
+        String halfResultStr = resultStr.substring(resultStr.indexOf("(") + 1, resultStr.indexOf(")"));
+        int homeHalfGoals = Integer.parseInt(halfResultStr.substring(halfResultStr.indexOf(":")+1));
+        return  homeHalfGoals;
     }
 
 }

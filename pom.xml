@@ -18,7 +18,7 @@
         <jdk.version>1.7</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jetty.version>8.1.8.v20121106</jetty.version>
-        <tomcat.maven.version>2.2</tomcat.maven.version>
+        <tomcat.maven.version>2.3-SNAPSHOT</tomcat.maven.version>
         <hibernate.validator.version>5.0.2.Final</hibernate.validator.version>
         <fastjson.version>1.2.6</fastjson.version>
         <servlet.version>3.0.1</servlet.version>
@@ -38,6 +38,7 @@
         <prettytime.version>3.2.3.Final</prettytime.version>
         <echarts.version>2.2.0.4</echarts.version>
         <gson.version>2.3.1</gson.version>
+        <site.basedir>${project.basedir}</site.basedir>
     </properties>
     <dependencies>
         <!-- spring核心包 -->
@@ -338,17 +339,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>2.5</version>
+                <version>2.6.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2</version>
+                <version>2.4</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.0</version>
+                <version>3.3</version>
                 <configuration>
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
@@ -358,12 +359,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
-                <version>2.4</version>
+                <version>2.5.2</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
+                <version>2.6</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -376,7 +377,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.3</version>
+                <version>2.6</version>
                 <configuration>
                     <warName>${project.artifactId}</warName>
                 </configuration>
@@ -386,7 +387,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.13</version>
+                <version>2.18.1</version>
                 <configuration>
                     <argLine>-Xmx128M</argLine>
                     <includes>
@@ -400,7 +401,7 @@
 
             <plugin>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.0</version>
+                <version>3.4</version>
                 <configuration>
                     <locales>zh_CN</locales>
                     <outputDirectory>${site.basedir}/target/site/${project.artifactId}</outputDirectory>
@@ -411,7 +412,7 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-surefire-plugin</artifactId>
-                            <version>2.13</version>
+                            <version>2.18.1</version>
                             <configuration>
                                 <argLine>-Xmx128M</argLine>
                                 <includes>
@@ -425,7 +426,7 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-jxr-plugin</artifactId>
-                            <version>2.3</version>
+                            <version>2.5</version>
                             <configuration>
                                 <aggregate>true</aggregate>
                             </configuration>
@@ -434,7 +435,7 @@
                         <plugin>
                             <groupId>org.codehaus.mojo</groupId>
                             <artifactId>findbugs-maven-plugin</artifactId>
-                            <version>2.5.2</version>
+                            <version>3.0.1</version>
                             <configuration>
                                 <xmlOutput>true</xmlOutput>
                             </configuration>
@@ -443,13 +444,13 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-pmd-plugin</artifactId>
-                            <version>2.7.1</version>
+                            <version>3.4</version>
                         </plugin>
                         <!-- cobertura 代码覆盖率工具 -->
                         <plugin>
                             <groupId>org.codehaus.mojo</groupId>
                             <artifactId>cobertura-maven-plugin</artifactId>
-                            <version>2.5.2</version>
+                            <version>2.7</version>
                             <configuration>
                                 <check>
                                     <branchRate>85</branchRate>
@@ -488,12 +489,12 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-javadoc-plugin</artifactId>
-                            <version>2.7</version>
+                            <version>2.10.3</version>
                         </plugin>
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-project-info-reports-plugin</artifactId>
-                            <version>2.1</version>
+                            <version>2.8</version>
                         </plugin>
                     </reportPlugins>
                     <port>9999</port>
@@ -595,4 +596,29 @@
 
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>people.apache.snapshots</id>
+            <url>http://repository.apache.org/content/groups/snapshots-group/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <name>Apache Snapshots</name>
+            <url>http://repository.apache.org/content/groups/snapshots-group/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
