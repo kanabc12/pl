@@ -245,15 +245,20 @@
                 <i class="menu-icon fa fa-caret-right"></i>
                 比分&赔率导入二
             </a>
-
             <b class="arrow"></b>
         </li>
         <li class="">
             <a href="${ctx}/excel/schedule/import">
                 <i class="menu-icon fa fa-caret-right"></i>
-                联赛赛程导入
+                联赛赛程导入一
             </a>
-
+            <b class="arrow"></b>
+        </li>
+        <li class="">
+            <a href="${ctx}/excel/merge/schedule/import">
+                <i class="menu-icon fa fa-caret-right"></i>
+                联赛赛程导入二
+            </a>
             <b class="arrow"></b>
         </li>
     </ul>

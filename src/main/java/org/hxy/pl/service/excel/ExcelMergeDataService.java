@@ -109,6 +109,20 @@ public class ExcelMergeDataService {
     }
 
 
+
+    public void doBatchSaveSchedule(final ExcelVO data) {
+            ResultVO resultVO =  new ResultVO();
+            Date  gameDate = DateUtils.StringToDate(data.getGameTimeStr(), DateStyle.YYYY_MM_DD_HH_MM_SS);
+            resultVO.setHomeTeam(Integer.parseInt(data.getHomeTeam()));
+            resultVO.setCustomTeam(Integer.parseInt(data.getCustomTeam()));
+            resultVO.setPlanDate(gameDate);
+            resultVO.setGameStatus(0);//未赛
+            resultVO.setLeagueId(Integer.parseInt(data.getLeagueName()));
+            resultVO.setSeasonId(Integer.parseInt(data.getSeasonId()));
+            resultVO.setRound(Integer.parseInt(data.getRound()));
+            resultDao.saveGameResult(resultVO);
+    }
+
     public Integer parseResultStr(String teamType,String resultStr){
         if("home".equals(teamType)){
             return Integer.parseInt(resultStr.substring(0,1));
@@ -145,6 +159,43 @@ public class ExcelMergeDataService {
                     XMLReaderFactory.createXMLReader();
             sst = r.getSharedStringsTable();
             ContentHandler handler = new Excel2007ImportMergeSheetHandler(proxy, dataList,sst);
+
+            parser.setContentHandler(handler);
+            Iterator<InputStream> sheets = r.getSheetsData();
+            while (sheets.hasNext()) {
+                InputStream sheet = null;
+                try {
+                    sheet = sheets.next();
+                    InputSource sheetSource = new InputSource(sheet);
+                    parser.parse(sheetSource);
+                } catch (Exception e) {
+                    throw e;
+                } finally {
+                    IOUtils.closeQuietly(sheet);
+                }
+            }
+        }catch (Exception e){
+            log.error("excel import error", e);
+        }finally {
+            IOUtils.closeQuietly(bis);
+        }
+    }
+
+
+    public void importMergeScheduleExcel2007(final InputStream is){
+        ExcelMergeDataService proxy = ((ExcelMergeDataService) AopContext.currentProxy());
+        BufferedInputStream bis = null;
+        //共享字符串表
+        SharedStringsTable sst;
+        try{
+            List<ExcelVO> dataList = Lists.newArrayList();
+            bis = new BufferedInputStream(is);
+            OPCPackage pkg = OPCPackage.open(bis);
+            XSSFReader r = new XSSFReader(pkg);
+            XMLReader parser =
+                    XMLReaderFactory.createXMLReader();
+            sst = r.getSharedStringsTable();
+            ContentHandler handler = new Excel2007ImportMergeScheduleSheetHandler(proxy, dataList,sst);
 
             parser.setContentHandler(handler);
             Iterator<InputStream> sheets = r.getSheetsData();
