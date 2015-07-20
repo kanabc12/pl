@@ -397,7 +397,7 @@ function reloadTable(item, lineNumber) {
     row.append('<td style="vertical-align: middle;"><a href = "${ctx}/bd/team/showTeam?teamId=' + item.homeTeam + '">' + item.homeTeamName + '</a></td>');
     if (typeof(item.resultStr) == "undefined") {
         row.append('<td style="vertical-align: middle;">未赛</td>');
-    }else{
+    } else {
         row.append('<td style="vertical-align: middle;">' + item.resultStr + '</td>');
     }
     row.append('<td style="vertical-align: middle;"><a href = "${ctx}/bd/team/showTeam?teamId=' + item.customTeam + '">' + item.customTeamName + '</a></td>');
@@ -509,17 +509,17 @@ function showGameOdd(gameId) {
         data: {
             gameId: gameId
         },
-        success:function(data){
-            if(data!=null){
+        success: function (data) {
+            if (data != null) {
                 var wOddObj = $("#wOdds");
                 var lOddObj = $("#lOdds");
                 $("#wOdds").html("");
                 $("#lOdds").html("");
-                for(var i=0;i<data.wOdds.length;i++){
-                    fillOddResult(data.wOdds[i],wOddObj,i+1);
+                for (var i = 0; i < data.wOdds.length; i++) {
+                    fillOddResult(data.wOdds[i], wOddObj, i + 1);
                 }
-                for(var i=0;i<data.lOdds.length;i++){
-                    fillOddResult(data.lOdds[i],lOddObj,i+1);
+                for (var i = 0; i < data.lOdds.length; i++) {
+                    fillOddResult(data.lOdds[i], lOddObj, i + 1);
                 }
                 var dialog = $("#oddResult").removeClass('hide').dialog({
                     modal: true,
@@ -533,17 +533,17 @@ function showGameOdd(gameId) {
         }
     });
 
-    function fillOddResult(item,obj,lineNumber){
+    function fillOddResult(item, obj, lineNumber) {
         var row = $("<tr></tr>");
         row.append('<td class="center" width="5%" style="vertical-align: middle;">' + lineNumber + '</td>');
         row.append('<td style="vertical-align: middle;">' + item.winOdd + '</td>');
         row.append('<td style="vertical-align: middle;">' + item.drawOdd + '</td>');
         row.append('<td style="vertical-align: middle;">' + item.loseOdd + '</td>');
-        if(item.type==1){
+        if (item.type == 1) {
             row.append('<td style="vertical-align: middle;">初始赔率</td>');
-        }else if(item.type==2){
+        } else if (item.type == 2) {
             row.append('<td style="vertical-align: middle;">最终赔率 </td>');
-        }else{
+        } else {
             row.append('<td style="vertical-align: middle;">瞬时赔率</td>');
         }
         row.append('<td style="vertical-align: middle;">' + item.addDate + '</td>');

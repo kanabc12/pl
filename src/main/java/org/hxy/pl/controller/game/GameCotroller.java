@@ -55,12 +55,27 @@ public class GameCotroller {
         return "game/addGame";
     }
 
+
+    @RequestMapping("/leagueGameInputInit")
+    public String showLeagueGameAddPage(Model model){
+        return "game/addLeagueGame";
+    }
+
     @ResponseBody
     @RequestMapping(value = "/findTeamsByCountry",method = RequestMethod.POST)
     public List<TeamVO>findTeamsByCountry(@RequestParam(value = "countryId") Long countryId){
         List<TeamVO> teamVOs = teamService.findTeamsByCountryId(countryId);
         return  teamVOs;
     }
+
+
+    @RequestMapping(value = "/findLeagueGame",method = RequestMethod.POST)
+    @ResponseBody
+    public List<ResultVO> findLeagueGames(@ModelAttribute(value = "resultVO") ResultVO resultVO){
+        List<ResultVO> resultVOs = gameService.findLeagueResults(resultVO);
+        return resultVOs;
+    }
+
 
     @RequestMapping(value = "/saveGame",method = RequestMethod.POST)
     public String saveGameResult(@ModelAttribute("resultVO")ResultVO resultVO,Model model){
@@ -99,6 +114,12 @@ public class GameCotroller {
     public ResultVO getResultById(@RequestParam("gameId")Integer gameId){
         ResultVO resultVO = gameService.getResultById(gameId);
         return  resultVO;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/updateGameResult" , method = RequestMethod.POST)
+    public ResultVO updateGameResult(@ModelAttribute( value = "resultVo")ResultVO resultVO){
+        return gameService.updateGameResult(resultVO);
     }
 
 }

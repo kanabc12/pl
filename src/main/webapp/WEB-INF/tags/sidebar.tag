@@ -285,6 +285,16 @@
         </li>
 
         <li class="">
+            <a href="${ctx}/game/leagueGameInputInit">
+                <i class="menu-icon fa fa-caret-right"></i>
+                联赛结果录入
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+
+        <li class="">
             <a href="${ctx}/odd/addOdd">
                 <i class="menu-icon fa fa-caret-right"></i>
                 赔率信息录入

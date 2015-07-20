@@ -1,5 +1,5 @@
 <script src="${ctx}/static/comp/bootstrap-table/js/bootstrap-table-all.min.js"></script>
-<script src="${ctx}/static/comp/bootstrap-table/js/bootstrap-table-locale-all.min.js"></script>
+<script src="${ctx}/static/comp/bootstrap-table/js/locale/bootstrap-table-zh-CN.min.js"></script>
 
 
 

@@ -32,6 +32,32 @@ public class ResultDaoImpl extends BaseDao<ResultVO> implements ResultDao {
     }
 
     @Override
+    public List<ResultVO> getLeagueResults(ResultVO resultVO, int pageNo, int pageSize) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("leagueId",resultVO.getLeagueId());
+        map.put("seasonId",resultVO.getSeasonId());
+        map.put("round",resultVO.getRound());
+        map.put("gameStatus",resultVO.getGameStatus());
+        map.put("planDate",resultVO.getPlanDate());
+        map.put("n", (pageNo-1)*pageSize);
+        map.put("m", pageSize);
+        return findList(generateStatement("findLeagueResultByPageList"),map);
+    }
+
+    @Override
+    public List<ResultVO> getLeagueResultsWithoutPage(ResultVO resultVO) {
+
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("leagueId",resultVO.getLeagueId());
+        map.put("seasonId",resultVO.getSeasonId());
+        map.put("round",resultVO.getRound());
+        map.put("gameStatus",resultVO.getGameStatus());
+        map.put("planDate",resultVO.getPlanDate());
+        return findList(generateStatement("findLeagueResultWithoutPage"),map);
+    }
+
+
+    @Override
     public int getResultCount(ResultVO resultVO) {
         return (Integer)selectOne("getResultCount",resultVO);
     }
@@ -58,5 +84,10 @@ public class ResultDaoImpl extends BaseDao<ResultVO> implements ResultDao {
         map.put("teamName",teamName);
         map.put("ym",ym);
         return findList("getResultsByTeamAndYM",map);
+    }
+
+    @Override
+    public int updateGameResult(ResultVO resultVO) {
+        return super.update(generateStatement("updateGameResult"),resultVO);
     }
 }

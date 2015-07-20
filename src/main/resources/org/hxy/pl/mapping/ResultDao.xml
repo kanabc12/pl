@@ -65,19 +65,89 @@
             limit #{n},#{m}
         </if>
     </select>
+
+    <select id="findLeagueResultByPageList" parameterType="java.util.Map" resultMap="resultMap">
+        select id,game_time,
+        ht_id,
+        ct_id,
+        (select name from fl_season where id = a.season_id) as seasonName,
+        (select name from fl_team  where id = a.ht_id) as homeTeamName ,
+        (select name from fl_team  where id = a.ct_id) as customTeamName ,
+        (select name from fl_league  where id = a.league_id) as leagueName ,
+        result_str,
+        status,
+        round
+        from fl_games  a where a.league_id=#{leagueId}
+          and status = #{gameStatus}
+        <if test="seasonId !=0">
+            and a.season_id = #{seasonId}
+        </if>
+        <if test="round !=0">
+            and a.round = #{round}
+        </if>
+        <if test="planDate !=null">
+            and a.plan_time = #{planDate}
+        </if>
+        order by a.plan_time desc
+        <if test="m!=0">
+            limit #{n},#{m}
+        </if>
+    </select>
+
+    <select id = "findLeagueResultWithoutPage" parameterType="java.util.Map" resultMap="resultMap">
+    select id,plan_time,
+    ht_id,
+    ct_id,
+    (select name from fl_season where id = a.season_id) as seasonName,
+    (select name from fl_team  where id = a.ht_id) as homeTeamName ,
+    (select name from fl_team  where id = a.ct_id) as customTeamName ,
+    (select name from fl_league  where id = a.league_id) as leagueName ,
+    result_str,
+    status,
+    round,
+    ht_goals,
+    ht_half_goals,
+    ct_goals,
+    ct_half_goals,
+    game_summarize,
+    game_city,
+    season_id as seasonId,
+    league_id as leagueId,
+    game_time  as actualTime
+    from fl_games  a where a.league_id=#{leagueId}
+    <if test="gameStatus !=null">
+        and a.status = #{gameStatus}
+    </if>
+    <if test="seasonId !=0">
+        and a.season_id = #{seasonId}
+    </if>
+    <if test="round !=0">
+        and a.round = #{round}
+    </if>
+    <if test="planDate !=null">
+        and a.plan_time &gt;= #{planDate}
+    </if>
+    order by a.plan_time desc
+</select>
     <select id="getResultCount" parameterType="org.hxy.pl.vo.game.ResultVO" resultType="int">
         select count(*) from fl_games a where a.league_id=#{leagueId}
         <if test="seasonId !=0">
             and season_id = #{seasonId}
         </if>
-        <if test="round !=0">
+        <if test=" round != null and round !=0" >
             and round = #{round}
         </if>
-        <if test="homeTeam !=0">
+        <if test="homeTeam != null and homeTeam !=0">
             and ht_id = #{homeTeam}
         </if>
-        <if test="customTeam !=0">
+        <if test="customTeam != null and customTeam !=0">
             and ct_id = #{customTeam}
+        </if>
+        <if test="gameStatus != null and gameStatus !=0">
+            and status = #{gameStatus}
+        </if>
+        <if test="planDate !=null and planDate !=''">
+            and plan_time &gt;= #{planDate}
         </if>
     </select>
     <select id="getResultById" parameterType="java.lang.Integer" resultType="org.hxy.pl.vo.game.ResultVO">
@@ -174,4 +244,49 @@
         order by game_time desc
     </select>
 
+    <update id="updateGameResult" parameterType="org.hxy.pl.vo.game.ResultVO" keyProperty="id">
+        update  fl_games
+        <set>
+          <if test="homeGoals !=null">
+            ht_goals = #{homeGoals},
+          </if>
+          <if test="homeHalfGoals !=null">
+                ht_half_goals = #{homeHalfGoals},
+          </if>
+            <if test="homeSecGoals !=null">
+                ht_sec_goals = #{homeSecGoals},
+            </if>
+            <if test="customGoals !=null">
+                ct_goals = #{customGoals},
+            </if>
+            <if test="customHalfGoals !=null">
+                ct_half_goals = #{customHalfGoals},
+            </if>
+            <if test="customSecGoals !=null">
+                ct_sec_goals = #{customSecGoals},
+            </if>
+            <if test="resultStr !=null">
+                result_str = #{resultStr},
+            </if>
+            <if test="resultType !=null">
+                result_type = #{resultType},
+            </if>
+            <if test="planDate !=null and planDate !='' ">
+                plan_time = #{planDate},
+            </if>
+            <if test="actualTime !=null and actualTime !='' ">
+                game_time = #{actualTime},
+            </if>
+            <if test="gameCity !=null and gameCity !='' ">
+                game_city = #{gameCity},
+            </if>
+            <if test="gameStatus !=null">
+                status = #{gameStatus},
+            </if>
+            <if test="gameSummarize !=null and gameSummarize !='' ">
+                game_summarize = #{gameSummarize},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
 </mapper>
